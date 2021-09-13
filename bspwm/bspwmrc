@@ -1,10 +1,18 @@
 #! /bin/sh
 
-killall sxhkd & sxhkd
-$HOME/.config/polybar/launch.sh &
-copyq
+xrdb /home/amda/.Xressources
 
-setxkbmap -option caps:swapescape
+killall sxhkd & sxhkd &
+$HOME/.config/polybar/launch.sh &
+picom --experimental-backends --backend glx &
+copyq &
+discord --start-minimized &
+slack -u &
+flameshot &
+
+if [[ $(xrandr -q | grep "HDMI-A-0 connected") ]]; then
+	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 2560x1080 --rotate normal --above eDP
+fi
 
 bspc monitor HDMI-A-0 -d 7 8 9 10
 bspc monitor eDP -d 1 2 3 4 5 6
@@ -13,8 +21,9 @@ bspc monitor eDP -d 1 2 3 4 5 6
 bspc config border_width         3
 bspc config window_gap           10
 
+setxkbmap -option caps:swapescape
 
-xrdb ~/.Xressources
+brightnessctl s 100%
 
 #Pywal--------------------------------------
 
@@ -32,23 +41,28 @@ bspc config presel_feedback_color "$color1"
 
 wal -R
 
-
 bspc config split_ratio          0.5
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-bspc rule -a Gimp desktop='^8' state=floating follow=on
+#bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a Chromium desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
 bspc rule -a copyq state=floating
+bspc rule -a discord state=floating
+bspc rule -a Slack state=floating
 
 #Background
 #feh --bg-fill $HOME/.config/bspwm/background.png
 
+#TouchPad stuff
 xinput set-prop 18 331 -112 -112
+synclient AreaLeftEdge=1700
 
 bash /home/amda/.config/bspwm/bspwm_colors.sh
+bash /home/amda/Documents/scripts/bspi_listen.sh
+
 
