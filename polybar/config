@@ -16,7 +16,7 @@ compositing-underline = over
 compositing-border = over
 
 ; Define fallback values used by all module formats
-format-foreground = #99d1ce
+format-foreground = ${colors.offwhite}
 format-background = #000000
 format-underline =
 format-overline =
@@ -71,9 +71,6 @@ border-size = 0
 ;border-bottom-size = 25
 border-color = #00000000
 
-padding-left = 1
-padding-right = 1
-
 module-margin-left = 0
 module-margin-right = 0
 
@@ -86,16 +83,16 @@ font-4 = "Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;1"
 font-5 = "Hack:style=Regular:pixelsize=25;5"
 font-6 = "UbuntuMono Nerd Font:size=20;0"
 font-7 = "UbuntuMono Nerd Font:size=25;3"
-modules-left = bspwm xwindow spotify
-modules-center = 
-modules-right = backlight battery arrow1 networkspeedup networkspeeddown arrow2 memory2 arrow3 cpu2 arrow2 pavolume arrow3 date arrow4 menu0
+modules-left = bspwm spotify spotify-prev spotify-play-pause spotify-next 
+modules-center = time 
+modules-right = backlight battery wireless-network arrow1 memory2 arrow3 cpu2 arrow2 pavolume arrow3 date arrow4 menu0
 tray-detached = false
 tray-offset-x = 0
 tray-offset-y = 0
-tray-position = left
+tray-position = right
 tray-padding = 0
 tray-scale = 1.0
-tray-background = ${colors.background}
+tray-background = #000
 
 scroll-up = bspwm-desknext
 scroll-down = bspwm-deskprev
@@ -145,7 +142,7 @@ font-6 = "UbuntuMono Nerd Font:size=20;0"
 font-7 = "UbuntuMono Nerd Font:size=25;3"
 modules-left = bspwm xwindow
 modules-center = 
-modules-right = backlight battery arrow1 networkspeedup networkspeeddown arrow2 memory2 arrow3 cpu2 arrow2 pavolume arrow3 date arrow4
+modules-right = backlight battery arrow1 memory2 arrow3 cpu2 arrow2 pavolume arrow3 date arrow4
 
 scroll-up = bspwm-desknext
 scroll-down = bspwm-deskprev
@@ -172,14 +169,16 @@ label-focused-foreground = ${colors.module-1}
 label-empty-font=6
 label-empty = ·
 label-empty-padding = 0
+label-empty-foreground = ${colors.offwhite}
+label-empty-background = ${colors.background}
 
 ; Separator in between workspaces
 label-separator = "⟩"
 label-separator-font = 6 
 label-separator-padding = 0
-label-separator-foreground = ${colors.foreground}
+label-separator-foreground = ${colors.offwhite}
+label-separator-background = ${colors.background}
 
-format-foreground = ${colors.foreground}
 format-background = ${colors.background}
 
 
@@ -196,7 +195,8 @@ format-background = ${colors.background}
 type = custom/text
 content = " "
 content-font = 2
-content-foreground = ${colors.module-1}
+;content-foreground = ${colors.module-1}
+content-foreground = ${colors.module-2}
 content-background = ${colors.background}
 
 [module/arrow2]
@@ -255,6 +255,7 @@ battery = BAT0
 adapter = ADP1
 full-at = 100
 format-background = ${colors.module-2}
+format-margin =1
 
 format-charging = <animation-charging> <label-charging>
 label-charging =  %percentage%%
@@ -305,6 +306,22 @@ format = <label>
 label = %percentage:3%%
 
 ################################################################################
+[module/time]
+type = internal/date
+interval = 1
+
+format-font=2
+format-background = ${colors.background}
+format-foreground = ${colors.offwhite}
+label-font = 9
+format-padding = 0
+
+format-prefix-foreground = ${colors.background}
+
+time = %H:%M:%S
+label = %time%
+label-padding-left = 0
+
 
 [module/date]
 ;https://github.com/jaagr/polybar/wiki/Module:-date
@@ -320,7 +337,7 @@ format-prefix = " "
 format-prefix-foreground = #fefefe
 format-foreground = #fefefe
 format-background = ${colors.module-1}
-label = "%date% %time% "
+label = "%date% "
 
 #################################################################
 
@@ -377,7 +394,7 @@ type = custom/menu
 format = <label-toggle> <menu>
 ;format-underline = ${colors.white}
 format-padding = 1
-format-margin = 1
+format-margin = 0
 
 ;format-background = ${colors.black}
 
@@ -388,7 +405,7 @@ menu-0-1-exec = shutdown -r now
 menu-0-2 =   cancel
 
 
-label-open = 
+label-open =  
 label-close =
 
 ###################################################################################
@@ -437,89 +454,42 @@ scroll-down = ~/.config/polybar/scripts/pavolume.sh --down
 format-foreground = #fefefe
 format-background = ${colors.module-2}
 
-
 ################################################################################
 
-[module/pub-ip]
-;https://linuxconfig.org/polybar-a-better-wm-panel-for-your-linux-system
-type = custom/script
-exec = ~/.config/polybar/scripts/pub-ip.sh
-interval = 100
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-format-underline = #FFBB00
-label = %output%
-format-prefix = "  "
-format-prefix-foreground = #FFBB00
-
-################################################################################
-
-[module/release]
-type = custom/script
-exec = (lsb_release -d | awk {'print $2'} ;echo " "; lsb_release -r | awk {'print $2'}) | tr -d '\n'
-interval = 6000
-
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-format-prefix = "  "
-format-prefix-foreground = #62FF00
-format-underline = #62FF00
-
-################################################################################
-
-[module/sep]
-; alternative separator
-type = custom/text
-content = 
-content-foreground = ${colors.foreground}
-content-background =  ${colors.background}
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-
-################################################################################
 [module/spotify]
 type = custom/script
 tail = true
+format-padding = 2
 ; prefix symbol is shown before the text
-format-prefix = "<prefix-symbol>"
+format-prefix = "  "
+label-font=1
 format = <label>
+format-foreground = ${colors.offwhite}
+format-background = ${colors.background}
 exec = ~/.config/polybar/scripts/scroll_spotify_status.sh
 
 [module/spotify-prev]
 type = custom/script
-exec = echo "<previous-song-symbol>"
+format-background = ${colors.background}
+exec = echo " "
 format = <label>
 click-left = playerctl previous spotify
 
 [module/spotify-play-pause]
 type = custom/ipc
-hook-0 = echo "<playing-symbol>"
-hook-1 = echo "<pause-symbol>"
-initial = 1
+format-background = ${colors.background}
+hook-1 = echo " "
+hook-0 = echo " "
+initial = 0
 click-left = playerctl play-pause spotify
 
 [module/spotify-next]
 type = custom/script
-exec = echo "next-song-symbol"
+format-background = ${colors.background}
+exec = echo " "
 format = <label>
 click-left = playerctl next spotify
 
-[module/spotify1]
-;https://github.com/NicholasFeldman/dotfiles/blob/master/polybar/.config/polybar/spotify.sh
-type = custom/script
-exec = ~/.config/polybar/scripts/spotify1.sh
-interval = 1
-
-;format = <label>
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-format-padding = 2
-format-underline = #0f0
-format-prefix = "  "
-format-prefix-foreground = #0f0
-label = %output:0:150%
-
-################################################################################
 
 [module/temperature1]
 ;https://github.com/jaagr/polybar/wiki/Module:-temperature
@@ -570,117 +540,14 @@ label =  %output:0:150:%
 
 ################################################################################
 
-[module/xmonad]
-type = custom/script
-exec = xmonad-log
-tail = true
-format-background = ${colors.background}
-format-foreground = ${colors.foreground}
-
-################################################################################
-
-[module/uptime]
-;https://github.com/jaagr/polybar/wiki/User-contributed-modules#uptime
-type = custom/script
-exec = uptime | awk -F, '{sub(".*up ",x,$1);print $1}'
-interval = 100
-label = Uptime : %output%
-
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-format-prefix = " "
-format-prefix-foreground = #C15D3E
-format-underline = #C15D3E
-
-################################################################################
-
-[module/volume]
-;https://github.com/jaagr/polybar/wiki/Module:-volume
-type = internal/volume
-format-volume = "<label-volume>  <bar-volume>"
-
-label-volume = " "
-label-volume-foreground = #40ad4b
-label-muted = muted
-
-bar-volume-width = 10
-bar-volume-foreground-0 = #40ad4b
-bar-volume-foreground-1 = #40ad4b
-bar-volume-foreground-2 = #40ad4b
-bar-volume-foreground-3 = #40ad4b
-bar-volume-foreground-4 = #40ad4b
-bar-volume-foreground-5 = #40ad4b
-bar-volume-foreground-6 = #40ad4b
-bar-volume-gradient = false
-bar-volume-indicator = 
-bar-volume-indicator-font = 2
-bar-volume-fill = 
-bar-volume-fill-font = 2
-bar-volume-empty = 
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground}
-format-volume-foreground = ${colors.foreground}
-format-volume-background = ${colors.background}
-format-muted-prefix = "  "
-format-muted-prefix-foreground = "#ff0000"
-format-muted-foreground = ${colors.foreground}
-format-muted-background = ${colors.background}
-
-################################################################################
-
-[module/weather]
-type = custom/script
-interval = 10
-format = <label>
-format-prefix = " "
-format-prefix-foreground = #3EC13F
-format-underline = #3EC13F
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-exec = python -u ~/.config/polybar/scripts/weather.py
-tail = true
-
-#################################################################################
-
-[module/wired-network]
-;https://github.com/jaagr/polybar/wiki/Module:-network
-type = internal/network
-interface = enp4s0
-;interface = enp14s0
-interval = 3.0
-
-; Available tokens:
-;   %ifname%    [wireless+wired]
-;   %local_ip%  [wireless+wired]
-;   %essid%     [wireless]
-;   %signal%    [wireless]
-;   %upspeed%   [wireless+wired]
-;   %downspeed% [wireless+wired]
-;   %linkspeed% [wired]
-; Default: %ifname% %local_ip%
-label-connected =  %ifname%
-label-disconnected = %ifname% disconnected
-
-format-connected-foreground = ${colors.foreground}
-format-connected-background = ${colors.background}
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = #55aa55
-format-connected-prefix-background = ${colors.background}
-
-format-disconnected = <label-disconnected>
-format-disconnected-underline = ${colors.alert}
-label-disconnected-foreground = ${colors.foreground}
-
-################################################################################
-
 [module/wireless-network]
 ;https://github.com/jaagr/polybar/wiki/Module:-network
 type = internal/network
-interface = ${env:WIRELESS}
+interface = wlo1
 interval = 3.0
 label-connected = %essid%
 
+format-connected-margin=1
 format-connected = <label-connected>
 ;format-connected = <ramp-signal> <label-connected>
 format-connected-foreground = ${colors.foreground}
@@ -701,24 +568,6 @@ format-disconnected-prefix = "  "
 format-disconnected-prefix-foreground = ${colors.alert}
 format-disconnected-prefix-background = ${colors.background}
 format-disconnected-underline =${colors.alert}
-
-ramp-signal-0 = ▁
-ramp-signal-1 = ▂
-ramp-signal-2 = ▃
-ramp-signal-3 = ▄
-ramp-signal-4 = ▅
-ramp-signal-5 = ▆
-ramp-signal-6 = ▇
-ramp-signal-7 = █
-ramp-signal-foreground = #6dd1b8
-
-################################################################################
-
-[module/workspaces-xmonad]
-type = custom/script
-exec = tail -F /tmp/.xmonad-workspace-log
-exec-if = [ -p /tmp/.xmonad-workspace-log ]
-tail = true
 
 ################################################################################
 
@@ -747,37 +596,6 @@ format-background = ${colors.background}
 
 ################################################################################
 
-[module/xkeyboard]
-;https://github.com/jaagr/polybar/wiki/Module:-xkeyboard
-type = internal/xkeyboard
-blacklist-0 = num lock
-
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground}
-format-prefix-background = ${colors.background}
-format-prefix-underline = #3ecfb2
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-
-label-layout = %layout%
-label-layout-underline = #3ecfb2
-label-indicator-padding = 2
-label-indicator-margin = 1
-label-indicator-background = ${colors.background}
-label-indicator-underline = ${colors.foreground}
-
-
-################################################################################
-
-[module/xmenu]
-type = custom/script
-interval = 1200
-exec = echo "  "
-click-left = "sh /home/dt/xmenu/xmenu.sh"
-format-foreground = ${colors.foreground}
-format-background = ${colors.background}
-################################################################################
-
 [module/xwindow]
 ;https://github.com/jaagr/polybar/wiki/Module:-xwindow
 type = internal/xwindow
@@ -793,18 +611,3 @@ format-prefix-underline = #292d3e
 format-underline = ${colors.module-1}
 format-foreground = ${colors.module-1}
 format-background = ${colors.background}
-
-[module/power]
-type = custom/text
-
-format-foreground = ${colors.offwhite}
-
-content = 
-content-padding = 1
-;content-margin = 1
-
-format-font = 8
-
-click-left = clearine
-###############################################################################
-# vim:ft=dosini
