@@ -3,6 +3,7 @@
 xrdb /home/amda/.Xressources
 
 killall sxhkd & sxhkd &
+
 $HOME/.config/polybar/launch.sh &
 picom --experimental-backends --backend glx &
 copyq &
@@ -11,7 +12,7 @@ slack -u &
 flameshot &
 
 if [[ $(xrandr -q | grep "HDMI-A-0 connected") ]]; then
-	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 2560x1080 --rotate normal --above eDP
+	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eD
 fi
 
 bspc monitor HDMI-A-0 -d 7 8 9 10
@@ -19,7 +20,7 @@ bspc monitor eDP -d 1 2 3 4 5 6
 
 
 bspc config border_width         3
-bspc config window_gap           10
+bspc config window_gap           5
 
 setxkbmap -option caps:swapescape
 
@@ -46,23 +47,25 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 #bspc rule -a Gimp desktop='^8' state=floating follow=on
-bspc rule -a Chromium desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
 bspc rule -a copyq state=floating
-bspc rule -a discord state=floating
-bspc rule -a Slack state=floating
+bspc rule -a discord state=floating center=true rectangle=1800x1000+0+0
+bspc rule -a Slack state=floating center=true rectangle=1800x1000+0+0
+bspc rule -a Surf state=tiled
 
 #Background
 #feh --bg-fill $HOME/.config/bspwm/background.png
 
 #TouchPad stuff
-xinput set-prop 18 331 -112 -112
+xinput set-prop 14 313 -112 -112
 synclient AreaLeftEdge=1700
+synclient AreaRightEdge=5335
+synclient HorizTwoFingerScroll=1
 
 bash /home/amda/.config/bspwm/bspwm_colors.sh
 bash /home/amda/Documents/scripts/bspi_listen.sh
 
-
+bash pkill -USR1 -x sxhkd

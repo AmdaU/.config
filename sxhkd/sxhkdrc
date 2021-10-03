@@ -21,6 +21,12 @@ super + p
 super + s
 	slack
 
+Print
+	flameshot gui
+
+super + Tab
+	exec /home/amda/Documents/scripts/switch_layout.sh
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
@@ -45,9 +51,13 @@ super + m
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 
-# swap the current node and the biggest window
+# send the node to the newest preselected node
+super + o
+	bspc node focused -n newest.!automatic.local
 
-
+# swap with window in direction
+#super + shit + {h,j,k,l}
+#	bspc node -n {west,south,north,east}
 #
 # state/flags
 #
