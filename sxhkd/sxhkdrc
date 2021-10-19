@@ -4,7 +4,7 @@ super + Return
 
 # program launcher
 super + @space
-	rofi -show run
+	rofi -show drun -show-icons
 
 super + c
 	google-chrome
@@ -23,6 +23,9 @@ super + s
 
 Print
 	flameshot gui
+
+alt + Tab
+	rofi -show window
 
 super + Tab
 	exec /home/amda/Documents/scripts/switch_layout.sh

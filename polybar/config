@@ -33,8 +33,8 @@ volume-med = #ebcb8b
 volume-max = #bf616a
 background = #aa000000
 
-module-1 = ${xrdb:color1}
-module-2 = ${xrdb:color3:#222}
+module-1 = ${xrdb:color10}
+module-2 = ${xrdb:color6:#222}
 
 ################################################################################
 ################################################################################
@@ -69,10 +69,7 @@ border-size = 0
 ;border-right-size = 25
 ;border-top-size = 0
 ;border-bottom-size = 25
-border-color = #00000000
 
-module-margin-left = 0
-module-margin-right = 0
 
 font-0 = "UbuntuMono Nerd Font:size=12;2"
 font-1 = "UbuntuMono Nerd Font:size=16;3"
@@ -83,15 +80,16 @@ font-4 = "Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;1"
 font-5 = "Hack:style=Regular:pixelsize=25;5"
 font-6 = "UbuntuMono Nerd Font:size=20;0"
 font-7 = "UbuntuMono Nerd Font:size=25;3"
-modules-left = bspwm spotify spotify-prev spotify-play-pause spotify-next 
+modules-left = bspwm
+;spotify spotify-prev spotify-play-pause spotify-next 
 modules-center = time 
 modules-right = backlight battery wireless-network arrow1 memory2 arrow3 cpu2 arrow2 pavolume arrow3 date arrow4 menu0
 tray-detached = false
-tray-offset-x = 0
-tray-offset-y = 0
+;tray-offset-x = 0
+;tray-offset-y = 0
 tray-position = right
-tray-padding = 0
-tray-scale = 1.0
+;tray-padding = 0
+;tray-scale = 1.0
 tray-background = #000
 
 scroll-up = bspwm-desknext
@@ -125,12 +123,6 @@ border-size = 0
 ;border-top-size = 0
 ;border-bottom-size = 25
 border-color = #00000000
-
-padding-left = 1
-padding-right = 1
-
-module-margin-left = 0
-module-margin-right = 0
 
 font-0 = "UbuntuMono Nerd Font:size=12;2"
 font-1 = "UbuntuMono Nerd Font:size=16;3"
@@ -181,7 +173,7 @@ label-separator-background = ${colors.background}
 
 format-background = ${colors.background}
 
-
+label-padding-left = 10
 
 
 ################################################################################
@@ -308,12 +300,12 @@ label = %percentage:3%%
 ################################################################################
 [module/time]
 type = internal/date
-interval = 1
+interval = 0.1
 
 format-font=2
 format-background = ${colors.background}
 format-foreground = ${colors.offwhite}
-label-font = 9
+label-font = 2
 format-padding = 0
 
 format-prefix-foreground = ${colors.background}
@@ -329,7 +321,7 @@ type = internal/date
 interval = 5
 ; See "http://en.cppreference.com/w/cpp/io/manip/put_time" for details on how to format the date string
 ; NOTE: if you want to use syntax tags here you need to use %%{...}
-date = " %a %b %d, %Y"
+date = " %a %b %d"
 date-alt = " %a %b %d, %Y"
 time = %H:%M%p
 time-alt = %l:%M%p
@@ -561,6 +553,7 @@ label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.alert}
 label-disconnected-background = ${colors.background}
 
+format-disconnected-margin=1
 format-disconnected = <label-disconnected>
 format-disconnected-foreground = ${colors.alert}
 format-disconnected-background = ${colors.background}
