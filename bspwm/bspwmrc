@@ -1,23 +1,27 @@
-#! /bin/sh
+#! /bin/bash
 
 xrdb /home/amda/.Xressources
 
-killall sxhkd & sxhkd &
+sxhkd &
+wal -Re  
 
 $HOME/.config/polybar/launch.sh &
 picom --experimental-backends --backend glx &
 copyq &
-discord --start-minimized &
-slack -u &
+killall disord && discord --start-minimized &
+killall slack && slack -u &
 flameshot &
-~/Downloads/Mathpix_Snipping_Tool-x86_64.v03.00.0050.AppImage &
+Mathpix_Snipping_Tool-x86_64.v03.00.0050.AppImage &
+# bspc rule -a \* -o state=floating rectangle=1800x1000+0+0 && kdocker -l -q -i/usr/share/icons/hicolor/24x24/apps/spotify-client.png spotify &
 
 if [[ $(xrandr -q | grep "HDMI-A-0 connected") ]]; then
-	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eD
+	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
+	bspc monitor HDMI-A-0 -d 7 8 9 10
+	bspc monitor eDP -d 1 2 3 4 5 6
+else	
+	bspc monitor eDP -d 1 2 3 4 5 6 7 8 9 10
 fi
 
-bspc monitor HDMI-A-0 -d 7 8 9 10
-bspc monitor eDP -d 1 2 3 4 5 6
 xrdb -merge .cache/wal/colors.Xresources
 
 bspc config border_width         3
@@ -64,17 +68,22 @@ bspc rule -a Nautilus state=floating
 bspc rule -a Org.gnome.Nautilus state=floating
 bspc rule -a File-roller state=floating
 bspc rule -a mpv state=floating border=off
-
-#Background
-#feh --bg-fill $HOME/.config/bspwm/background.png
+bspc rule -a matplotlib state=floating
+bspc rule -a Matplotlib state=floating
+bspc rule -a Peek state=floating
+bspc rule -a spotify state=floating center=true rectangle=1800x1000+0+0
 
 #TouchPad stuff
-xinput set-prop 14 313 -112 -112
+id=$(xinput | grep SynPS/2 | pcregrep -o1 "id=([0-9]+)")
+prop=$(xinput list-props $id | grep "Synaptics Scrolling Distance" | pcregrep -o1 "\(([0-9]+)\)")
+xinput set-prop $id $prop -112 -112
 synclient AreaLeftEdge=1700
-synclient AreaRightEdge=5335
+synclient AreaRightEdge=4335
 synclient HorizTwoFingerScroll=1
 
-bash /home/amda/.config/bspwm/bspwm_colors.sh
-bash /home/amda/Documents/scripts/bspi_listen.sh
+bash /home/amda/.config/bspwm/bspwm_colors.sh &
+bash /home/amda/Documents/scripts/bspi_listen.sh &
 
-bash pkill -USR1 -x sxhkd
+pkill -USR1 -x sxhkd
+
+# bspc rule -a \* -o state=floating && urxvt -e pipes.sh

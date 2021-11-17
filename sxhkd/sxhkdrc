@@ -1,6 +1,6 @@
 # terminal emulator
-super + Return
-	urxvt
+super + {_,shift +}Return
+	{urxvt, bspc rule -a \* -o state=floating && urxvt}
 
 # program launcher
 super + @space
@@ -15,17 +15,20 @@ super + d
 super + r
 	urxvt -e ranger
 
-super + p
-	urxvt -e bpython
+super + {_,shift +} p
+	{urxvt -e bpython, bspc rule -a \* -o state=floating && urxvt -e bpython}
 
 super + s
 	slack
+
+super + {_,shift +} i
+	{makefloat surf "https://www.google.com/maps/dir/?api=1&origin=faculte+Sciences+sherbrooke&destination=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate", makefloat surf "https://www.google.com/maps/dir/?api=1&destination=faculte+Sciences+sherbrooke&origin=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate"}
 
 Print
 	flameshot gui
 
 alt + Tab
-	rofi -show window
+	rofi -show windowcd -show-icons
 
 super + Tab
 	exec /home/amda/Documents/scripts/switch_layout.sh
@@ -33,6 +36,9 @@ super + Tab
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+super + alt + w
+	wal -R
 
 #
 # bspwm hotkeys
@@ -52,8 +58,7 @@ super + m
 
 # send the newest marked node to the newest preselected node
 super + y
-	bspc node newest.marked.local -n newest.!automatic.local
-
+	youtube_player &
 # send the node to the newest preselected node
 super + o
 	bspc node focused -n newest.!automatic.local
@@ -110,6 +115,9 @@ super + {_,shift + }{1-9,0}
 #
 # preselect
 #
+
+super + ctrl + f
+	bspc rule -a \* -o state=floating 
 
 # preselect the direction
 super + ctrl + {h,j,k,l}

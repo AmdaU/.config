@@ -80,7 +80,7 @@ font-4 = "Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;1"
 font-5 = "Hack:style=Regular:pixelsize=25;5"
 font-6 = "UbuntuMono Nerd Font:size=20;0"
 font-7 = "UbuntuMono Nerd Font:size=25;3"
-modules-left = bspwm
+modules-left = bspwm menu1
 ;spotify spotify-prev spotify-play-pause spotify-next 
 modules-center = time 
 modules-right = backlight battery wireless-network arrow1 memory2 arrow3 cpu2 arrow2 pavolume arrow3 date arrow4 menu0
@@ -390,11 +390,11 @@ format-margin = 0
 
 ;format-background = ${colors.black}
 
-menu-0-0 = " shutdown "
+menu-0-0 = "  "
 menu-0-0-exec = shutdown now
-menu-0-1 = " restart "
+menu-0-1 = "  "
 menu-0-1-exec = shutdown -r now
-menu-0-2 =   cancel
+menu-0-2 =  "" 
 
 
 label-open =  
@@ -402,6 +402,29 @@ label-close =
 
 ###################################################################################
 
+[module/menu1]
+type = custom/menu
+
+format = <label-toggle> <menu>
+;format-underline = ${colors.white}
+format-padding = 1
+format-margin = 0
+
+format-background = ${colors.background}
+
+menu-0-0 = "  "
+menu-0-0-exec = xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP && wal -Re
+menu-0-2 = "=  "
+menu-0-2-exec = xrandr --output HDMI-A-0 --same-as eDP && wal -Re
+menu-0-1 = "  "
+menu-0-1-exec = "xrandr --output HDMI-A-0 --off && wal -Re"
+menu-0-3 =  
+
+
+label-open = 
+label-close =
+
+###################################################################################
 [module/networkspeedup]
 ;https://github.com/jaagr/polybar/wiki/Module:-network
 type = internal/network
