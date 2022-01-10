@@ -4,7 +4,10 @@ super + {_,shift +}Return
 
 # program launcher
 super + @space
-	rofi -show drun -show-icons
+	rofi -show drun -show-icons -sort -sorting-method fzf
+
+super + shift + @space
+	rofi -show run -show-icons -sort -sorting-method fzf
 
 super + c
 	google-chrome
