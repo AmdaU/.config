@@ -1,0 +1,7 @@
+*
+!.gitignore
+!polybar
+!bspwm
+!sxhkd
+!picom*
+!README.md
