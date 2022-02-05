@@ -1,12 +1,12 @@
-*
+#exclude top directories and top directories files
+/*
+./*
+
 !.gitignore
 !polybar
-!polybar/*
 !bspwm
-!bspwm/*
 !sxhkd
-!sxhkd/*
 !picom*
-!/nvim/*
 !nvim
+!BetterDiscord
 !README.md
