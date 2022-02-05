@@ -1,8 +1,12 @@
 *
 !.gitignore
 !polybar
+!polybar/*
 !bspwm
+!bspwm/*
 !sxhkd
+!sxhkd/*
 !picom*
+!/nvim/*
 !nvim
 !README.md
