@@ -5,7 +5,7 @@ nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/
 
 call plug#begin()
 
-"Plug 'lervag/vimtex'
+Plug 'lervag/vimtex'
 
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
