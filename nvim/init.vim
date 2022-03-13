@@ -28,7 +28,11 @@ Plug 'iamcco/markdown-preview.nvim'
 
 let g:mkdp_browser = 'surf'
 
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+			
 call plug#end()
+
+colorscheme tokyonight
 
 hi clear Conceal
 
