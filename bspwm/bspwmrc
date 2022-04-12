@@ -5,6 +5,8 @@ xrdb /home/amda/.Xressources
 sxhkd &
 wal -Re  
 
+systemctl start bluetooth.service
+killall polybar
 $HOME/.config/polybar/launch.sh &
 picom --experimental-backends --backend glx &
 copyq &
@@ -16,22 +18,22 @@ flameshot &
 appim/Mathpix_Snipping_Tool-x86_64.v03.00.0050.AppImage &
 # bspc rule -a \* -o state=floating rectangle=1800x1000+0+0 && kdocker -l -q -i/usr/share/icons/hicolor/24x24/apps/spotify-client.png spotify &
 
-if [[ $(xrandr -q | grep "HDMI-A-0 connected") ]]; then
+EXT_MON=DP1
+
+if [[ $(xrandr -q | grep "$EXT_MON connected") ]]; then
 #	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
-	bspc monitor HDMI-A-0 -d 6 7 8 9 10
-	bspc monitor eDP -d 1 2 3 4 5
+	bspc monitor $EXT_MON -d 6 7 8 9 10
+	bspc monitor eDP1 -d 1 2 3 4 5
 else	
-	bspc monitor eDP -d 1 2 3 4 5 6 7 8 9 10
+	bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9 10
 fi
 
 xrdb -merge .cache/wal/colors.Xresources
 
-bspc config border_width         3
+bspc config border_width         0
 bspc config window_gap           5
 
 setxkbmap -option caps:swapescape
-
-brightnessctl s 100%
 
 #Pywal--------------------------------------
 
@@ -76,15 +78,15 @@ bspc rule -a Peek state=floating
 bspc rule -a spotify state=floating center=true rectangle=1800x1000+0+0
 
 #TouchPad stuff
-id=$(xinput | grep SynPS/2 | pcregrep -o1 "id=([0-9]+)")
-prop=$(xinput list-props $id | grep "Synaptics Scrolling Distance" | pcregrep -o1 "\(([0-9]+)\)")
-xinput set-prop $id $prop -112 -112
-synclient AreaLeftEdge=1700
-synclient AreaRightEdge=4335
-synclient HorizTwoFingerScroll=1
+# id=$(xinput | grep SynPS/2 | pcregrep -o1 "id=([0-9]+)")
+# prop=$(xinput list-props $id | grep "Synaptics Scrolling Distance" | pcregrep -o1 "\(([0-9]+)\)")
+# xinput set-prop $id $prop -112 -112
+# synclient AreaLeftEdge=1700
+# synclient AreaRightEdge=4335
+# synclient HorizTwoFingerScroll=1
 
-bash /home/amda/.config/bspwm/bspwm_colors.sh &
-bash /home/amda/Documents/scripts/bspi_listen.sh &
+#bash $HOME/.config/bspwm/bspwm_colors.sh &
+bash $HOME/scripts/bspi_listen.sh &
 
 pkill -USR1 -x sxhkd
 

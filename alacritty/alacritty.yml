@@ -1,3 +1,6 @@
+# inspired by 
+# https://github.com/EvanKoe/dotfiles_2022/blob/25685964ebba0616981fa787960d9c808439ded4/alacritty/alacritty.yml
+
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
@@ -8,15 +11,19 @@ scrolling:
 
 # Font configuration
 font:
-  # Normal (roman) font face
-    size: 8.0
+  # I'm using JetBrains fonts, which I recommend, but feel free to edit it !
+  normal:
+    family: JetBrains Mono
+  size: 12.0
 
 # Colors (Doom One)
 colors:
   # Default colors
+colors:
+  # sets background color to light gray (#eee) and font color to white (#fff)
   primary:
-    background: '0x282c34'
-    foreground: '0xbbc2cf'
+    background: '#111111'
+    foreground: '#ffffff'
 
   # Normal colors
   normal:
@@ -31,3 +38,8 @@ colors:
 
 window:
     decorations: 'none'
+    opacity: 0.1
+
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0

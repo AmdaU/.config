@@ -1,6 +1,6 @@
 # terminal emulator
 super + {_,shift +}Return
-	{urxvt, bspc rule -a \* -o state=floating && urxvt}
+	{alacritty, bspc rule -a \* -o state=floating && alacritty }
 
 # program launcher
 super + @space
@@ -16,10 +16,10 @@ super + d
 	discord
 
 super + r
-	urxvt -e ranger
+	alacritty -e ranger
 
 super + {_,shift +} p
-	{urxvt -e bpython, bspc rule -a \* -o state=floating && urxvt -e bpython}
+	{alacritty -e bpython, bspc rule -a \* -o state=floating && alacritty -e bpython}
 
 super + s
 	slack
@@ -156,7 +156,7 @@ super + {Left,Down,Up,Right}
 
 # Brightness and volume
 XF86MonBrightness{Up,Down}
-	brightnessctl s 10{+,-}
+	brightnessctl s 5%{+,-}
 
 XF86Audio{Raise,Lower}Volume
 	amixer -D pulse sset Master 5%{+,-}

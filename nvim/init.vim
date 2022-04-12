@@ -1,7 +1,42 @@
 set nu
 
+" mappings -------------------------------------------
+
+" inkscape
 inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
 nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
+
+" Controls --------------------------------------------
+
+inoremap <C-s> <Esc>:w <CR>a
+inoremap <C-z> <Esc>ua
+
+" Spelling check --------------------------------------
+
+setlocal spell
+set spelllang=nl,fr_ca
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
+" Autosave --------------------------------------------
+
+au BufRead,BufNewFile * let b:save_time = localtime()
+au CursorHold,CursorHoldI * call UpdateFile()
+au CursorMoved,CursorMovedI * call UpdateFile()
+let g:autosave_time = 600
+
+function! UpdateFile()
+  if((localtime() - b:save_time) >= g:autosave_time)
+      update
+      let b:save_time = localtime()
+  endif
+endfunction
+
+if &filetype ==# 'tex'
+	g:autosave_time = 5
+"	echo 'tex document: auto-save enabled'
+"	autocmd TextChanged,TextChangedI <buffer> silent write
+endif
+
 
 call plug#begin()
 
@@ -65,7 +100,7 @@ hi clear Conceal
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 function ToggleWrap()
   if &wrap
-    echo "Wrap OFF"
+"    echo "Wrap OFF"
     setlocal nowrap
     set virtualedit=all
     silent! nunmap <buffer> <Up>
@@ -77,7 +112,7 @@ function ToggleWrap()
     silent! iunmap <buffer> <Home>
     silent! iunmap <buffer> <End>
   else
-    echo "Wrap ON"
+"    echo "Wrap ON"
     setlocal wrap linebreak nolist
     set virtualedit=
     setlocal display+=lastline
@@ -94,4 +129,9 @@ function ToggleWrap()
   endif
 endfunction
 
+call ToggleWrap()
+call ToggleWrap()
+
 au BufEnter *.md :MarkdownPreview
+
+au BufEnter *.tex :VimtexCompile
