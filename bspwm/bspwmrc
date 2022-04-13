@@ -76,6 +76,8 @@ bspc rule -a matplotlib state=floating
 bspc rule -a Matplotlib state=floating
 bspc rule -a Peek state=floating
 bspc rule -a spotify state=floating center=true rectangle=1800x1000+0+0
+bspc rule -a "*:*:Live Caption" state=floating
+bspc rule -a '*:blueman-manager' state=floating
 
 #TouchPad stuff
 # id=$(xinput | grep SynPS/2 | pcregrep -o1 "id=([0-9]+)")

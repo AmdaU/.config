@@ -13,8 +13,8 @@ scrolling:
 font:
   # I'm using JetBrains fonts, which I recommend, but feel free to edit it !
   normal:
-    family: JetBrains Mono
-  size: 12.0
+    family: Droid Sans Mono for Powerline
+  size: 10.0
 
 # Colors (Doom One)
 colors:

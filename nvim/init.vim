@@ -14,7 +14,7 @@ inoremap <C-z> <Esc>ua
 " Spelling check --------------------------------------
 
 setlocal spell
-set spelllang=nl,fr_ca
+set spelllang=nl,fr_ca,en_ca
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " Autosave --------------------------------------------
@@ -22,7 +22,7 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 au BufRead,BufNewFile * let b:save_time = localtime()
 au CursorHold,CursorHoldI * call UpdateFile()
 au CursorMoved,CursorMovedI * call UpdateFile()
-let g:autosave_time = 600
+let g:autosave_time = 600 
 
 function! UpdateFile()
   if((localtime() - b:save_time) >= g:autosave_time)

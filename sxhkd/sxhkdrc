@@ -9,8 +9,8 @@ super + @space
 super + shift + @space
 	rofi -show run -show-icons -sort -sorting-method fzf
 
-super + c
-	google-chrome
+super + g
+	google-chrome-stable
 
 super + d
 	discord
@@ -22,7 +22,7 @@ super + {_,shift +} p
 	{alacritty -e bpython, bspc rule -a \* -o state=floating && alacritty -e bpython}
 
 super + s
-	slack
+	makefloat spotify
 
 super + {_,shift +} i
 	{makefloat surf "https://www.google.com/maps/dir/?api=1&origin=faculte+Sciences+sherbrooke&destination=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate", makefloat surf "https://www.google.com/maps/dir/?api=1&destination=faculte+Sciences+sherbrooke&origin=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate"}
@@ -34,7 +34,7 @@ alt + Tab
 	rofi -show windowcd -show-icons
 
 super + Tab
-	exec /home/amda/Documents/scripts/switch_layout.sh
+	exec $HOME/scritps/switch_layout.sh
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -54,6 +54,8 @@ super + alt + {q,r}
 # close and kill
 super + {_,shift + }w
 	bspc node -{c,k}
+super + Escape
+	bspc node -c
 
 # alternate between the tiled and monocle layout
 super + m
@@ -155,8 +157,11 @@ super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 # Brightness and volume
-XF86MonBrightness{Up,Down}
-	brightnessctl s 5%{+,-}
+# XF86MonBrightness{Up,Down}
+# 	brightnessctl s 5%{+,-}
+# 
+# XF86Audio{Raise,Lower}Volume
+# 	amixer -D pulse sset Master 5%{+,-}
 
-XF86Audio{Raise,Lower}Volume
-	amixer -D pulse sset Master 5%{+,-}
+super + shift + Escape
+	makefloat alacritty -e bpytop
