@@ -165,3 +165,6 @@ super + {Left,Down,Up,Right}
 
 super + shift + Escape
 	makefloat alacritty -e bpytop
+
+super + u
+	makefloat alacritty -e yay

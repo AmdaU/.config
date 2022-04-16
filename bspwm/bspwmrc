@@ -1,16 +1,19 @@
 #! /bin/bash
 
+fis "set -U SXHKD_SHELL sh"
+
 xrdb /home/amda/.Xressources
 
 sxhkd &
 wal -Re  
+
 
 systemctl start bluetooth.service
 killall polybar
 $HOME/.config/polybar/launch.sh &
 picom --experimental-backends --backend glx &
 copyq &
-killall disord
+pkill Discord
 discord --start-minimized &
 killall slack
 slack -u &
@@ -20,8 +23,8 @@ appim/Mathpix_Snipping_Tool-x86_64.v03.00.0050.AppImage &
 
 EXT_MON=DP1
 
-if [[ $(xrandr -q | grep "$EXT_MON connected") ]]; then
-#	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
+if [[ $(xrandr -q | pcregrep "\W$EXT_MON connected") ]]; then
+#	xran/dr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
 	bspc monitor $EXT_MON -d 6 7 8 9 10
 	bspc monitor eDP1 -d 1 2 3 4 5
 else	
@@ -30,6 +33,7 @@ fi
 
 xrdb -merge .cache/wal/colors.Xresources
 
+bspc config bottom_padding	44
 bspc config border_width         0
 bspc config window_gap           5
 
@@ -93,3 +97,5 @@ bash $HOME/scripts/bspi_listen.sh &
 pkill -USR1 -x sxhkd
 
 # bspc rule -a \* -o state=floating && urxvt -e pipes.sh
+
+bspc rule -a \* -o state=floating && alacritty -e "cbonsai -m $(fortune -n 120 -s) -p"

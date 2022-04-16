@@ -14,7 +14,7 @@ font:
   # I'm using JetBrains fonts, which I recommend, but feel free to edit it !
   normal:
     family: Droid Sans Mono for Powerline
-  size: 10.0
+  size: 9
 
 # Colors (Doom One)
 colors:
