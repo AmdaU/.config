@@ -5,12 +5,11 @@ fis "set -U SXHKD_SHELL sh"
 xrdb /home/amda/.Xressources
 
 sxhkd &
-wal -Re  
 
 
 systemctl start bluetooth.service
 killall polybar
-$HOME/.config/polybar/launch.sh &
+#$HOME/.config/polybar/launch.sh &
 picom --experimental-backends --backend glx &
 copyq &
 pkill Discord
@@ -33,7 +32,8 @@ fi
 
 xrdb -merge .cache/wal/colors.Xresources
 
-bspc config bottom_padding	44
+bspc config bottom_padding	 0
+bspc config top_padding		 40
 bspc config border_width         0
 bspc config window_gap           5
 
@@ -63,25 +63,28 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 #bspc rule -a Gimp desktop='^8' state=floating follow=on
-bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
+bspc rule -a \* state=floating
+# bspc rule -a mplayer2 state=floating
+# bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
-bspc rule -a copyq state=floating
+bspc rule -a Alacritty state=tiled
+#bspc rule -a copyq state=floating
+bspc rule -a Google-chrome state=tiled
 bspc rule -a discord state=floating center=true rectangle=1800x1000+0+0
 bspc rule -a Slack state=floating center=true rectangle=1800x1000+0+0
 bspc rule -a Surf state=tiled
 bspc rule -a "Mathpix Snipping Tool" state=floating center=true
-bspc rule -a Nautilus state=floating
-bspc rule -a Org.gnome.Nautilus state=floating
-bspc rule -a File-roller state=floating
+#bspc rule -a Nautilus state=floating
+#bspc rule -a Org.gnome.Nautilus state=floating
+#bspc rule -a File-roller state=floating
 bspc rule -a mpv state=floating border=off
-bspc rule -a matplotlib state=floating
-bspc rule -a Matplotlib state=floating
-bspc rule -a Peek state=floating
+#bspc rule -a matplotlib state=floating
+#bspc rule -a Matplotlib state=floating
+#bspc rule -a Peek state=floating
 bspc rule -a spotify state=floating center=true rectangle=1800x1000+0+0
-bspc rule -a "*:*:Live Caption" state=floating
-bspc rule -a '*:blueman-manager' state=floating
+#bspc rule -a "*:*:Live Caption" state=floating
+#bspc rule -a '*:blueman-manager' state=floating
 
 #TouchPad stuff
 # id=$(xinput | grep SynPS/2 | pcregrep -o1 "id=([0-9]+)")
@@ -94,7 +97,8 @@ bspc rule -a '*:blueman-manager' state=floating
 #bash $HOME/.config/bspwm/bspwm_colors.sh &
 bash $HOME/scripts/bspi_listen.sh &
 
-pkill -USR1 -x sxhkd
+#pkill -USR1 -x sxhkd
+wal -R  
 
 # bspc rule -a \* -o state=floating && urxvt -e pipes.sh
 

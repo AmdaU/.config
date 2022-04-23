@@ -2,5 +2,7 @@
     "InvisibleTyping": true,
     "TypingUsersAvatars": true,
     "WhoReacted": true,
-    "ZeresPluginLibrary": true
+    "ZeresPluginLibrary": true,
+    "FreeEmojis": false,
+    "Freemoji": true
 }
