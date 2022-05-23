@@ -6,7 +6,7 @@ xrdb /home/amda/.Xressources
 
 sxhkd &
 
-
+libinput-gestures-setup restart
 systemctl start bluetooth.service
 killall polybar
 #$HOME/.config/polybar/launch.sh &
@@ -20,12 +20,12 @@ flameshot &
 appim/Mathpix_Snipping_Tool-x86_64.v03.00.0050.AppImage &
 # bspc rule -a \* -o state=floating rectangle=1800x1000+0+0 && kdocker -l -q -i/usr/share/icons/hicolor/24x24/apps/spotify-client.png spotify &
 
-EXT_MON=DP1
+EXT_MON=$(xrandr -q | pcregrep -o1 "(\bDP[0-9]) connected")
 
-if [[ $(xrandr -q | pcregrep "\W$EXT_MON connected") ]]; then
-#	xran/dr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
-	bspc monitor $EXT_MON -d 6 7 8 9 10
+if [[ $EXT_MON ]]; then
+#	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
 	bspc monitor eDP1 -d 1 2 3 4 5
+	bspc monitor $EXT_MON -d 6 7 8 9 10
 else	
 	bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9 10
 fi
@@ -38,6 +38,7 @@ bspc config border_width         0
 bspc config window_gap           5
 
 setxkbmap -option caps:swapescape
+$$\dotsb$$ 
 
 #Pywal--------------------------------------
 
@@ -64,11 +65,14 @@ bspc config gapless_monocle      true
 
 #bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a \* state=floating
+bspc rule -a \teams state=tiled
+bspc rule -a Code state=tiled
 # bspc rule -a mplayer2 state=floating
 # bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
-bspc rule -a Alacritty state=tiled
+bspc rule -a Alacritty state=tiled center=true rectangle=804x600+0+0
+bspc rule -a URxvt state=tiled center=true rectangle=804x600+0+0
 #bspc rule -a copyq state=floating
 bspc rule -a Google-chrome state=tiled
 bspc rule -a discord state=floating center=true rectangle=1800x1000+0+0

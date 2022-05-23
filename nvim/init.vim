@@ -10,6 +10,8 @@ nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/
 
 inoremap <C-s> <Esc>:w <CR>a
 inoremap <C-z> <Esc>ua
+nnoremap <C-j> :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeFocus<CR>
 
 " Spelling check --------------------------------------
 
@@ -36,7 +38,7 @@ function! UpdateFile()
 endfunction
 
 " if &filetype ==# 'tex'
-	g:autosave_time = 5
+"	g:autosave_time = 5
 "	echo 'tex document: auto-save enabled'
 "	autocmd TextChanged,TextChangedI <buffer> silent write
 
@@ -80,10 +82,15 @@ augroup vim-ghost
     au!
     au User vim-ghost#connected call s:SetupGhostBuffer()
 augroup END
+
+Plug 'dylanaraps/wal.vim'
+
+Plug 'preservim/nerdtree'
 			
 call plug#end()
 
 colorscheme tokyonight
+" colorscheme wal
 
 let g:clipboard = {  
     \ 'name': 'myClipboard',  
