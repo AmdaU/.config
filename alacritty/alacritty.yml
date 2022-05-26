@@ -38,7 +38,7 @@ colors:
 
 window:
     decorations: 'none'
-    opacity: 0.3
+    opacity: 0.5
 
 visual_bell:
   animation: EaseOutExpo

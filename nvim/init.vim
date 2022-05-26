@@ -21,8 +21,8 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " Autosave --------------------------------------------
 
-let b:save_time = localtime()
-au BufRead,BufNewFile * let b:save_time = localtime()
+let g:save_time = localtime()
+au BufRead,BufNewFile * let g:save_time = localtime()
 au CursorHold,CursorHoldI * call UpdateFile()
 au CursorMoved,CursorMovedI * call UpdateFile()
 let g:autosave_time = 600 
@@ -31,7 +31,7 @@ function! UpdateFile()
     if &filetype ==# 'tex'
        let g:autosave_time = 5
     endif
-    if((localtime() - b:save_time) >= g:autosave_time)
+    if((localtime() - g:save_time) >= g:autosave_time)
        update
        let b:save_time = localtime()
    endif
@@ -86,6 +86,8 @@ augroup END
 Plug 'dylanaraps/wal.vim'
 
 Plug 'preservim/nerdtree'
+
+Plug 'sheerun/vim-polyglot'
 			
 call plug#end()
 
