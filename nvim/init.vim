@@ -10,8 +10,10 @@ nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/
 
 inoremap <C-s> <Esc>:w <CR>a
 inoremap <C-z> <Esc>ua
-nnoremap <C-j> :NERDTreeToggle<CR>
+nnoremap <C-b> :NERDTreeToggle<CR>
+inoremap <C-b> <Esc>:NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <leader>p :lua require("nabla").popup()<CR>
 
 " Spelling check --------------------------------------
 
@@ -88,6 +90,14 @@ Plug 'dylanaraps/wal.vim'
 Plug 'preservim/nerdtree'
 
 Plug 'sheerun/vim-polyglot'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'jbyuki/nabla.nvim'
+
+Plug 'preservim/nerdcommenter'
+
+Plug 'tpope/vim-fugitive'
 			
 call plug#end()
 
