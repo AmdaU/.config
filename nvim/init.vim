@@ -1,5 +1,4 @@
 set nu
-
 " mappings -------------------------------------------
 
 " inkscape
@@ -10,10 +9,13 @@ nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/
 
 inoremap <C-s> <Esc>:w <CR>a
 inoremap <C-z> <Esc>ua
-nnoremap <C-b> :NERDTreeToggle<CR>
 inoremap <C-b> <Esc>:NERDTreeToggle<CR>
+nnoremap <C-b> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <leader>p :lua require("nabla").popup()<CR>
+let mapleader = ";"
+nnoremap <C-j> <C-w>s<C-w>j:term<CR>i
+inoremap <C-j> <Esc><C-w>s<C-w>j:term<CR>i
 
 " Spelling check --------------------------------------
 
@@ -43,12 +45,12 @@ endfunction
 "	g:autosave_time = 5
 "	echo 'tex document: auto-save enabled'
 "	autocmd TextChanged,TextChangedI <buffer> silent write
-
+"
+autocmd TermOpen * setlocal nonu
 
 call plug#begin()
 
 Plug 'lervag/vimtex'
-
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
@@ -57,7 +59,6 @@ let g:tex_conceal='abdmg'
 let g:tex_flavor='latex'
 
 Plug 'SirVer/ultisnips'
-
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<M-l>"
 let g:UltiSnipsJumpBackwardTrigger="<M-h>"
@@ -65,44 +66,47 @@ let g:UltiSnipsJumpBackwardTrigger="<M-h>"
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips"]
 
 Plug 'honza/vim-snippets'
-
 Plug 'iamcco/markdown-preview.nvim'
-
 let g:mkdp_browser = 'surf'
 
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-
 Plug 'raghur/vim-ghost'
-
 function! s:SetupGhostBuffer()
     if match(expand("%:a"), '\v/ghost-(overleaf)\.com-')
         set ft=tex
     endif
 endfunction
-
 augroup vim-ghost
     au!
     au User vim-ghost#connected call s:SetupGhostBuffer()
 augroup END
 
 Plug 'dylanaraps/wal.vim'
-
 Plug 'preservim/nerdtree'
-
 Plug 'sheerun/vim-polyglot'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jbyuki/nabla.nvim'
-
 Plug 'preservim/nerdcommenter'
-
 Plug 'tpope/vim-fugitive'
-			
+Plug 'tpope/vim-surround'
+Plug 'vim-syntastic/syntastic'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+"let g:airline#extensions#tabline#enabled = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'valloric/youcompleteme'
+Plug 'easymotion/vim-easymotion'
+Plug 'wincent/terminus'
+
 call plug#end()
 
+"-------------------------------------------------------------------------------
+
 colorscheme tokyonight
-" colorscheme wal
+"colorscheme wal
 
 let g:clipboard = {  
     \ 'name': 'myClipboard',  
