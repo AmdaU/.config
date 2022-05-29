@@ -1,13 +1,12 @@
 set nu
-" mappings -------------------------------------------
 
-" inkscape
+" inkscape --------------------------------------------
 inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
 nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
 
 " Controls --------------------------------------------
-
-inoremap <C-s> <Esc>:w <CR>a
+inoremap <C-s> <Esc>:w <CR>
+noremap <C-s> <Esc>:w <CR>
 inoremap <C-z> <Esc>ua
 inoremap <C-b> <Esc>:NERDTreeToggle<CR>
 nnoremap <C-b> :NERDTreeToggle<CR>
@@ -18,13 +17,11 @@ nnoremap <C-j> <C-w>s<C-w>j:term<CR>i
 inoremap <C-j> <Esc><C-w>s<C-w>j:term<CR>i
 
 " Spelling check --------------------------------------
-
 setlocal spell
 set spelllang=nl,fr,en_ca
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " Autosave --------------------------------------------
-
 let g:save_time = localtime()
 au BufRead,BufNewFile * let g:save_time = localtime()
 au CursorHold,CursorHoldI * call UpdateFile()
@@ -64,9 +61,10 @@ let g:UltiSnipsJumpForwardTrigger="<M-l>"
 let g:UltiSnipsJumpBackwardTrigger="<M-h>"
 "let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit='snips'
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips"]
-
 Plug 'honza/vim-snippets'
-Plug 'iamcco/markdown-preview.nvim'
+
+Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 let g:mkdp_browser = 'surf'
 
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
@@ -96,10 +94,17 @@ Plug 'vim-airline/vim-airline'
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 Plug 'vim-airline/vim-airline-themes'
+let g:airline_theme='deus'
 
-Plug 'valloric/youcompleteme'
+"Plug 'valloric/youcompleteme'
 Plug 'easymotion/vim-easymotion'
 Plug 'wincent/terminus'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'svermeulen/vim-cutlass'
+nnoremap x d
+xnoremap x d
+nnoremap xx dd
+nnoremap X D
 
 call plug#end()
 
@@ -126,7 +131,7 @@ hi clear Conceal
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 function ToggleWrap()
   if &wrap
-"    echo "Wrap OFF"
+    "echo "Wrap OFF"
     setlocal nowrap
     set virtualedit=all
     silent! nunmap <buffer> <Up>
@@ -138,7 +143,7 @@ function ToggleWrap()
     silent! iunmap <buffer> <Home>
     silent! iunmap <buffer> <End>
   else
-"    echo "Wrap ON"
+    "echo "Wrap ON"
     setlocal wrap linebreak nolist
     set virtualedit=
     setlocal display+=lastline
