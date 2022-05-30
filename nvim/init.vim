@@ -1,4 +1,5 @@
 set nu
+autocmd TermOpen * setlocal nonu
 
 " inkscape --------------------------------------------
 inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
@@ -21,6 +22,10 @@ setlocal spell
 set spelllang=nl,fr,en_ca
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
 " Autosave --------------------------------------------
 let g:save_time = localtime()
 au BufRead,BufNewFile * let g:save_time = localtime()
@@ -37,13 +42,6 @@ function! UpdateFile()
        let b:save_time = localtime()
    endif
 endfunction
-
-" if &filetype ==# 'tex'
-"	g:autosave_time = 5
-"	echo 'tex document: auto-save enabled'
-"	autocmd TextChanged,TextChangedI <buffer> silent write
-"
-autocmd TermOpen * setlocal nonu
 
 call plug#begin()
 
@@ -81,6 +79,13 @@ augroup END
 
 Plug 'dylanaraps/wal.vim'
 Plug 'preservim/nerdtree'
+Plug 'xuyuanp/nerdtree-git-plugin'
+let g:NERDTreeGitStatusConcealBrackets = 1
+
+Plug 'sjl/gundo.vim'
+let g:gundo_prefer_python3 = 1
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/gv.vim'
 Plug 'sheerun/vim-polyglot'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jbyuki/nabla.nvim'
@@ -88,7 +93,6 @@ Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'vim-syntastic/syntastic'
-Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 "let g:airline#extensions#tabline#enabled = 1
 let g:airline_left_sep=''
@@ -106,6 +110,8 @@ xnoremap x d
 nnoremap xx dd
 nnoremap X D
 
+Plug 'rust-lang/rust.vim'
+
 call plug#end()
 
 "-------------------------------------------------------------------------------
@@ -113,18 +119,7 @@ call plug#end()
 colorscheme tokyonight
 "colorscheme wal
 
-let g:clipboard = {  
-    \ 'name': 'myClipboard',  
-    \ 'copy': {  
-    \    '+': 'copyq add -',  
-    \    '*': 'copyq add -',  
-    \ },
-    \ 'paste': {
-    \    '+': '+',
-    \    '*': '*',
-    \ },
-    \ 'cache_enabled': 1,
-    \ }
+:set clipboard=unnamedplus
 
 hi clear Conceal
 
