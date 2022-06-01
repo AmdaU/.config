@@ -1,28 +1,28 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-   set XTERM_LOCALE
+   set -g fish_vi_force_cursor 1
    fish_vi_key_bindings
    set fish_cursor_default block
    set fish_cursor_insert line
    set fish_cursor_replace_one underscore
    set fish_cursor_visual line
 
-   fish_vi_cursor
 
-    function fish_right_prompt -d "Write out the prompt"
-    end
 
-    function za
-    	zathura $argv & disown (ps -T| pcregrep -o1 \([0-9]+\).+zathura^\<)
-    end
-    function mkcd
-    	mkdir $argv && cd $argv
-    end	
-    alias bp bpython
-    alias bt bpytop
-    alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
-    # wal -R > /dev/null
-    cat ~/.cache/wal/sequences &
+   function fish_right_prompt -d "Write out the prompt"
+   end
+
+   function za
+      zathura $argv & disown (ps -T| pcregrep -o1 \([0-9]+\).+zathura^\<)
+   end
+   function mkcd
+      mkdir $argv && cd $argv
+   end	
+   alias bp bpython
+   alias bt bpytop
+   alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
+   # wal -R > /dev/null
+   cat ~/.cache/wal/sequences &
 end
 
 fish_add_path /$HOME/scripts/inkscape-figures/bin/	

@@ -111,6 +111,19 @@ nnoremap xx dd
 nnoremap X D
 
 Plug 'rust-lang/rust.vim'
+Plug 'nvie/vim-flake8'
+Plug 'jiangmiao/auto-pairs'
+Plug 'sbdchd/neoformat'
+autocmd BufWritePost * Neoformat
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+Plug 'brauner/vimtux'
 
 call plug#end()
 
