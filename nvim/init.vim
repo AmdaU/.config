@@ -124,6 +124,14 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 Plug 'brauner/vimtux'
+Plug 'folke/which-key.nvim'
+lua << EOF
+  require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
 
 call plug#end()
 
@@ -174,3 +182,5 @@ call ToggleWrap()
 au BufEnter *.md :MarkdownPreview
 
 au BufEnter *.tex :VimtexCompile
+
+

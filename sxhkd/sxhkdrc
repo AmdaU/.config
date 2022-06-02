@@ -2,6 +2,10 @@
 super + {_,shift +}Return
 	{alacritty, bspc rule -a \* -o state=floating && alacritty }
 
+# File manager
+super + {_,shift +}q
+	{bspc rule -a \* -o state=tiled && dolphin, dolphin }
+
 # program launcher
 super + @space
 	rofi -show drun -show-icons -sort -sorting-method fzf
