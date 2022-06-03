@@ -66,6 +66,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 let g:mkdp_browser = 'surf'
 
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 Plug 'raghur/vim-ghost'
 function! s:SetupGhostBuffer()
     if match(expand("%:a"), '\v/ghost-(overleaf)\.com-')
@@ -132,6 +133,8 @@ call plug#end()
 "-------------------------------------------------------------------------------
 
 colorscheme tokyonight
+colorscheme catppuccin
+
 "colorscheme wal
 
 :set clipboard=unnamedplus

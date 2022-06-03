@@ -7,8 +7,6 @@ if status is-interactive
    set fish_cursor_replace_one underscore
    set fish_cursor_visual line
 
-
-
    function fish_right_prompt -d "Write out the prompt"
    end
 
