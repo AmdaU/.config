@@ -20,7 +20,7 @@ if status is-interactive
    alias bt bpytop
    alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
    # wal -R > /dev/null
-   cat ~/.cache/wal/sequences &
+   # cat ~/.cache/wal/sequences &
 end
 
 fish_add_path /$HOME/scripts/inkscape-figures/bin/	
