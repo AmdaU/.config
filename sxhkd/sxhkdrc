@@ -172,3 +172,6 @@ super + shift + Escape
 
 super + u
 	makefloat alacritty -e yay
+
+super + shift + m
+	plasmawindowed org.kde.plasma.mediacontroller
