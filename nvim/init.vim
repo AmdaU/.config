@@ -53,12 +53,12 @@ set conceallevel=2
 let g:tex_conceal='abdmg'
 let g:tex_flavor='latex'
 
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<M-l>"
-let g:UltiSnipsJumpBackwardTrigger="<M-h>"
-"let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit='snips'
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips"]
+"Plug 'SirVer/ultisnips'
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<M-l>"
+"let g:UltiSnipsJumpBackwardTrigger="<M-h>"
+""let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit='snips'
+"let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips"]
 Plug 'honza/vim-snippets'
 
 Plug 'plasticboy/vim-markdown'
@@ -101,7 +101,6 @@ let g:airline_right_sep=''
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='deus'
 
-"Plug 'valloric/youcompleteme'
 Plug 'easymotion/vim-easymotion'
 Plug 'wincent/terminus'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
@@ -127,6 +126,20 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 Plug 'brauner/vimtux'
 Plug 'folke/which-key.nvim'
 set timeoutlen=500
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 call plug#end()
 

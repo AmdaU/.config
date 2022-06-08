@@ -3,7 +3,7 @@ super + {_,shift +}Return
 	{alacritty, bspc rule -a \* -o state=floating && alacritty }
 
 # File manager
-super + {_,shift +}q
+super + {_,shift +}e
 	{bspc rule -a \* -o state=tiled && dolphin, dolphin }
 
 # program launcher

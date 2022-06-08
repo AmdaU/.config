@@ -17,6 +17,9 @@ if status is-interactive
     function mkcd
         mkdir $argv && cd $argv
     end
+    function clean_pac
+        "sudo pacman -Rs (pacman -Qdtq)"
+    end
     alias bp bpython
     alias bt bpytop
     alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
