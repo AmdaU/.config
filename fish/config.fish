@@ -19,6 +19,10 @@ if status is-interactive
     alias bt bpytop
     alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
     alias gg "git add -A; git commit -m \"quick commit!\"; git push"
+    function gg
+        "git add -A; git commit -m \"$argv\"; git push"
+
+    end
     # wal -R > /dev/null
     # cat ~/.cache/wal/sequences &
 end
@@ -34,6 +38,7 @@ alias nvim-fg "nvim-qt --nofork"
 fish_add_path /$HOME/scripts/inkscape-figures/bin/
 fish_add_path /$HOME/.local/bin/
 fish_add_path /$HOME/.emacs.d/bin/
+fish_add_path /$HOME/.config/scrptis
 set -Ua fish_user_paths /$HOME/scripts/
 
 set fish_greeting
