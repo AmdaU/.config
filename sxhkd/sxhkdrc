@@ -1,6 +1,6 @@
 # terminal emulator
 super + {_,shift +}Return
-	{alacritty, bspc rule -a \* -o state=floating && alacritty }
+	{alacritty, bspc rule -a \* -o state=floating && alacritty}
 
 # File manager
 super + {_,shift +}e
@@ -17,7 +17,7 @@ super + g
 	google-chrome-stable
 
 super + d
-	discord
+	summon_app_bspc discord
 
 super + r
 	alacritty -e ranger
@@ -26,7 +26,7 @@ super + {_,shift +} p
 	{alacritty -e bpython, bspc rule -a \* -o state=floating && alacritty -e bpython}
 
 super + s
-	makefloat spotify
+	summon_app_bspc spotify
 
 super + {_,shift +} i
 	{makefloat surf "https://www.google.com/maps/dir/?api=1&origin=faculte+Sciences+sherbrooke&destination=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate", makefloat surf "https://www.google.com/maps/dir/?api=1&destination=faculte+Sciences+sherbrooke&origin=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate"}
@@ -58,6 +58,7 @@ super + alt + {q,r}
 # close and kill
 super + {_,shift + }w
 	bspc node -{c,k}
+
 super + Escape
 	bspc node -c
 
@@ -72,9 +73,6 @@ super + y
 super + o
 	bspc node focused -n newest.!automatic.local
 
-# swap with window in direction
-#super + shit + {h,j,k,l}
-#	bspc node -n {west,south,north,east}
 #
 # state/flags
 #
@@ -160,13 +158,6 @@ super + alt + shift + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# Brightness and volume
-# XF86MonBrightness{Up,Down}
-# 	brightnessctl s 5%{+,-}
-# 
-# XF86Audio{Raise,Lower}Volume
-# 	amixer -D pulse sset Master 5%{+,-}
-
 super + shift + Escape
 	makefloat alacritty -e bpytop
 
@@ -175,3 +166,6 @@ super + u
 
 super + shift + m
 	plasmawindowed org.kde.plasma.mediacontroller
+
+super + shift + b
+	bsp_hide

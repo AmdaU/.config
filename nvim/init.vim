@@ -53,7 +53,7 @@ set conceallevel=2
 let g:tex_conceal='abdmg'
 let g:tex_flavor='latex'
 
-"Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 "let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsJumpForwardTrigger="<M-l>"
 "let g:UltiSnipsJumpBackwardTrigger="<M-h>"
@@ -138,8 +138,10 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
 let g:coc_snippet_next = '<tab>'
+
+"Plug 'gko/vim-coloresque'
+Plug 'lilydjwg/colorizer'
 
 call plug#end()
 

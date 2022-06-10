@@ -1,6 +1,6 @@
 if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
-    GuiFont Fira Code:9
+    GuiFont Fira Code:h12
 endif
 
 nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>

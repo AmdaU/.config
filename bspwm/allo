@@ -1,0 +1,29 @@
+#!/bin/bash
+
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
+
+SERVICE=$1
+NODE_ID=$(cat $DIR/$SERVICE.dat)
+
+if pgrep -x "$SERVICE" --ignore-case >/dev/null 
+then
+    echo "$SERVICE is running"
+    hidden=$(bspc query -N -n .hidden -n $NODE_ID)
+    if [ -z "$hidden" ]; then
+        echo "node is not hidden"
+        echo $NODE_ID
+        bspc node $NODE_ID -g hidden=on
+    else
+        echo "node is hidden"
+        echo $NODE_ID
+        bspc node $NODE_ID -g hidden=off
+        bspc node $NODE_ID -d $(bspc query -D -d focused)
+    fi
+else
+    echo "$SERVICE is stopped"
+		$SERVICE &> /dev/null &
+    sleep 2
+    NODE_ID=$(bspc query -N -n newest)
+    echo $NODE_ID
+    echo $NODE_ID > $DIR/$SERVICE.dat
+fi
