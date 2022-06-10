@@ -10,20 +10,25 @@ then
     echo "$SERVICE is running"
     hidden=$(bspc query -N -n .hidden -n $NODE_ID)
     if [ -z "$hidden" ]; then
-        echo "node is not hidden"
-        echo $NODE_ID
-        bspc node $NODE_ID -g hidden=on
+        here=$(bspc query -N -n $NODE_ID.local)
+        if [ -z "$here" ]; then
+            echo "node is not hidden but not on current desktop, shifting here..."
+            bspc node $NODE_ID -d $(bspc query -D -d focused)
+        else
+            echo "hidding node"
+            bspc node $NODE_ID -g hidden=on
+        fi
     else
-        echo "node is hidden"
-        echo $NODE_ID
+        echo "unhidding node"
         bspc node $NODE_ID -g hidden=off
         bspc node $NODE_ID -d $(bspc query -D -d focused)
     fi
 else
     echo "$SERVICE is stopped"
+    echo "starting $SERVICE..."
 		$SERVICE &> /dev/null &
     sleep 2
     NODE_ID=$(bspc query -N -n newest)
-    echo $NODE_ID
+    echo "starting in window $NODE_ID"
     echo $NODE_ID > $DIR/$SERVICE.dat
 fi
