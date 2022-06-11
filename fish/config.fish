@@ -19,10 +19,10 @@ if status is-interactive
     alias bt bpytop
     alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
     alias gg "git add -A; git commit -m \"quick commit!\"; git push"
-    function gg
-        "git add -A; git commit -m \"$argv\"; git push"
+    #function g
+        #"git add -A; git commit -m \"$argv\"; git push"
 
-    end
+    #end
     # wal -R > /dev/null
     # cat ~/.cache/wal/sequences &
 end

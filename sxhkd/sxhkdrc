@@ -1,6 +1,6 @@
 # terminal emulator
 super + {_,shift +}Return
-	{alacritty, bspc rule -a \* -o state=floating && alacritty}
+	{urxvt, bspc rule -a \* -o state=floating &&urxvt}
 
 # File manager
 super + {_,shift +}e
