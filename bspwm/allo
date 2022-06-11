@@ -17,6 +17,7 @@ then
         else
             echo "hidding node"
             bspc node $NODE_ID -g hidden=on
+            bspc node $NODE_ID -d '^10'
         fi
     else
         echo "unhidding node"
@@ -27,7 +28,7 @@ else
     echo "$SERVICE is stopped"
     echo "starting $SERVICE..."
 		$SERVICE &> /dev/null &
-    sleep 2
+    sleep 3
     NODE_ID=$(bspc query -N -n newest)
     echo "starting in window $NODE_ID"
     echo $NODE_ID > $DIR/$SERVICE.dat

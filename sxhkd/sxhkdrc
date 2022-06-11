@@ -17,7 +17,7 @@ super + g
 	google-chrome-stable
 
 super + d
-	summon_app_bpsc discord
+	summon_app_bspc discord
 
 super + r
 	alacritty -e ranger

@@ -19,6 +19,7 @@ if status is-interactive
     alias bt bpytop
     alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
     alias gg "git add -A; git commit -m \"quick commit!\"; git push"
+    set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
     #function g
         #"git add -A; git commit -m \"$argv\"; git push"
 
