@@ -1,0 +1,74 @@
+MenuBar=Disabled
+
+[CompactMode]
+FontWeight=50
+PreviewSize=192
+
+[DetailsMode]
+FontWeight=50
+
+[ExtractDialog]
+DirHistory[$e]=$HOME/Documents/Projects/Project_Euler/C/
+eDP1 Height 1920x1200=620
+eDP1 Width 1920x1200=1272
+
+[FileDialogSize]
+eDP1 DP3 Height 1920x1200=598
+eDP1 DP3 Width 1920x1200=920
+
+[General]
+ShowStatusBar=false
+Version=201
+ViewPropsTimestamp=2022,1,15,12,50,28.841
+
+[IconsMode]
+FontWeight=50
+PreviewSize=256
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+Recent Files[$e]=file:$HOME/Documents/Projects/Project_Euler/C,file:$HOME/Documents/Projects/Project_Euler/C
+Recent URLs[$e]=file:$HOME/Documents/Projects/Project_Euler/C/
+detailViewIconSize=16
+iconViewIconSize=64
+
+[KPropertiesDialog]
+eDP1 DP2 Height 1920x1080=600
+eDP1 DP2 Width 1920x1080=1000
+eDP1 Height 1920x1200=600
+eDP1 Width 1920x1200=1000
+
+[MainWindow]
+MenuBar=Disabled
+ToolBarsMovable=Disabled
+eDP1 DP1 Height 1920x1200=1163
+eDP1 DP1 Width 1920x1200=1920
+eDP1 DP1 XPosition 1920x1200=5
+eDP1 DP1 YPosition 1920x1200=277
+eDP1 DP2 Window-Maximized 1920x1080=true
+eDP1 DP2 XPosition 1920x1200=-69
+eDP1 DP2 YPosition 1920x1200=1166
+eDP1 DP3 Height 1920x1200=201
+eDP1 DP3 Width 1920x1200=1280
+eDP1 DP3 Window-Maximized 1920x1200=true
+eDP1 DP3 XPosition 1920x1080=608
+eDP1 DP3 YPosition 1920x1080=154
+eDP1 Height 1920x1200=1150
+eDP1 Width 1920x1200=953
+eDP1 Window-Maximized 1920x1200=true
+eDP1 XPosition 1920x1200=247
+eDP1 YPosition 1920x1200=466
+
+[Open-with settings]
+CompletionMode=1
+History=obs,nvi,vim,zathu,za
+
+[PreviewSettings]
+Plugins=appimagethumbnail,audiothumbnail,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,gsthumbnail,svgthumbnail,ffmpegthumbs
+
+[Search]
+Location=Everywhere
+
+[VersionControl]
+enabledPlugins=Git
