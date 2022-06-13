@@ -1,7 +1,7 @@
 Xcursor.theme: 				capitaine-cursors-light
 Xcursor.size: 				16
 
-URxvt.font:xft:Fira Code:size=16,xft:Symbola,xft:Noto Emoji:minspace=False,xft:Dejavu
+URxvt.font:xft:Fira Code:size=16,xft:Symbola,xft:Noto Emoji:minspace=False,xft:DejaVu Sans Mono
 Urxvt.perl-ext-common: resize-font
 URxvt.scrollBar: false
 URxvt.depth: 32
@@ -17,7 +17,7 @@ URxvt.keysym.C-S-Up:   font-size:incglobal
 URxvt.keysym.C-S-Down: font-size:decglobal
 URxvt.keysym.C-equal:  font-size:reset
 
-*background: [30]#1e1e2e
+*background: [75]#1e1e2e
 *foreground: #D9E0EE
 
 ! Gray

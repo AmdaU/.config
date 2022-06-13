@@ -131,22 +131,6 @@ Plug 'folke/which-key.nvim'
 set timeoutlen=500
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<TAB>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<TAB>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 imap <TAB> <Plug>(coc-snippets-expand)
 vmap <M-l> <Plug>(coc-snippets-select)
@@ -165,6 +149,8 @@ call plug#end()
 "-------------------------------------------------------------------------------
 
 colorscheme catppuccin
+autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
+highlight clear SignColumn
 
 "colorscheme wal
 "colorscheme tokyonight
@@ -209,6 +195,7 @@ call ToggleWrap()
 call ToggleWrap()
 
 au BufEnter *.md :MarkdownPreview
+au BufEnter *.md :set nonu
 
 au BufEnter *.tex :VimtexCompile
 
