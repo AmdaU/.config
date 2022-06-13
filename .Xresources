@@ -1,0 +1,53 @@
+Xcursor.theme: 				capitaine-cursors-light
+Xcursor.size: 				16
+
+URxvt.font:xft:Fira Code:size=16,xft:Symbola,xft:Noto Emoji:minspace=False,xft:Dejavu
+Urxvt.perl-ext-common: resize-font
+URxvt.scrollBar: false
+URxvt.depth: 32
+URxvt.internalBorder:		      0
+URxvt.saveLines:            20000
+
+URxvt.perl-ext-common: font-size,vtewheel,keyboard-select
+
+URxvt.keysym.M-a: perl:keyboard-select:activate
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+
+*background: [30]#1e1e2e
+*foreground: #D9E0EE
+
+! Gray
+*color0: #51576D
+*color8: #626880
+
+! Red
+*color1: #E78284
+*color9: #E78284
+
+! Green
+*color2: #A6D189
+*color10: #A6D189
+
+! Yellow
+*color3: #E5C890
+*color11:  #E5C890
+
+! Blue
+*color4: #8CAAEE
+*color12: #8CAAEE
+
+! Maguve
+*color5: #F5BDE6
+*color13: #F5BDE6
+
+! Pink
+*color6: #8BD5CA
+*color14: #8BD5CA
+
+! Whites
+*color7: #B5BFE2
+*color15: #B5BFE2
