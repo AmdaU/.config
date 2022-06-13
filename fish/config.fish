@@ -40,7 +40,10 @@ fish_add_path /$HOME/scripts/inkscape-figures/bin/
 fish_add_path /$HOME/.local/bin/
 fish_add_path /$HOME/.emacs.d/bin/
 fish_add_path /$HOME/.config/scrptis
+fish_add_path /$HOME/.local/share/gem/ruby/3.0.0/bin
+
 set -Ua fish_user_paths /$HOME/scripts/
+export PYENV_ROOT="$HOME/.pyenv"
 
 set fish_greeting
 

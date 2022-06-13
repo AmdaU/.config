@@ -1,6 +1,8 @@
 set nu
 autocmd TermOpen * setlocal nonu
 
+let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
+
 " inkscape --------------------------------------------
 inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
 nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
@@ -92,6 +94,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'jbyuki/nabla.nvim'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
+Plug 'rbong/vim-flog'
 Plug 'tpope/vim-surround'
 Plug 'vim-syntastic/syntastic'
 Plug 'vim-airline/vim-airline'
@@ -151,6 +154,11 @@ let g:coc_snippet_next = '<M-l>'
 let g:coc_snippet_prev = '<M-h>'
 
 Plug 'lilydjwg/colorizer'
+
+Plug 'ashisha/image.vim'
+
+Plug 'jacquesg/p5-Neovim-Ext'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
