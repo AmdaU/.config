@@ -13,7 +13,7 @@ if status is-interactive
         mkdir $argv && cd $argv
     end
     function clean_pac
-        "sudo pacman -Rs (pacman -Qdtq)"
+        sudo pacman -Rs (pacman -Qdtq)
     end
     alias bp bpython
     alias bt bpytop
