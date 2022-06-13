@@ -2,23 +2,15 @@
 # https://github.com/EvanKoe/dotfiles_2022/blob/25685964ebba0616981fa787960d9c808439ded4/alacritty/alacritty.yml
 
 scrolling:
-  # Maximum number of lines in the scrollback buffer.
-  # Specifying '0' will disable scrolling.
   history: 10000
-
-  # Scrolling distance multiplier.
   multiplier: 3
 
-# Font configuration
 font:
-  # I'm using JetBrains fonts, which I recommend, but feel free to edit it !
   normal:
     family: Fira Code
   size: 9
 
-# Colors (Doom One)
 color_schemes:
-
   latte: &latte
 
     # Default colors

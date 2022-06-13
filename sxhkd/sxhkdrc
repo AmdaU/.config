@@ -1,6 +1,6 @@
 # terminal emulator
 super + {_,shift +}Return
-	{urxvt, bspc rule -a \* -o state=floating &&urxvt}
+	{urxvt, bspc rule -a \* -o state=floating && urxvt}
 
 # File manager
 super + {_,shift +}e
@@ -20,10 +20,10 @@ super + d
 	summon_app_bspc discord
 
 super + r
-	alacritty -e ranger
+	urxvt -e ranger
 
 super + {_,shift +} p
-	{alacritty -e bpython, bspc rule -a \* -o state=floating && alacritty -e bpython}
+	{urxvt -e bpython, bspc rule -a \* -o state=floating && urxvt -e bpython}
 
 super + s
 	summon_app_bspc spotify
@@ -159,10 +159,10 @@ super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 super + shift + Escape
-	makefloat alacritty -e bpytop
+	makefloat urxvt -e bpytop
 
 super + u
-	makefloat alacritty -e yay
+	makefloat urxvt -e yay
 
 super + shift + m
 	plasmawindowed org.kde.plasma.mediacontroller

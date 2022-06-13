@@ -53,7 +53,7 @@ set conceallevel=2
 let g:tex_conceal='abdmg'
 let g:tex_flavor='latex'
 
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 "let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsJumpForwardTrigger="<M-l>"
 "let g:UltiSnipsJumpBackwardTrigger="<M-h>"
@@ -65,7 +65,8 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 let g:mkdp_browser = 'surf'
 
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+"Plug 'dylanaraps/wal.vim'
 Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 Plug 'raghur/vim-ghost'
 function! s:SetupGhostBuffer()
@@ -78,7 +79,6 @@ augroup vim-ghost
     au User vim-ghost#connected call s:SetupGhostBuffer()
 augroup END
 
-Plug 'dylanaraps/wal.vim'
 Plug 'preservim/nerdtree'
 Plug 'xuyuanp/nerdtree-git-plugin'
 let g:NERDTreeGitStatusConcealBrackets = 1
@@ -130,7 +130,13 @@ set timeoutlen=500
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ coc#expandableOrJumpable() ? "\<TAB>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<TAB>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
@@ -138,19 +144,22 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-let g:coc_snippet_next = '<tab>'
 
-"Plug 'gko/vim-coloresque'
+imap <TAB> <Plug>(coc-snippets-expand)
+vmap <M-l> <Plug>(coc-snippets-select)
+let g:coc_snippet_next = '<M-l>'
+let g:coc_snippet_prev = '<M-h>'
+
 Plug 'lilydjwg/colorizer'
 
 call plug#end()
 
 "-------------------------------------------------------------------------------
 
-colorscheme tokyonight
 colorscheme catppuccin
 
 "colorscheme wal
+"colorscheme tokyonight
 
 :set clipboard=unnamedplus
 

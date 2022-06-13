@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exec --no-startup-id /usr/lib/pam_kwallet_init
+
 PATH="$PATH:scripts"
 
 fish "set -U SXHKD_SHELL sh"
@@ -64,7 +66,6 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 
-
 # Make every window folating by default
 bspc rule -a \* state=floating
 
@@ -84,9 +85,7 @@ bspc rule -a Mathematica state=tiled
 #bash $HOME/.config/bspwm/bspwm_colors.sh &
 bash $HOME/scripts/bspi_listen.sh &
 
-#pkill -USR1 -x sxhkd
-wal -R  
-
-# bspc rule -a \* -o state=floating && urxvt -e pipes.sh
+pkill -USR1 -x sxhkd
+#wal -R  
 
 pgrep bspswallow || bspswallow &
