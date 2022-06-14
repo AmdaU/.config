@@ -96,7 +96,6 @@ let g:gundo_prefer_python3 = 1
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
 Plug 'sheerun/vim-polyglot'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jbyuki/nabla.nvim'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
@@ -138,10 +137,27 @@ set timeoutlen=500
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-imap <TAB> <Plug>(coc-snippets-expand)
-vmap <M-l> <Plug>(coc-snippets-select)
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+ 
+
 let g:coc_snippet_next = '<M-l>'
 let g:coc_snippet_prev = '<M-h>'
+
+
+
+"imap <TAB> <Plug>(coc-snippets-expand)
+"vmap <M-l> <Plug>(coc-snippets-select)
+"let g:coc_snippet_next = '<M-l>'
+"let g:coc_snippet_prev = '<M-h>'
 
 Plug 'lilydjwg/colorizer'
 
@@ -156,7 +172,8 @@ call plug#end()
 
 colorscheme catppuccin
 autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
-highlight clear SignColumn
+hi clear SignColumn
+hi LineNr guifg=#626880
 
 "colorscheme wal
 "colorscheme tokyonight
@@ -164,6 +181,7 @@ highlight clear SignColumn
 :set clipboard=unnamedplus
 
 hi clear Conceal
+
 
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 function ToggleWrap()

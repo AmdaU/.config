@@ -1,73 +1,58 @@
 #!/bin/bash
 
-exec --no-startup-id /usr/lib/pam_kwallet_init
-
-PATH="$PATH:scripts"
-
+# shxkd stuff -----------------------------------------------------------------
 fish "set -U SXHKD_SHELL sh"
+pkill -USR1 -x sxhkd
 
-sxhkd &
 
-libinput-gestures-setup restart
-systemctl start bluetooth.service
-killall polybar
-#$HOME/.config/polybar/launch.sh &
+# services stuff --------------------------------------------------------------
 picom --experimental-backends --backend glx &
+systemctl start bluetooth.service
+libinput-gestures-setup restart
 copyq &
-pkill Discord
-killall slack
-slack -u &
 flameshot &
-appim/Mathpix_Snipping_Tool-x86_64.v03.00.0050.AppImage &
-# bspc rule -a \* -o state=floating rectangle=1800x1000+0+0 && kdocker -l -q -i/usr/share/icons/hicolor/24x24/apps/spotify-client.png spotify &
 
+
+# Monitor stuff ---------------------------------------------------------------
 EXT_MON=$(xrandr -q | pcregrep -o1 "(\bDP[0-9]) connected")
 
 if [[ $EXT_MON ]]; then
-#	xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --above eDP
-	bspc monitor eDP1 -d 1 2 3 4 5
+	bspc monitor eDP1 		-d 1 2 3 4 5
 	bspc monitor $EXT_MON -d 6 7 8 9 10
 else	
-	bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9 10
+	bspc monitor eDP1 		-d 1 2 3 4 5 6 7 8 9 10
 fi
 
+
+# Basic config ----------------------------------------------------------------
+bspc config bottom_padding	 		0
+bspc config top_padding		 			40
+bspc config border_width        0
+bspc config window_gap          5
+
+# Pywal
+. "${HOME}/.cache/wal/colors.sh"
 #xrdb -merge .cache/wal/colors.Xresources
 
-
-bspc config bottom_padding	 0
-bspc config top_padding		 40
-bspc config border_width         0
-bspc config window_gap           5
-
-setxkbmap -option caps:swapescape
-
-#Pywal--------------------------------------
-
-# source the colors.
-. "${HOME}/.cache/wal/colors.sh"
-
-# Set the border colors.
-bspc config normal_border_color "$color1"
-bspc config active_border_color "$color2"
-bspc config focused_border_color "$color15"
-# Use the line below if you are on bspwm >= 0.9.4
+bspc config normal_border_color 	"$color1"
+bspc config active_border_color 	"$color2"
+bspc config focused_border_color 	"$color15"
 bspc config presel_feedback_color "$color1"
-# Use the line below if you are on bspwm < 0.9.4
-bspc config presel_border_color "$color1"
 
 bspc config pointer_mod         mod1
 bspc config pointer_action1     move
-bspc config pointer_action2		resize_corner
-bspc config pointer_action2		resize_side
+bspc config pointer_action2			resize_corner
+bspc config pointer_action2			resize_side
 
 bspc config split_ratio          0.5
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 
+# Window rules ----------------------------------------------------------------
+
 # Make every window folating by default
 bspc rule -a \* state=floating
-
 
 # Tiled windows!
 bspc rule -a \teams state=tiled
@@ -81,13 +66,12 @@ bspc rule -a Surf state=tiled center=true rectangle=1001x760+0+0
 bspc rule -a nvim-qt state=tiled
 bspc rule -a Mathematica state=tiled
 
-#bash $HOME/.config/bspwm/bspwm_colors.sh &
-bash $HOME/scripts/bspi_listen.sh &
 
-pkill -USR1 -x sxhkd
-#wal -R  
-
+# bspc scipts! ----------------------------------------------------------------
+{$HOME}/scripts/bspi_listen.sh &
 pgrep bspswallow || bspswallow &
 
-xrdb /home/amda/.config/.Xresources
 
+# Other -----------------------------------------------------------------------
+xrdb /home/amda/.config/.Xresources
+setxkbmap -option caps:swapescape
