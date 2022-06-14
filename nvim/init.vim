@@ -2,7 +2,7 @@
 setlocal nu rnu
 let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
 
-
+source extra_funcs/warp.vim
 " Controls --------------------------------------------
 let mapleader = ";"
 inoremap <C-s> <Esc>:w <CR>
@@ -20,6 +20,7 @@ nnoremap <C-w> :tabclose<CR>
 inoremap <C-w> <Esc>:tabclose<CR>
 nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
+noremap <silent> <Leader>w :call ToggleWrap()<CR>
 
 
 " inkscape --------------------------------------------------------------------
@@ -31,24 +32,6 @@ nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/
 setlocal spell
 set spelllang=nl,fr,en_ca
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-
-
-" Autosave --------------------------------------------
-let g:save_time = localtime()
-au BufRead,BufNewFile * let g:save_time = localtime()
-au CursorHold,CursorHoldI * call UpdateFile()
-au CursorMoved,CursorMovedI * call UpdateFile()
-let g:autosave_time = 600 
-
-function! UpdateFile()
-    if &filetype ==# 'tex'
-       let g:autosave_time = 5
-    endif
-    if((localtime() - g:save_time) >= g:autosave_time)
-       update
-       let b:save_time = localtime()
-   endif
-endfunction
 
 
 " Plugins! -------------------------------------------------------------------
@@ -73,6 +56,7 @@ augroup vim-ghost
     au!
     au User vim-ghost#connected call s:SetupGhostBuffer()
 augroup END
+au BufEnter *.tex :VimtexCompile
 
 "snippets + autocomplete ---------------------------
 
@@ -104,17 +88,12 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 let g:mkdp_browser = 'surf'
 Plug 'jbyuki/nabla.nvim'
-au BufEnter *.md :MarkdownPreview
-au BufEnter *.md :set nonu
 
 " Theme stuff ------------------------------------------------
 "Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 "Plug 'dylanaraps/wal.vim'
 Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 
-
-Plug 'sjl/gundo.vim'
-let g:gundo_prefer_python3 = 1
 
 " git stuff ------------------------------------------------
 Plug 'airblade/vim-gitgutter'
@@ -179,6 +158,8 @@ set timeoutlen=500
 Plug 'lilydjwg/colorizer'
 Plug 'jacquesg/p5-Neovim-Ext'
 Plug 'wincent/terminus'
+Plug 'sjl/gundo.vim'
+let g:gundo_prefer_python3 = 1
 
 call plug#end()
 
@@ -192,46 +173,32 @@ hi clear Conceal
 "colorscheme wal
 "colorscheme tokyonight
 
-:set clipboard=unnamedplus
 
-noremap <silent> <Leader>w :call ToggleWrap()<CR>
-function ToggleWrap()
-  if &wrap
-    "echo "Wrap OFF"
-    setlocal nowrap
-    set virtualedit=all
-    silent! nunmap <buffer> <Up>
-    silent! nunmap <buffer> <Down>
-    silent! nunmap <buffer> <Home>
-    silent! nunmap <buffer> <End>
-    silent! iunmap <buffer> <Up>
-    silent! iunmap <buffer> <Down>
-    silent! iunmap <buffer> <Home>
-    silent! iunmap <buffer> <End>
-  else
-    "echo "Wrap ON"
-    setlocal wrap linebreak nolist
-    set virtualedit=
-    setlocal display+=lastline
-    nnoremap <silent> j gj
-    nnoremap <silent> k gk
-    noremap  <buffer> <silent> <Up>   gk
-    noremap  <buffer> <silent> <Down> gj
-    noremap  <buffer> <silent> <Home> g<Home>
-    noremap  <buffer> <silent> <End>  g<End>
-    inoremap <buffer> <silent> <Up>   <C-o>gk
-    inoremap <buffer> <silent> <Down> <C-o>gj
-    inoremap <buffer> <silent> <Home> <C-o>g<Home>
-    inoremap <buffer> <silent> <End>  <C-o>g<End>
-  endif
+" Autosave --------------------------------------------
+let g:autosave_time = 600 
+let g:save_time = localtime()
+au BufRead,BufNewFile * let g:save_time = localtime()
+au CursorHold,CursorHoldI * call UpdateFile()
+au CursorMoved,CursorMovedI * call UpdateFile()
+
+function! UpdateFile()
+    if &filetype ==# 'tex'
+       let g:autosave_time = 5
+    endif
+    if((localtime() - g:save_time) >= g:autosave_time)
+       update
+       let b:save_time = localtime()
+   endif
 endfunction
 
-call ToggleWrap()
-call ToggleWrap()
+:set clipboard=unnamedplus
 
-au BufEnter *.tex :VimtexCompile
+call ToggleWrap()
+call ToggleWrap()
 
 lua << EOF
   require("which-key").setup {
   }
 EOF
+au BufEnter *.md :MarkdownPreview
+au BufEnter *.md :set nonu
