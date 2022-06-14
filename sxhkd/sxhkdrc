@@ -158,7 +158,7 @@ super + alt + shift + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-super + shift + Escape
+super + shift +b 
 	makefloat urxvt -e bpytop
 
 super + u
@@ -166,6 +166,3 @@ super + u
 
 super + shift + m
 	plasmawindowed org.kde.plasma.mediacontroller
-
-super + shift + b
-	bsp_hide

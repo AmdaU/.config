@@ -1,4 +1,4 @@
-set nu
+set rnu
 autocmd TermOpen * setlocal nonu
 
 let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
@@ -18,6 +18,12 @@ nnoremap <leader>p :lua require("nabla").popup()<CR>
 let mapleader = ";"
 nnoremap <C-j> <C-w>s<C-w>j:term<CR>i
 inoremap <C-j> <Esc><C-w>s<C-w>j:term<CR>i
+nnoremap <C-t> :tabnew<CR>
+inoremap <C-t> <Esc>:tabnew<CR>
+nnoremap <C-w> :tabclose<CR>
+inoremap <C-w> <Esc>:tabclose<CR>
+nnoremap <C-q> :q<CR>
+inoremap <C-q> <Esc>:q<CR>
 
 " Spelling check --------------------------------------
 setlocal spell
