@@ -2,7 +2,7 @@
 setlocal nu rnu
 let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
 
-source extra_funcs/warp.vim
+source ~/.config/nvim/extra_funcs/warp.vim
 " Controls --------------------------------------------
 let mapleader = ";"
 inoremap <C-s> <Esc>:w <CR>
