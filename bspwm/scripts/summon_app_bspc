@@ -3,9 +3,9 @@
 #get directory of this script
 DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
 
-# SERVICE is the passed arguement
+# SERVICE is the passed argument
 SERVICE=$1
-# get the storred id of the window, if possible
+# get the stored id of the window, if possible
 NODE_ID=$(cat $DIR/$SERVICE.dat)
 
 # check if the service is running, if not: runs it!
@@ -35,11 +35,11 @@ else
     echo "$SERVICE is stopped"
     echo "starting $SERVICE..."
 		$SERVICE &> /dev/null &
-    # lets a bit of time for window to oppen
+    # lets a bit of time for window to open
     sleep 3
     # newest means newest selected node, and not newest *created* node
     # therefore, if you select an other window is the 3 seconds window, the script will confuse the two
-    # I found no better way to do it with bspwm
+    # I found no better way to do it with bspwm ¯\_(ツ)_/¯
     NODE_ID=$(bspc query -N -n newest)
     echo "starting in window $NODE_ID"
     echo $NODE_ID > $DIR/$SERVICE.dat
