@@ -2,10 +2,9 @@
 
 # shxkd stuff -----------------------------------------------------------------
 fish "set -U SXHKD_SHELL sh"
-pkill -USR1 -x sxhkd
-
 
 # services stuff --------------------------------------------------------------
+sxhkd &
 picom --experimental-backends --backend glx &
 systemctl start bluetooth.service
 libinput-gestures-setup restart
@@ -75,3 +74,5 @@ pgrep bspswallow || bspswallow &
 # Other -----------------------------------------------------------------------
 xrdb /home/amda/.config/.Xresources
 setxkbmap -option caps:swapescape
+
+sxhkd &
