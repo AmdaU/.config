@@ -1,6 +1,8 @@
 " general parmeters ----------------------------------------------------------
 setlocal nu rnu
 let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
+set textwidth=0
+set colorcolumn=79
 
 source ~/.config/nvim/extra_funcs/warp.vim
 " Controls --------------------------------------------
@@ -23,22 +25,22 @@ inoremap <C-q> <Esc>:q<CR>
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 
 
-" inkscape --------------------------------------------------------------------
+" inkscape -------------------------------------------------------------------
 inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
 nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
 
 
-" Spelling check --------------------------------------
+" Spelling check -------------------------------------------------------------
 setlocal spell
 set spelllang=nl,fr,en_ca
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
-" Plugins! -------------------------------------------------------------------
-" ----------------------------------------------------------------------------
+" Plugins!
+" ############################################################################
 call plug#begin()
 
-" Latex Stuff!
+" Latex Stuff! ---------------------------------------------------------------
 Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
@@ -58,7 +60,7 @@ augroup vim-ghost
 augroup END
 au BufEnter *.tex :VimtexCompile
 
-"snippets + autocomplete ---------------------------
+"snippets + autocomplete -----------------------------------------------------
 
 "Plug 'SirVer/ultisnips'
 "let g:UltiSnipsExpandTrigger="<tab>"
@@ -83,19 +85,19 @@ let g:coc_snippet_next = '<M-l>'
 let g:coc_snippet_prev = '<M-h>'
 
 
-" Markdown ---------------------------------------------------------------------------------
+" Markdown -------------------------------------------------------------------
 Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 let g:mkdp_browser = 'surf'
 Plug 'jbyuki/nabla.nvim'
 
-" Theme stuff ------------------------------------------------
+" Theme stuff ----------------------------------------------------------------
 "Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 "Plug 'dylanaraps/wal.vim'
 Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 
 
-" git stuff ------------------------------------------------
+" git stuff ------------------------------------------------------------------
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-fugitive'
@@ -104,7 +106,7 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 let g:NERDTreeGitStatusConcealBrackets = 1
 
 
-" syntax stuff 
+" syntax stuff ---------------------------------------------------------------
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-syntastic/syntastic'
 Plug 'jiangmiao/auto-pairs'
@@ -113,13 +115,13 @@ autocmd BufWritePost * Neoformat
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 
-" nerd stuff
+" nerd stuff ----------------------------------------------------------------- 
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
 
 
-" status line
+" status line ----------------------------------------------------------------
 Plug 'vim-airline/vim-airline'
 "let g:airline#extensions#tabline#enabled = 1
 let g:airline_left_sep=''
@@ -128,7 +130,7 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='deus'
 
 
-" movement
+" movement -------------------------------------------------------------------
 Plug 'easymotion/vim-easymotion'
 Plug 'svermeulen/vim-cutlass'
 nnoremap x d
@@ -137,13 +139,13 @@ nnoremap xx dd
 nnoremap X D
 
 
-" language specific stuff 
+" language specific stuff ----------------------------------------------------
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'nvie/vim-flake8'
 Plug 'rust-lang/rust.vim'
 
 
-" random stuff 
+" random stuff ---------------------------------------------------------------
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -163,7 +165,7 @@ let g:gundo_prefer_python3 = 1
 
 call plug#end()
 
-" Theme and look -------------------------------------------------------------------------------
+" Theme and look -------------------------------------------------------------
 
 colorscheme catppuccin
 hi Normal guibg=NONE ctermbg=NONE
@@ -174,7 +176,7 @@ hi clear Conceal
 "colorscheme tokyonight
 
 
-" Autosave --------------------------------------------
+" Autosave -------------------------------------------------------------------
 let g:autosave_time = 600 
 let g:save_time = localtime()
 au BufRead,BufNewFile * let g:save_time = localtime()
