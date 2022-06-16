@@ -21,6 +21,7 @@ then
         if [ -z "$here" ]; then
             echo "node is not hidden but not on current desktop, shifting here..."
             bspc node $NODE_ID -d $(bspc query -D -d focused)
+            bspc node $NODE_ID -l above
         else
             echo "hidding node"
             bspc node $NODE_ID -g hidden=on
@@ -30,6 +31,7 @@ then
         echo "unhidding node"
         bspc node $NODE_ID -g hidden=off
         bspc node $NODE_ID -d $(bspc query -D -d focused)
+        bspc node $NODE_ID -l above
     fi
 else
     echo "$SERVICE is stopped"
