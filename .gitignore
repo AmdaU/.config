@@ -20,3 +20,5 @@
 !rofi
 !.Xresources
 !libinput-gestures*
+!scripts
+!xsession

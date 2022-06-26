@@ -1,0 +1,2 @@
+#!/bin/sh
+wmctrl -s $(expr "$(wmctrl -d | pcregrep -o1 "([0-9]).+\*")" - 1)
