@@ -7,7 +7,7 @@ fish "set -U SXHKD_SHELL sh"
 sxhkd &
 picom --experimental-backends --backend glx &
 systemctl start bluetooth.service
-libinput-gestures-setup restart
+#libinput-gestures-setup restart
 copyq &
 flameshot &
 
