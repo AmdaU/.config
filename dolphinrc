@@ -62,7 +62,7 @@ eDP1 YPosition 1920x1200=466
 
 [Open-with settings]
 CompletionMode=1
-History=obs,nvi,vim,zathu,za
+History=neo,obs,nvi,vim,zathu,za
 
 [PreviewSettings]
 Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail
