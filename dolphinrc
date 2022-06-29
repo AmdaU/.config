@@ -36,8 +36,8 @@ iconViewIconSize=64
 [KPropertiesDialog]
 eDP1 DP2 Height 1920x1080=600
 eDP1 DP2 Width 1920x1080=1000
-eDP1 Height 1920x1200=600
-eDP1 Width 1920x1200=1000
+eDP1 Height 1920x1200=464
+eDP1 Width 1920x1200=381
 
 [MainWindow]
 MenuBar=Disabled

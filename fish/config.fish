@@ -15,6 +15,9 @@ if status is-interactive
     function clean_pac
         sudo pacman -Rs (pacman -Qdtq)
     end
+    function tmp
+        echo y | yay -S $argv > /dev/null; $argv; echo y | yay -R $argv > /dev/null
+    end
     alias bp bpython
     alias bt bpytop
     alias tm "tmux -f $HOME/.config/tmux/tmux.conf"

@@ -143,6 +143,7 @@ nnoremap X D
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'nvie/vim-flake8'
 Plug 'rust-lang/rust.vim'
+Plug 'elkowar/yuck.vim'
 
 
 " random stuff ---------------------------------------------------------------
