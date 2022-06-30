@@ -22,5 +22,5 @@
 !libinput-gestures*
 !scripts
 !xsession
-!copyq
+!copyq/copyq.conf
 !bat

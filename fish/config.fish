@@ -6,34 +6,27 @@ if status is-interactive
     set fish_cursor_replace_one underscore
     set fish_cursor_visual line
 
-    function za
-        zathura $argv & disown (ps -T| pcregrep -o1 \([0-9]+\).+zathura^\<)
-    end
-    function mkcd
-        mkdir $argv && cd $argv
-    end
-    function clean_pac
-        sudo pacman -Rs (pacman -Qdtq)
-    end
-    function tmp
-        echo y | yay -S $argv > /dev/null; $argv; echo y | yay -R $argv > /dev/null
-    end
-    alias bp bpython
-    alias bt bpytop
-    alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
-    alias gg "git add -A; git commit -m \"quick commit!\"; git push"
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
-    #function g
-        #"git add -A; git commit -m \"$argv\"; git push"
-
-    #end
-    # wal -R > /dev/null
-    # cat ~/.cache/wal/sequences &
 end
 
-#function edit
-    #$EDITOR $argv
-#end
+function za
+    zathura $argv & disown (ps -T| pcregrep -o1 \([0-9]+\).+zathura^\<)
+end
+function mkcd
+    mkdir $argv && cd $argv
+end
+function clean_pac
+    sudo pacman -Rs (pacman -Qdtq)
+end
+function tmp
+    echo y | yay -S $argv >/dev/null
+    $argv
+    echo y | yay -R $argv >/dev/null
+end
+alias bp bpython
+alias bt bpytop
+alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
+alias gg "git add -A; git commit -m \"quick commit!\"; git push"
 
 alias edit $EDITOR
 
