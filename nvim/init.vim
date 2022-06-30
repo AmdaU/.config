@@ -194,7 +194,7 @@ function! UpdateFile()
    endif
 endfunction
 
-:set clipboard=unnamedplus
+set clipboard+=unnamedplus
 
 call ToggleWrap()
 call ToggleWrap()
