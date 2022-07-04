@@ -35,7 +35,7 @@ Print
 	flameshot gui
 
 alt + Tab
-	rofi -show windowcd -show-icons
+	rofi -show windowcd -theme tab_menu
 
 # super + Tab
 #	exec $HOME/scritps/switch_layout.sh
