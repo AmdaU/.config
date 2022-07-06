@@ -1,6 +1,6 @@
 " general parmeters ----------------------------------------------------------
 setlocal nu rnu
-let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
+"let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
 set textwidth=0
 set colorcolumn=79
 
@@ -62,27 +62,27 @@ au BufEnter *.tex :VimtexCompile
 
 "snippets + autocomplete -----------------------------------------------------
 
-"Plug 'SirVer/ultisnips'
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<M-l>"
-"let g:UltiSnipsJumpBackwardTrigger="<M-h>"
-""let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit='snips'
-"let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips"]
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<M-l>"
+let g:UltiSnipsJumpBackwardTrigger="<M-h>"
+"let g:UltiSnipsSnippetDirectories = [expand("$HOME") . "/.config/snips/"]
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips",expand("$HOME") . "/.config/snips/"]
 Plug 'honza/vim-snippets'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"inoremap <silent><expr> <TAB>
+      "\ pumvisible() ? coc#_select_confirm() :
+      "\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      "\ <SID>check_back_space() ? "\<TAB>" :
+      "\ coc#refresh()
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-let g:coc_snippet_next = '<M-l>'
-let g:coc_snippet_prev = '<M-h>'
+"function! s:check_back_space() abort
+  "let col = col('.') - 1
+  "return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
+"let g:coc_snippet_next = '<M-l>'
+"let g:coc_snippet_prev = '<M-h>'
 
 
 " Markdown -------------------------------------------------------------------

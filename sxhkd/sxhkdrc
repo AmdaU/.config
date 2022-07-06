@@ -1,23 +1,15 @@
-# terminal emulator
-super + {_,shift +}Return
+# Lauch porgrams -------------------------------------------------------------
+super + {_,shift +} Return
 	{urxvt, bspc rule -a \* -o state=floating && urxvt}
 
-# File manager
-super + {_,shift +}e
+super + {_,shift +} e
 	{bspc rule -a \* -o state=tiled && dolphin, dolphin }
 
-# program launcher
 super + @space
 	rofi -show drun -show-icons -sort -sorting-method fzf
 
-super + shift + @space
-	rofi -show run -show-icons -sort -sorting-method fzf
-
 super + g
 	google-chrome-stable
-
-super + d
-	summon_app_bspc discord
 
 super + r
 	urxvt -e ranger
@@ -25,57 +17,36 @@ super + r
 super + {_,shift +} p
 	{urxvt -e bpython, bspc rule -a \* -o state=floating && urxvt -e bpython}
 
-super + s
-	summon_app_bspc spotify
+super + shift + b 
+	makefloat urxvt -e bpytop
 
-super + {_,shift +} i
-	{makefloat surf "https://www.google.com/maps/dir/?api=1&origin=faculte+Sciences+sherbrooke&destination=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate", makefloat surf "https://www.google.com/maps/dir/?api=1&destination=faculte+Sciences+sherbrooke&origin=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate"}
+super + u
+	makefloat urxvt -e yay
 
-Print
-	flameshot gui
+# "summoning"
+super + {s, d}
+	summon_app_bspc {spotify, discord}
 
-alt + Tab
-	rofi -show windowcd -theme tab_menu
-
-# super + Tab
-#	exec $HOME/scritps/switch_layout.sh
-
-# make sxhkd reload its configuration files:
+# Reloading ------------------------------------------------------------------
 super + Escape
 	pkill -USR1 -x sxhkd
 
 super + alt + w
 	wal -R
 
-#
-# bspwm hotkeys
-#
-
+# bspwm hotkeys --------------------------------------------------------------
 # quit/restart bspwm
 super + alt + {q,r}
 	bspc {quit,wm -r} && bspc -l tiled
 
-# close and kill
 super + {_,shift + }w
 	bspc node -{c,k}
-
-super + Escape
-	bspc node -c
 
 # alternate between the tiled and monocle layout
 super + m
 	bspc desktop -l next
 
-# send the newest marked node to the newest preselected node
-super + y
-	youtube_player &
-# send the node to the newest preselected node
-super + o
-	bspc node focused -n newest.!automatic.local
-
-#
-# state/flags
-#
+# state/flags ----------------------------------------------------------------
 
 # set the window state
 super + {t,shift + t,f,shift + f}
@@ -85,46 +56,26 @@ super + {t,shift + t,f,shift + f}
 super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
-#
-# focus/swap
-#
-
+# focus/swap -----------------------------------------------------------------
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
-
 # focus the next/previous window in the current desktop
-super + {_,shift + }c
+super + {_,shift + } Tab
 	bspc node -f {next,prev}.local.!hidden.window
 
 # focus the next/previous desktop in the current monitor
 super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
-# focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last
-
-# focus the older or newer node in the focus history
-super + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
-
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
-#
-# preselect
-#
-
-super + ctrl + f
-	bspc rule -a \* -o state=floating 
+# preselect ------------------------------------------------------------------
+super + ctrl + {f,t}
+	bspc rule -a \* -o state={floating,tiled}
 
 # preselect the direction
 super + ctrl + {h,j,k,l}
@@ -142,9 +93,11 @@ super + ctrl + space
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
-#
-# move/resize
-#
+# send the node to the newest preselected node
+super + o
+	bspc node focused -n newest.!automatic.local
+
+# move/resize ----------------------------------------------------------------
 
 # expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
@@ -158,11 +111,18 @@ super + alt + shift + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-super + shift +b 
-	makefloat urxvt -e bpytop
+# Others ---------------------------------------------------------------------
+super + {_,shift +} i
+	{makefloat surf "https://www.google.com/maps/dir/?api=1&origin=faculte+Sciences+sherbrooke&destination=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate", makefloat surf "https://www.google.com/maps/dir/?api=1&destination=faculte+Sciences+sherbrooke&origin=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate"}
 
-super + u
-	makefloat urxvt -e yay
+Print
+	flameshot gui
 
-super + shift + m
-	plasmawindowed org.kde.plasma.mediacontroller
+alt + Tab
+	rofi -show windowcd -theme tab_menu
+
+#super + y
+	#youtube_player &
+
+super + y; y
+	urxvt
