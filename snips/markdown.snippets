@@ -1,0 +1,42 @@
+global !p
+	def math():
+		return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+endglobal
+
+snippet dm "display mode" i
+$$$1$$ $0
+endsnippet
+
+snippet mk "quick maff" i
+$$1$ $0
+endsnippet
+
+snippet nc "new check-list item" i
+
+- [ ] $1
+endsnippet
+
+snippet int "integral" i 
+\int_{$1}^{$2} d $0 
+endsnippet
+
+snippet ooo "infinity" iA
+\infty	
+endsnippet
+
+snippet trigger "Description" 
+content
+endsnippet
+
+snippet '([A-Za-z])_([^\{ ][^^$ ]+)([ \^])' "auto subscipt" irA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}`!p snip.rv = match.group(3)`
+endsnippet
+
+snippet '([A-Za-z]_\{?[^^\{ ]+\}?)\^([^^\{\}]+) ' "auto superscrpit" irA
+`!p snip.rv = match.group(1)`^{`!p snip.rv = match.group(2)`}
+endsnippet
+
+snippet frac "Description" 
+content
+endsnippet
+
