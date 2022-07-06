@@ -1,3 +1,0 @@
-#!/bin/bash
-
-while true; do inotifywait -e CLOSE_WRITE $1; asy -o "$(dirname $1)/" $1; done
