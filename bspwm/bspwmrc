@@ -53,16 +53,18 @@ bspc config gapless_monocle      true
 bspc rule -a \* state=floating
 
 # Tiled windows!
-bspc rule -a \teams state=tiled
-bspc rule -a Code state=tiled
-bspc rule -a obsidian state=tiled
-bspc rule -a Zathura state=tiled
 bspc rule -a Alacritty state=tiled center=true rectangle=1001x760+0+0
-bspc rule -a URxvt state=tiled center=true rectangle=1218x760+0+0
+bspc rule -a Code state=tiled
 bspc rule -a Google-chrome state=tiled
-bspc rule -a Surf state=tiled center=true rectangle=1001x760+0+0
-bspc rule -a nvim-qt state=tiled
+bspc rule -a imv state=tiled
 bspc rule -a Mathematica state=tiled
+bspc rule -a nvim-qt state=tiled
+bspc rule -a obsidian state=tiled
+bspc rule -a Surf state=tiled center=true rectangle=1001x760+0+0
+bspc rule -a URxvt state=tiled center=true rectangle=1218x760+0+0
+bspc rule -a \teams state=tiled
+bspc rule -a Zathura state=tiled
+bspc rule -a Zotero state=tiled
 
 
 # bspc scipts! ----------------------------------------------------------------
@@ -75,5 +77,4 @@ xrdb /home/amda/.config/.Xresources
 
 sxhkd &
 
-setxkbmap -option caps:swapescape
 setxkbmap -option caps:swapescape
