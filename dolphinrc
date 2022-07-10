@@ -28,8 +28,8 @@ PreviewSize=256
 [KFileDialog Settings]
 Places Icons Auto-resize=false
 Places Icons Static Size=22
-Recent Files[$e]=file:$HOME/Documents/Projects/Project_Euler/C,file:$HOME/Documents/Projects/Project_Euler/C
-Recent URLs[$e]=file:$HOME/Documents/Projects/Project_Euler/C/
+Recent Files[$e]=dirac.png,file:$HOME/Downloads/dirac.png
+Recent URLs[$e]=file:$HOME/Downloads/
 detailViewIconSize=16
 iconViewIconSize=64
 

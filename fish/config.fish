@@ -9,9 +9,6 @@ if status is-interactive
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 end
 
-function za
-    zathura $argv & disown (ps -T| pcregrep -o1 \([0-9]+\).+zathura^\<)
-end
 function mkcd
     mkdir $argv && cd $argv
 end
@@ -19,9 +16,9 @@ function clean_pac
     sudo pacman -Rs (pacman -Qdtq)
 end
 function tmp
-    echo y | yay -S $argv >/dev/null
+    echo y | yay -S $argv[1] >/dev/null
     $argv
-    echo y | yay -R $argv >/dev/null
+    echo y | yay -R $argv[1] >/dev/null
 end
 alias bp bpython
 alias bt bpytop
