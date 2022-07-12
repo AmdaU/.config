@@ -4,7 +4,7 @@
 fish "set -U SXHKD_SHELL sh"
 
 # services stuff --------------------------------------------------------------
-sxhkd &
+pkill -USR1 -x sxhkd &
 picom --experimental-backends --backend glx --glx-no-rebind-pixmap --glx-no-stencil --xrender-sync-fence&
 #libinput-gestures-setup restart
 copyq &

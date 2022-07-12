@@ -5,7 +5,7 @@ super + {_,shift +} Return
 super + {_,shift +} e
 	{bspc rule -a \* -o state=tiled && dolphin, dolphin }
 
-super + @space
+super + space
 	rofi -show drun -show-icons -sort -sorting-method fzf
 
 super + g
@@ -28,8 +28,9 @@ super + {s, d}
 	summon_app_bspc {spotify, discord}
 
 # Reloading ------------------------------------------------------------------
-super + Escape
-	pkill -USR1 -x sxhkd
+super + q
+	urxvt
+	killall sxhkd && sxhkd &
 
 super + alt + w
 	wal -R
@@ -112,8 +113,8 @@ super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 # Others ---------------------------------------------------------------------
-super + {_,shift +} i
-	{makefloat surf "https://www.google.com/maps/dir/?api=1&origin=faculte+Sciences+sherbrooke&destination=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate", makefloat surf "https://www.google.com/maps/dir/?api=1&destination=faculte+Sciences+sherbrooke&origin=1855+rue+andree+sherbrooke&travelmode=transit&dir_action=navigate"}
+super + i; {h, w}
+	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&travelmode=transit&dir_action=navigate", makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=work&origin=home&travelmode=transit&dir_action=navigate"}
 
 Print
 	flameshot gui
