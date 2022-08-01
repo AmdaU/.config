@@ -114,7 +114,7 @@ super + {Left,Down,Up,Right}
 
 # Others ---------------------------------------------------------------------
 super + i; {h, w}
-	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&travelmode=transit&dir_action=navigate", makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=work&origin=home&travelmode=transit&dir_action=navigate"}
+	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=work&travelmode=transit&dir_action=navigate", makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=work&origin=home&travelmode=transit&dir_action=navigate"}
 
 Print
 	flameshot gui

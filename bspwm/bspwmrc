@@ -55,6 +55,7 @@ bspc rule -a \* state=floating
 # Tiled windows!
 bspc rule -a Alacritty state=tiled center=true rectangle=1001x760+0+0
 bspc rule -a Code state=tiled
+bspc rule -a dolphin state=tiled
 bspc rule -a Google-chrome state=tiled
 bspc rule -a imv state=tiled
 bspc rule -a Mathematica state=tiled

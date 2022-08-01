@@ -164,6 +164,9 @@ Plug 'wincent/terminus'
 Plug 'sjl/gundo.vim'
 let g:gundo_prefer_python3 = 1
 
+Plug 'rbgrouleff/bclose.vim'
+Plug 'francoiscabrol/ranger.vim'
+
 call plug#end()
 
 " Theme and look -------------------------------------------------------------
