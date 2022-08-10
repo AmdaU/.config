@@ -24,7 +24,7 @@ super + u
 	makefloat urxvt -e yay
 
 # "summoning"
-super + {s, d}
+super + s; {s, d}
 	summon_app_bspc {spotify, discord}
 
 # Reloading ------------------------------------------------------------------
