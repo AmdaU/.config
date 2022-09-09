@@ -31,5 +31,5 @@ SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
 SETUVAR fish_right_promp:\x1e\x1e\x1e\x1e\x1e
-SETUVAR fish_user_paths:/home/amda/\x2elocal/share/gem/ruby/3\x2e0\x2e0/bin\x1e/home/amda/\x2eemacs\x2ed/bin\x1e/home/amda/\x2elocal/bin\x1e/home/amda/scripts/inkscape\x2dfigures/bin\x1e//home/amda/scripts/
+SETUVAR fish_user_paths:/home/amda/\x2ecargo/bin\x1e/home/amda/\x2elocal/share/gem/ruby/3\x2e0\x2e0/bin\x1e/home/amda/\x2eemacs\x2ed/bin\x1e/home/amda/\x2elocal/bin\x1e/home/amda/scripts/inkscape\x2dfigures/bin\x1e//home/amda/scripts/
 SETUVAR fish_vi_force_cursor:1

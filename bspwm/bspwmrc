@@ -58,6 +58,7 @@ bspc rule -a Code state=tiled
 bspc rule -a dolphin state=tiled
 bspc rule -a Google-chrome state=tiled
 bspc rule -a imv state=tiled
+bspc rule -a Inkscape state=fullscreen
 bspc rule -a Mathematica state=pseudo_tiled
 bspc rule -a nvim-qt state=tiled
 bspc rule -a obsidian state=tiled

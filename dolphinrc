@@ -1,11 +1,10 @@
 MenuBar=Disabled
 
-[CompactMode]
-FontWeight=50
-PreviewSize=192
+[$Version]
+update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
 
-[DetailsMode]
-FontWeight=50
+[CompactMode]
+PreviewSize=192
 
 [ExtractDialog]
 DirHistory[$e]=$HOME/Documents/Projects/Project_Euler/C/
@@ -18,11 +17,10 @@ eDP1 DP3 Width 1920x1200=920
 
 [General]
 ShowStatusBar=false
-Version=201
+Version=202
 ViewPropsTimestamp=2022,1,15,12,50,28.841
 
 [IconsMode]
-FontWeight=50
 PreviewSize=256
 
 [KFileDialog Settings]

@@ -605,8 +605,8 @@ snippet '([A-Za-z])_([^\{ ][^^$ ]+)([ \^])' "auto subscipt" irA
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}`!p snip.rv = match.group(3)`
 endsnippet
 
-context "math()"
-snippet '([A-Za-z]_\{?[^^\{ ]+\}?)\^([^^\{\}]+) ' "auto superscrpit" irA
+
+snippet '([A-Za-z](?:_\{?[^^\{ ]+\}?)?)\^([^^\{\} ]+) ' "auto superscrpit" irA
 `!p snip.rv = match.group(1)`^{`!p snip.rv = match.group(2)`}
 endsnippet
 
@@ -616,12 +616,12 @@ endsnippet
 
 context "math()"
 snippet '\\?bra' "bra" -irA
-\bra{$1}$0
+\bra{${1:\psi}}$0
 endsnippet
 
 context "math()"
 snippet '\\?ket' "ket" -irA
-\ket{$1}$0
+\ket{${1:\psi}}$0
 endsnippet
 
 priority 2
@@ -762,6 +762,31 @@ endsnippet
 
 snippet sympy "sympy block " w
 sympy $1 sympy$0
+endsnippet
+
+context "math()"
+snippet del "partial ou del" i
+\partial$0
+endsnippet
+
+context "math()"
+snippet set "set" iA
+\\{ $1 \\} $0
+endsnippet
+
+context "math()"
+snippet dd "derivative d" i
+\dd $0
+endsnippet
+
+context "math()"
+snippet ox "otimes" A
+\otimes
+endsnippet
+
+context "math()"
+snippet o+ "oplus" iA
+\oplus
 endsnippet
 
 priority 10000
