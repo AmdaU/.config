@@ -167,6 +167,11 @@ let g:gundo_prefer_python3 = 1
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
 
+Plug 'hura/vim-asymptote'
+au BufEnter *.asy inoremap <C-s> <Esc>:w <CR>:!asy %<CR>
+au BufEnter *.asy nnoremap <C-s> <Esc>:w <CR>:!asy %<CR>
+
+
 call plug#end()
 
 " Theme and look -------------------------------------------------------------

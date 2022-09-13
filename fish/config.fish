@@ -25,6 +25,7 @@ alias bt bpytop
 alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
 alias gg "git add -A; git commit -m \"quick commit!\"; git push"
 alias cat bat
+alias lg lazygit
 
 alias edit $EDITOR
 

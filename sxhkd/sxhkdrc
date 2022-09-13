@@ -122,8 +122,6 @@ Print
 alt + Tab
 	rofi -show windowcd -theme tab_menu
 
-#super + y
-	#youtube_player &
+super + y
+	youtube_player &
 
-super + y; y
-	urxvt
