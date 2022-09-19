@@ -243,11 +243,11 @@ snippet nnn "bigcap" w
 endsnippet
 
 snippet HH "H" w
-\mathbb{H}
+\mathds{H}
 endsnippet
 
 snippet DD "D" w
-\mathbb{D}
+\mathds{D}
 endsnippet
 
 snippet '\\?frac; "Fraction" w
@@ -310,15 +310,15 @@ snippet lr "left( right)" i
 \left( ${1:${VISUAL}} \right) $0
 endsnippet
 
-snippet lr( "left( right)" i
+snippet lr) "left( right)" iA
 \left( ${1:${VISUAL}} \right) $0
 endsnippet
 
-snippet lr| "left| right|" i
+snippet lr| "left| right|" iA
 \left| ${1:${VISUAL}} \right| $0
 endsnippet
 
-snippet lr{ "left\{ right\}" i
+snippet lr} "left\{ right\}" iA
 \left\\{ ${1:${VISUAL}} \right\\} $0
 endsnippet
 
@@ -326,7 +326,7 @@ snippet lrb "left\{ right\}" i
 \left\\{ ${1:${VISUAL}} \right\\} $0
 endsnippet
 
-snippet lr[ "left[ right]" i
+snippet lr] "left[ right]" iA
 \left[ ${1:${VISUAL}} \right] $0
 endsnippet
 
@@ -614,6 +614,15 @@ snippet bb "mathbb" i
 \mathbb{$1}$0
 endsnippet
 
+snippet ds "mathds" i
+\mathds{$1}$0
+endsnippet
+
+context "math()"
+snippet src "mathsrc" i
+\mathsrc{$1}$0
+endsnippet
+
 context "math()"
 snippet '\\?bra' "bra" -irA
 \bra{${1:\psi}}$0
@@ -636,14 +645,22 @@ snippet co "commutator" i
 [$1, $2] $0
 endsnippet
 
+context "math()"
 snippet 'com (.+) (.+) ' "commutator auto" irA
 [`!p snip.rv = match.group(1)`, `!p snip.rv = match.group(2)`] 
 endsnippet
 
+context "math()"
 snippet '\\?frac (.+) (.+) ' "fraction auto" irA
 \frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`} 
 endsnippet
 
+context "math()"
+snippet 'f(.+)/(.+)f' "fraction auto" irA
+\frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`} 
+endsnippet
+
+context "math()"
 snippet '\\?dv( ([0-9]+))? ([^0-9]+) (.+) ' "derivative" irA
 \dv`!p snip.rv = '['+match.group(2)+']' if not match.group(2) is None else ''`{`!p snip.rv = match.group(3)`}{`!p snip.rv = match.group(4)`} 
 endsnippet
@@ -668,8 +685,16 @@ snippet 'bb ([A-Z]+) ([0-9]+) ' "Description" irA
 \mathbb{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`} 
 endsnippet
 
+snippet 'ds ([A-Z]+) ([0-9]+) ' "Description" irA
+\mathds{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`} 
+endsnippet
+
 snippet 'cal ([A-Za-z]) ' "mathcal" irA
 \mathcal{`!p snip.rv = match.group(1)`} 
+endsnippet
+
+snippet 'scr ([A-Za-z]) ' "mathcal" irA
+\mathscr{`!p snip.rv = match.group(1)`} 
 endsnippet
 
 snippet eval "evalulation" i
@@ -686,6 +711,10 @@ endsnippet
 
 snippet inv "inverse" i
 ^{-1}
+endsnippet
+
+snippet dag "complex comjugate transpose" i
+^{\dagger}
 endsnippet
 
 context "math()"
