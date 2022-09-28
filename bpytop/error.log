@@ -572,3 +572,4 @@ Traceback (most recent call last):
     termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
 termios.error: (5, 'Input/output error')
 16/09/22 (15:17:19) | WARNING: The menu system only works on a terminal size of 80x24 or above!
+24/09/22 (11:46:56) | WARNING: The menu system only works on a terminal size of 80x24 or above!

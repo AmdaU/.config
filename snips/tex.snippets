@@ -633,6 +633,10 @@ snippet '\\?ket' "ket" -irA
 \ket{${1:\psi}}$0
 endsnippet
 
+snippet '\\?ip (.+) (.+) ' "commutator auto" irA
+\ip{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`} 
+endsnippet
+
 priority 2
 
 # snippet '\bra\{ket\}' "braket" irA
@@ -816,6 +820,15 @@ endsnippet
 context "math()"
 snippet o+ "oplus" iA
 \oplus
+endsnippet
+
+snippet count "setcounter" 
+\setcounter{${1:section}}{$2}
+$0
+endsnippet
+
+snippet xra "arrow with stuff" iA 
+\xrightarrow{$1}$0
 endsnippet
 
 priority 10000
