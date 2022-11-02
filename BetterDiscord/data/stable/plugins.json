@@ -1,8 +1,8 @@
 {
-    "InvisibleTyping": true,
+    "InvisibleTyping": false,
     "TypingUsersAvatars": true,
-    "WhoReacted": true,
+    "WhoReacted": false,
     "ZeresPluginLibrary": true,
-    "FreeEmojis": false,
-    "Freemoji": true
+    "FreeEmojis": true,
+    "Freemoji": false
 }

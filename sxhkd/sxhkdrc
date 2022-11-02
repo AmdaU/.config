@@ -116,6 +116,9 @@ super + {Left,Down,Up,Right}
 super + i; {h, w}
 	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=Faculté+des+sciences&travelmode=transit&dir_action=navigate", makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=Faculté+des+sciences&origin=home&travelmode=transit&dir_action=navigate"}
 
+super + i; a
+	makefloat surf -G "https://calendar.google.com/calendar/u/0/r"
+
 Print
 	flameshot gui
 

@@ -267,11 +267,11 @@ snippet srto "... Root" wi
 endsnippet
 
 snippet bf "Bold" wi
-\bf{${1:${VISUAL}}}$0
+\textbf{${1:${VISUAL}}}$0
 endsnippet
 
 snippet it "Italic" wi
-\it{${1:${VISUAL}}}$0
+\textit{${1:${VISUAL}}}$0
 endsnippet
 
 # snippet un "Underline" wi
@@ -585,7 +585,7 @@ $${1:${VISUAL}}$ $0
 endsnippet	
 
 snippet dm "display mode"
-$$${1:${VISUAL}}$$ $0
+\[ ${1:${VISUAL}} \] $0
 endsnippet
 
 snippet f "fraction" b
@@ -633,6 +633,11 @@ snippet '\\?ket' "ket" -irA
 \ket{${1:\psi}}$0
 endsnippet
 
+context "math()"
+snippet '\\?mel' "matrix element" -irA
+\mel{${1:\psi}}{${2:H}}{${3:\psi}}$0
+endsnippet
+
 snippet '\\?ip (.+) (.+) ' "commutator auto" irA
 \ip{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`} 
 endsnippet
@@ -665,7 +670,7 @@ snippet 'f(.+)/(.+)f' "fraction auto" irA
 endsnippet
 
 context "math()"
-snippet '\\?dv( ([0-9]+))? ([^0-9]+) (.+) ' "derivative" irA
+snippet '\\?dv( ([0-9]+))? (.+) (.+) ' "derivative" irA
 \dv`!p snip.rv = '['+match.group(2)+']' if not match.group(2) is None else ''`{`!p snip.rv = match.group(3)`}{`!p snip.rv = match.group(4)`} 
 endsnippet
 
@@ -693,11 +698,11 @@ snippet 'ds ([A-Z]+) ([0-9]+) ' "Description" irA
 \mathds{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`} 
 endsnippet
 
-snippet 'cal ([A-Za-z]) ' "mathcal" irA
+snippet 'cal([A-Za-z])' "mathcal" irA
 \mathcal{`!p snip.rv = match.group(1)`} 
 endsnippet
 
-snippet 'scr ([A-Za-z]) ' "mathcal" irA
+snippet 'scr([A-Za-z])' "mathcal" irA
 \mathscr{`!p snip.rv = match.group(1)`} 
 endsnippet
 
@@ -713,17 +718,19 @@ snippet '(\\vb\{.\})' "vector bold auto part 2" irA
 `!p snip.rv = match.group(1) + "allo"`$1
 endsnippet
 
-snippet inv "inverse" i
+context "math()"
+snippet inv "inverse" iA
 ^{-1}
 endsnippet
 
-snippet dag "complex comjugate transpose" i
+context "math()"
+snippet "\^?dag" "complex comjugate transpose" irA
 ^{\dagger}
 endsnippet
 
 context "math()"
-snippet ss "star" iA
-^*
+snippet star "star" iA
+^{*}
 endsnippet
 
 context "math()"
@@ -732,7 +739,7 @@ snippet tt "transpose" iA
 endsnippet
 
 context "math()"
-snippet id "identity" iA
+snippet id "identity" i
 \mathds{1}
 endsnippet
 
@@ -839,10 +846,10 @@ x, y, z, t = symbols('x y z t')
 k, m, n = symbols('k m n', integer=True)
 f, g, h = symbols('f g h', cls=Function)
 init_printing()
-snip.rv = eval('latex(' + match.group(1).replace('\\', '') \
+snip.rv = eval('latex(simplify(' + match.group(1).replace('\\', '') \
     .replace('^', '**') \
     .replace('{', '(') \
-    .replace('}', ')') + ')')
+    .replace('}', ')') + '))')
 `
 endsnippet
 
@@ -863,3 +870,9 @@ snippet 'v(.)' "other vector bold" ir
 \vb{`!p snip.rv = match.group(1)`}$0
 endsnippet
 
+
+# common mistakes ==========
+
+snippet simga "sigma" iA
+sigma
+endsnippet
