@@ -339,7 +339,7 @@ snippet conj "conjugate" w
 endsnippet
 
 snippet sum "sum" w
-\sum_{n=${1:1}}^{${2:\infty}} ${3:a_n z^n}
+\sum_{${1:n=1}}^{${2:\infty}} ${3:a_n z^n}
 endsnippet
 
 snippet int "int" w
@@ -659,6 +659,14 @@ snippet 'com (.+) (.+) ' "commutator auto" irA
 [`!p snip.rv = match.group(1)`, `!p snip.rv = match.group(2)`] 
 endsnippet
 
+priority 2
+context "math()"
+snippet 'acom (.+) (.+) ' "anticommutator auto" irA
+\\\{`!p snip.rv = match.group(1)`, `!p snip.rv = match.group(2)`\\\} 
+endsnippet
+
+priority 1
+
 context "math()"
 snippet '\\?frac (.+) (.+) ' "fraction auto" irA
 \frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`} 
@@ -690,20 +698,24 @@ snippet u "underline"
 \underline{${1:${VISUAL}}} $0
 endsnippet
 
+context "math()"
 snippet 'bb ([A-Z]+) ([0-9]+) ' "Description" irA
-\mathbb{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`} 
+\mathbb{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`}
 endsnippet
 
+context "math()"
 snippet 'ds ([A-Z]+) ([0-9]+) ' "Description" irA
-\mathds{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`} 
+\mathds{`!p snip.rv = match.group(1)`}^{`!p snip.rv = match.group(2)`}
 endsnippet
 
+context "math()"
 snippet 'cal([A-Za-z])' "mathcal" irA
-\mathcal{`!p snip.rv = match.group(1)`} 
+\mathcal{`!p snip.rv = match.group(1)`}
 endsnippet
 
+context "math()"
 snippet 'scr([A-Za-z])' "mathcal" irA
-\mathscr{`!p snip.rv = match.group(1)`} 
+\mathscr{`!p snip.rv = match.group(1)`}
 endsnippet
 
 snippet eval "evalulation" i
@@ -715,6 +727,14 @@ snippet '\\?vb' "vector bold auto" irA
 endsnippet
 
 snippet '(\\vb\{.\})' "vector bold auto part 2" irA
+`!p snip.rv = match.group(1) + "allo"`$1
+endsnippet
+
+snippet '\\?Vb' "vector bold auto" irA
+\vec{$1}$0
+endsnippet
+
+snippet '(\\Vb\{.\})' "vector bold auto part 2" irA
 `!p snip.rv = match.group(1) + "allo"`$1
 endsnippet
 
@@ -820,6 +840,11 @@ snippet dd "derivative d" i
 endsnippet
 
 context "math()"
+snippet "dd (\d+) (.+) " "derivative d" irA
+\dd^{`!p snip.rv = match.group(1)`}`!p snip.rv = match.group(2)`$0
+endsnippet
+
+context "math()"
 snippet ox "otimes" A
 \otimes
 endsnippet
@@ -870,6 +895,9 @@ snippet 'v(.)' "other vector bold" ir
 \vb{`!p snip.rv = match.group(1)`}$0
 endsnippet
 
+snippet 'V(.)' "other vector bold" ir
+\vec{`!p snip.rv = match.group(1)`}$0
+endsnippet
 
 # common mistakes ==========
 
