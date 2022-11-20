@@ -580,16 +580,16 @@ endsnippet
 
 priority 1
 
-snippet mk "quick math"
-$${1:${VISUAL}}$ $0
+snippet mk "quick math" iA
+$${1:${VISUAL}}$$0
 endsnippet	
 
-snippet dm "display mode"
-\[ ${1:${VISUAL}} \] $0
+snippet dm "display mode" iA
+\[ ${1:${VISUAL}} \]$0
 endsnippet
 
 snippet f "fraction" b
-\frac{$1}{$2} $0
+\frac{$1}{$2}$0
 endsnippet
 
 # snippet '([A-Za-z])_([^{}]*[^A-Za-z][^{}]) ' "auto subscript" wrA
@@ -673,12 +673,7 @@ snippet '\\?frac (.+) (.+) ' "fraction auto" irA
 endsnippet
 
 context "math()"
-snippet 'f(.+)/(.+)f' "fraction auto" irA
-\frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`} 
-endsnippet
-
-context "math()"
-snippet '\\?dv( ([0-9]+))? (.+) (.+) ' "derivative" irA
+snippet '\\?dv( ([0-9]+))? ([^\d]+) (.+) ' "derivative" irA
 \dv`!p snip.rv = '['+match.group(2)+']' if not match.group(2) is None else ''`{`!p snip.rv = match.group(3)`}{`!p snip.rv = match.group(4)`} 
 endsnippet
 

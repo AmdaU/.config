@@ -35,7 +35,9 @@ iconViewIconSize=64
 eDP1 DP2 Height 1920x1080=600
 eDP1 DP2 Width 1920x1080=1000
 eDP1 Height 1920x1200=472
+eDP1 Height 1920x1200 eDP1=573
 eDP1 Width 1920x1200=462
+eDP1 Width 1920x1200 eDP1=953
 
 [MainWindow]
 MenuBar=Disabled

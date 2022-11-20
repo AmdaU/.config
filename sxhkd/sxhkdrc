@@ -28,12 +28,8 @@ super + s; {s, d}
 	summon_app_bspc {spotify, discord}
 
 # Reloading ------------------------------------------------------------------
-super + q
-	urxvt
-	killall sxhkd && sxhkd &
-
-super + alt + w
-	wal -R
+super + r; {s, w}
+	{killall sxhkd && sxhkd &, wal -R}
 
 # bspwm hotkeys --------------------------------------------------------------
 # quit/restart bspwm
@@ -44,8 +40,8 @@ super + {_,shift + }w
 	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
-super + m
-	bspc desktop -l next
+#super + m
+	#bspc desktop -l next
 
 # state/flags ----------------------------------------------------------------
 
@@ -54,7 +50,10 @@ super + {t,shift + t,f,shift + f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
-super + ctrl + {m,x,y,z}
+#super + ctrl + {m,x,y,z}
+	#bspc node -g {marked,locked,sticky,private}
+
+super + m; {m,l,s,p}
 	bspc node -g {marked,locked,sticky,private}
 
 # focus/swap -----------------------------------------------------------------
@@ -114,7 +113,7 @@ super + {Left,Down,Up,Right}
 
 # Others ---------------------------------------------------------------------
 super + i; {h, w}
-	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=Faculté+des+sciences&travelmode=transit&dir_action=navigate", makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=Faculté+des+sciences&origin=home&travelmode=transit&dir_action=navigate"}
+	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=Faculté+des+sciences&travelmode=transit&dir_action=navigate",makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=Faculté+des+sciences&origin=home&travelmode=transit&dir_action=navigate"}
 
 super + i; a
 	makefloat surf -G "https://calendar.google.com/calendar/u/0/r"
