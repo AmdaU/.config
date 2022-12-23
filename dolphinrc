@@ -7,15 +7,18 @@ update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
 PreviewSize=192
 
 [ExtractDialog]
-DirHistory[$e]=$HOME/Documents/Projects/Project_Euler/C/
+DirHistory[$e]=$HOME/Downloads/blank/,$HOME/Downloads/korra/,$HOME/Documents/Projects/Project_Euler/C/
 eDP1 Height 1920x1200=620
+eDP1 Height 1920x1200 eDP1=576
 eDP1 Width 1920x1200=1272
+eDP1 Width 1920x1200 eDP1=1070
 
 [FileDialogSize]
 eDP1 DP3 Height 1920x1200=598
 eDP1 DP3 Width 1920x1200=920
 
 [General]
+CommandBarLastUsedActions=
 ShowStatusBar=false
 Version=202
 ViewPropsTimestamp=2022,1,15,12,50,28.841
@@ -26,8 +29,8 @@ PreviewSize=256
 [KFileDialog Settings]
 Places Icons Auto-resize=false
 Places Icons Static Size=22
-Recent Files[$e]=dirac.png,file:$HOME/Downloads/dirac.png
-Recent URLs[$e]=file:$HOME/Downloads/
+Recent Files[$e]=file:$HOME/Downloads/blank,file:$HOME/Downloads/korra
+Recent URLs[$e]=file:$HOME/Downloads/,file:$HOME/Downloads/korra/,file:$HOME/Downloads/blank/
 detailViewIconSize=16
 iconViewIconSize=64
 
@@ -35,9 +38,9 @@ iconViewIconSize=64
 eDP1 DP2 Height 1920x1080=600
 eDP1 DP2 Width 1920x1080=1000
 eDP1 Height 1920x1200=472
-eDP1 Height 1920x1200 eDP1=573
+eDP1 Height 1920x1200 eDP1=576
 eDP1 Width 1920x1200=462
-eDP1 Width 1920x1200 eDP1=953
+eDP1 Width 1920x1200 eDP1=538
 
 [MainWindow]
 MenuBar=Disabled

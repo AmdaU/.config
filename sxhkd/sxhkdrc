@@ -3,7 +3,7 @@ super + {_,shift +} Return
 	{urxvt, bspc rule -a \* -o state=floating && urxvt}
 
 super + {_,shift +} e
-	{bspc rule -a \* -o state=tiled && dolphin, dolphin }
+	{dolphin, bspc rule -a \* -o state=floating && dolphin }
 
 super + space
 	rofi -show drun -show-icons -sort -sorting-method fzf
@@ -28,8 +28,8 @@ super + s; {s, d}
 	summon_app_bspc {spotify, discord}
 
 # Reloading ------------------------------------------------------------------
-super + r; {s, w}
-	{killall sxhkd && sxhkd &, wal -R}
+super + n; {s, w, p}
+	{killall sxhkd && sxhkd &, wal -R, killall plasmashell || kstart plasmashell}
 
 # bspwm hotkeys --------------------------------------------------------------
 # quit/restart bspwm
@@ -40,8 +40,8 @@ super + {_,shift + }w
 	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
-#super + m
-	#bspc desktop -l next
+super + m
+	bspc desktop -l next
 
 # state/flags ----------------------------------------------------------------
 
@@ -53,7 +53,7 @@ super + {t,shift + t,f,shift + f}
 #super + ctrl + {m,x,y,z}
 	#bspc node -g {marked,locked,sticky,private}
 
-super + m; {m,l,s,p}
+super + q; {m,l,s,p}
 	bspc node -g {marked,locked,sticky,private}
 
 # focus/swap -----------------------------------------------------------------
@@ -127,3 +127,5 @@ alt + Tab
 super + y
 	youtube_player &
 
+super + n; l
+	i3lock

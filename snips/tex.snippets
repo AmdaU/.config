@@ -673,13 +673,13 @@ snippet '\\?frac (.+) (.+) ' "fraction auto" irA
 endsnippet
 
 context "math()"
-snippet '\\?dv( ([0-9]+))? ([^\d]+) (.+) ' "derivative" irA
+snippet '\\?dv( ([0-9]+))? ([^\d].*) (.+) ' "derivative" irA
 \dv`!p snip.rv = '['+match.group(2)+']' if not match.group(2) is None else ''`{`!p snip.rv = match.group(3)`}{`!p snip.rv = match.group(4)`} 
 endsnippet
 
 priority 2
 
-snippet '\\?pdv( ([0-9]+))? ([^0-9]+) (.+) ' "derivative" irA
+snippet '\\?pdv( ([0-9]+))? ([^\d].*) (.+) ' "derivative" irA
 \pdv`!p snip.rv = '['+match.group(2)+']' if not match.group(2) is None else ''`{`!p snip.rv = match.group(3)`}{`!p snip.rv = match.group(4)`} 
 endsnippet
 
@@ -714,7 +714,7 @@ snippet 'scr([A-Za-z])' "mathcal" irA
 endsnippet
 
 snippet eval "evalulation" i
-\eval{$1}_{$2} $0
+\eval{${1:${VISUAL}}}_{$2} $0
 endsnippet
 
 snippet '\\?vb' "vector bold auto" irA
@@ -856,6 +856,10 @@ endsnippet
 
 snippet xra "arrow with stuff" iA 
 \xrightarrow{$1}$0
+endsnippet
+
+snippet === "'triple' equality" iA 
+\equiv$0
 endsnippet
 
 priority 10000

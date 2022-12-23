@@ -17,7 +17,8 @@ URxvt.keysym.C-S-Up:   font-size:incglobal
 URxvt.keysym.C-S-Down: font-size:decglobal
 URxvt.keysym.C-equal:  font-size:reset
 
-*background: [70]#1e1e2e
+URxvt.background: [70]#1e1e2e
+*background: #1e1e2e
 *foreground: #D9E0EE
 
 ! Gray
