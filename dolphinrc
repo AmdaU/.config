@@ -24,6 +24,7 @@ Version=202
 ViewPropsTimestamp=2022,1,15,12,50,28.841
 
 [IconsMode]
+IconSize=256
 PreviewSize=256
 
 [KFileDialog Settings]
@@ -38,9 +39,9 @@ iconViewIconSize=64
 eDP1 DP2 Height 1920x1080=600
 eDP1 DP2 Width 1920x1080=1000
 eDP1 Height 1920x1200=472
-eDP1 Height 1920x1200 eDP1=576
+eDP1 Height 1920x1200 eDP1=1150
 eDP1 Width 1920x1200=462
-eDP1 Width 1920x1200 eDP1=538
+eDP1 Width 1920x1200 eDP1=953
 
 [MainWindow]
 MenuBar=Disabled
@@ -65,7 +66,7 @@ eDP1 YPosition 1920x1200=466
 
 [Open-with settings]
 CompletionMode=1
-History=neo,obs,nvi,vim,zathu,za
+History=code,cod,neo,obs,nvi,vim,zathu,za
 
 [PreviewSettings]
 Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,ffmpegthumbs

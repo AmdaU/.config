@@ -42,12 +42,14 @@ call plug#begin()
 
 " Latex Stuff! ---------------------------------------------------------------
 Plug 'lervag/vimtex'
-let g:tex_flavor='latex'
+"let g:tex_flavor='latex'
+let g:vimtex_compiler_engine = 'lualatex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 set conceallevel=2
 let g:tex_conceal='abdmg'
-let g:tex_flavor='latex'
+
+
 Plug 'raghur/vim-ghost'
 function! s:SetupGhostBuffer()
     if match(expand("%:a"), '\v/ghost-(overleaf)\.com-')
