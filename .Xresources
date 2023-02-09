@@ -8,7 +8,8 @@ URxvt.depth: 32
 URxvt.internalBorder:		      0
 URxvt.saveLines:            20000
 
-URxvt.perl-ext-common: font-size,vtewheel,keyboard-select
+!URxvt.perl-ext-common: 
+Xft.dpi:					96
 
 URxvt.keysym.M-a: perl:keyboard-select:activate
 URxvt.keysym.C-Up:     font-size:increase
@@ -17,38 +18,43 @@ URxvt.keysym.C-S-Up:   font-size:incglobal
 URxvt.keysym.C-S-Down: font-size:decglobal
 URxvt.keysym.C-equal:  font-size:reset
 
+URxvt.perl-lib:            /usr/lib/urxvt/perl/
+URxvt.perl-ext:        default,matcher
+URxvt.matcher.button:        1
+URxvt.url-launcher:        /usr/bin/google-chrome-stable
+
 URxvt.background: [70]#1e1e2e
-*background: #1e1e2e
-*foreground: #D9E0EE
+!*background: #1e1e2e
+!*foreground: #D9E0EE
 
-! Gray
-*color0: #51576D
-*color8: #626880
+!! Gray
+!*color0: #51576D
+!*color8: #626880
 
-! Red
-*color1: #E78284
-*color9: #E78284
+!! Red
+!*color1: #E78284
+!*color9: #E78284
 
-! Green
-*color2: #A6D189
-*color10: #A6D189
+!! Green
+!*color2: #A6D189
+!*color10: #A6D189
 
-! Yellow
-*color3: #E5C890
-*color11:  #E5C890
+!! Yellow
+!*color3: #E5C890
+!*color11:  #E5C890
 
-! Blue
-*color4: #8CAAEE
-*color12: #8CAAEE
+!! Blue
+!*color4: #8CAAEE
+!*color12: #8CAAEE
 
-! Maguve
-*color5: #F5BDE6
-*color13: #F5BDE6
+!! Maguve
+!*color5: #F5BDE6
+!*color13: #F5BDE6
 
-! Pink
-*color6: #8BD5CA
-*color14: #8BD5CA
+!! Pink
+!*color6: #8BD5CA
+!*color14: #8BD5CA
 
-! Whites
-*color7: #B5BFE2
-*color15: #B5BFE2
+!! Whites
+!*color7: #B5BFE2
+!*color15: #B5BFE2

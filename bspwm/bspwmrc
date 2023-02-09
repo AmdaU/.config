@@ -7,6 +7,7 @@ fish "set -U SXHKD_SHELL sh"
 pkill -USR1 -x sxhkd &
 picom --experimental-backends --backend glx --glx-no-rebind-pixmap --glx-no-stencil --xrender-sync-fence&
 #libinput-gestures-setup restart
+xbindkeys &
 copyq &
 flameshot &
 kstart plasmashell
@@ -33,7 +34,6 @@ bspc config window_gap          5
 
 # Pywal
 #. "${HOME}/.cache/wal/colors.sh"
-#xrdb -merge .cache/wal/colors.Xresources
 
 bspc config normal_border_color 	"$color1"
 bspc config active_border_color 	"$color2"
@@ -80,6 +80,7 @@ pgrep bspswallow || bspswallow &
 
 # Other -----------------------------------------------------------------------
 xrdb /home/amda/.config/.Xresources
+xrdb -merge .cache/wal/colors.Xresources
 
 sxhkd &
 

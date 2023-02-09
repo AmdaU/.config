@@ -1,6 +1,6 @@
 " general parmeters ----------------------------------------------------------
 setlocal nu rnu
-"let g:python3_host_prog = "/home/amda/.pyenv/versions/3.10.4/envs/nvim/bin/python3"
+let g:python3_host_prog = "/home/amda/.cache/pypoetry/virtualenvs/nvim-XaeANpar-py3.10/bin/python3"
 set textwidth=0
 set colorcolumn=79
 
@@ -93,11 +93,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 let g:mkdp_browser = 'surf'
 Plug 'jbyuki/nabla.nvim'
 
-" Theme stuff ----------------------------------------------------------------
-"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-"Plug 'dylanaraps/wal.vim'
-Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
-
 
 " git stuff ------------------------------------------------------------------
 Plug 'airblade/vim-gitgutter'
@@ -173,18 +168,23 @@ Plug 'hura/vim-asymptote'
 au BufEnter *.asy inoremap <C-s> <Esc>:w <CR>:!asy %<CR>
 au BufEnter *.asy nnoremap <C-s> <Esc>:w <CR>:!asy %<CR>
 
+" Theme stuff ----------------------------------------------------------------
+"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'dylanaraps/wal.vim'
+"Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
+
 
 call plug#end()
 
 " Theme and look -------------------------------------------------------------
 
-colorscheme catppuccin
+colorscheme wal
+"colorscheme tokyonight
+"colorscheme catppuccin
 hi Normal guibg=NONE ctermbg=NONE
 hi clear SignColumn
 hi LineNr guifg=#626880
 hi clear Conceal
-"colorscheme wal
-"colorscheme tokyonight
 
 
 " Autosave -------------------------------------------------------------------
