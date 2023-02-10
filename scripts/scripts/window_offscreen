@@ -1,0 +1,15 @@
+#!/bin/bash
+
+wid=$1;
+
+# get window dimentions
+read -r w h <<<$(wattr wh $wid);
+
+# get screen dimentions
+res=$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+read -r X Y <<<${res/x/ }
+
+newx=$(expr $X / 2 - $((w / 2)))
+newy=$(expr $Y / 2 - $Y - $((h / 2)))
+
+wtp $newx $newy $w $h $wid

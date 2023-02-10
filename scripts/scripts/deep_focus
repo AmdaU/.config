@@ -1,0 +1,5 @@
+#!/bin/sh
+
+focus
+killall plasmashell
+bspc config top_padding 0

@@ -1,0 +1,6 @@
+#!/bin/fish
+
+while true do:
+	 setxkbmap -option caps:swapescape;
+	 sleep 5;
+end;
