@@ -8,6 +8,8 @@
 !sxhkd
 !picom*
 !nvim
+nvim/tmp
+nvim/pack
 !BetterDiscord
 !README.md
 !alacritty

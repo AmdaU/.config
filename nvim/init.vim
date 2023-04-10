@@ -24,6 +24,14 @@ nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 
+function! Append_dash()
+  let line = line('.')
+  call feedkeys("$bea \<Esc>D")
+  let result = substitute(col('.'), '\d\+', '\=' . &colorcolumn . ' - submatch(0) - 2', '')
+  call feedkeys(result . "a-\<Esc>")
+endfunction
+
+noremap <Leader>d :call Append_dash()<CR>
 
 " inkscape -------------------------------------------------------------------
 inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
