@@ -1,6 +1,6 @@
 # Lauch porgrams -------------------------------------------------------------
 super + {_,shift +} Return
-	{urxvt, bspc rule -a \* -o state=floating && urxvt}
+	{ ,bspc rule -a \* -o state=floating &&} kitty
 
 super + {_,shift +} e
 	{dolphin, bspc rule -a \* -o state=floating && dolphin }
@@ -12,29 +12,34 @@ super + g
 	google-chrome-stable
 
 super + r
-	urxvt -e ranger
+	kitty -e ranger
 
+# python
 super + {_,shift +} p
-	{urxvt -e bpython, bspc rule -a \* -o state=floating && urxvt -e bpython}
+	{kitty -e bpython, bspc rule -a \* -o state=floating && kitty -e bpython}
+
+# fancy chat-gpt
+super + {_,shift +} c
+	{ , bspc rule -a \* -o state=floating && } kitty -e fish -c "gpt_ping quick --live -l 500"
 
 super + shift + b 
-	makefloat urxvt -e bpytop
+	makefloat kitty -e bpytop
 
 super + u
-	makefloat urxvt -e yay
+	bspc rule -a \* -o locked=true,state=floating; makefloat kitty -e yay
 
 # "summoning"
-super + s; {s, d}
-	summon_app_bspc {spotify, discord}
+super + s; {s, d, o, x, c, m, k}
+	summon_app_bspc {spotify, discord, obsidian, xournalpp, chat-gpt, android-messages-desktop, kalendar}
 
 # Reloading ------------------------------------------------------------------
-super + n; {s, w, p}
-	{killall sxhkd && sxhkd &, wal -R, killall plasmashell || kstart plasmashell}
+super + shift + r; {s, w, p}
+	notify-send {reloading sxhkd && killall sxhkd && sxhkd &, reloading wal && wal -R, p && killall plasmashell && kstart plasmashell}
 
 # bspwm hotkeys --------------------------------------------------------------
 # quit/restart bspwm
 super + alt + {q,r}
-	bspc {quit,wm -r} && bspc -l tiled
+	bspc {quit,wm -r && notify-send BSPWM reloading...} && bspc -l tiled
 
 super + {_,shift + }w
 	bspc node -{c,k}
@@ -48,16 +53,18 @@ super + m
 # set the window state
 super + {t,shift + t,f,shift + f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-
-# set the node flags
-#super + ctrl + {m,x,y,z}
-	#bspc node -g {marked,locked,sticky,private}
-
+s
 super + q; {m,l,s,p}
-	bspc node -g {marked,locked,sticky,private}
+	set flag {marked,locked,sticky,private};\
+	bspc node --flag $flag;\
+	set state (bspc query -T -n focused | jq '.["'$flag'"]');\
+	#notify-send Flags "$flag was set to <b>$state<\b>" -a BSWPM
+
+super + q; h
+	bsp_hide
 
 # focus/swap -----------------------------------------------------------------
-# focus the node in the given direction
+# focus the node in the /given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
@@ -115,12 +122,13 @@ super + {Left,Down,Up,Right}
 super + i; {h, w}
 	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=Faculté+des+sciences&travelmode=transit&dir_action=navigate",makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=Faculté+des+sciences&origin=home&travelmode=transit&dir_action=navigate"}
 
-super + i; a
-	makefloat surf -G "https://calendar.google.com/calendar/u/0/r"
+#super + i; a
+	#makefloat surf -G "https://calendar.google.com/calendar/u/0/r"
 
 Print
 	flameshot gui
 
+bspc rule -a Blender state=tiled
 alt + Tab
 	rofi -show windowcd -theme tab_menu
 
@@ -129,3 +137,15 @@ super + y
 
 super + n; l
 	i3lock
+
+# Show help
+super + slash
+    sxhkd-help
+
+# test -----------------------------------------------------------------------
+
+ctrl + c + any
+	echo -n | xsel -i -n
+
+#button2
+	#notify-send up; 
