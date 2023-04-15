@@ -116,6 +116,18 @@ Plug 'sheerun/vim-polyglot'
 Plug 'vim-syntastic/syntastic'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sbdchd/neoformat'
+"let g:neoformat_verbose = 1
+let g:neoformat_python_autopep8 = {
+            \ 'exe': 'autopep8',
+            \ 'args': ['--max-line-length 80'],
+            \ 'replace': 1, 
+            \ 'stdin': 1, 
+            \ 'env': ["DEBUG=1"], 
+            \ 'valid_exit_codes': [0, 23],
+            \ 'no_append': 1,
+            \ }
+let g:neoformat_enabled_python = ['black']
+
 autocmd BufWritePost * Neoformat
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
