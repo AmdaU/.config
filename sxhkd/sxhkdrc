@@ -100,9 +100,11 @@ super + ctrl + space
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
-# send the node to the newest preselected node
+# send the node to the newest preselected node get latest marked node, if none, get focused
 super + o
-	bspc node focused -n newest.!automatic.local
+	if not set node (bspc query -N -n last.marked);\
+		set node (bspc query -N -n focused);end;\
+	bspc node $node -n newest.!automatic.local -t tiled
 
 # move/resize ----------------------------------------------------------------
 
