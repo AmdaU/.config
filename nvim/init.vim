@@ -126,7 +126,7 @@ let g:neoformat_python_autopep8 = {
             \ 'valid_exit_codes': [0, 23],
             \ 'no_append': 1,
             \ }
-let g:neoformat_enabled_python = ['black']
+"let g:neoformat_enabled_python = ['black']
 
 autocmd BufWritePost * Neoformat
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
