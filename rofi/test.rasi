@@ -1,0 +1,55 @@
+* {
+  background-color: #1e1e2e;
+  border-color: #2e343f;
+  text-color: #8CAAEE;
+  spacing: 0;
+  /*width: 1012px;*/
+}
+
+configuration {
+window-format: "{t}";
+}
+
+inputbar {
+  enabled: false;
+}
+
+textbox {
+  background-color: #1e1e2e;
+  border: 0 0 0px 0;
+  border-color: #282C33;
+  padding: 16px 16px;
+}
+
+entry {
+  padding: 16px;
+  orientation: vertical;
+  children: [element-icon, element-text];
+}
+
+listview {
+  lines: 1;
+  columns: 6;
+  cycle: true;
+  scrollbar: false;
+}
+
+element {
+  border: 0 0 0px 0;
+  padding: 16px;
+  children: [entry];
+}
+
+element-icon {
+  size: 150px;
+}
+
+element selected {
+  background-color: #8CAAEE;
+}
+
+meta-icon {
+  orientation: vertical;
+  children : [element-icon, element-text];
+}
+

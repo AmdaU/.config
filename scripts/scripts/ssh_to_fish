@@ -1,0 +1,11 @@
+#!/bin/sh
+
+ip=$(echo $1 | pcregrep -o "\d+\.\d+\.\d+.\d+")
+port=$(echo $1 | pcregrep -o1 "\-p (\d+) ")
+user=$(echo $1 | pcregrep -o1 "(\w+)@")
+
+$1 "touch ~/.no_auto_tmux"
+
+dolphin "fish://$user@$ip:$port/" &
+
+disown $(jobs -l)

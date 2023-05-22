@@ -1,0 +1,11 @@
+#!/bin/bash
+
+latexmk -c -f
+rm -rf *.synctex.gz
+rm all.pdf
+pdfunite $(ls -v1 cours*.pdf) all.pdf
+git add -A
+git commit -m "plus de notes!"
+git push
+
+focus

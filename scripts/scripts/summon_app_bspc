@@ -1,0 +1,83 @@
+#!/bin/bash
+
+#get directory of this script
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
+
+# SERVICE is the passed argument
+SERVICE=$1
+
+# check if the service is running, if not: runs it!
+if pgrep -af "$SERVICE" --ignore-case | grep -v "summon" >/dev/null  
+then
+    echo "$SERVICE is running"
+    # get the stored id of the window
+    NODE_ID=$(cat $DIR/$SERVICE.dat)
+    # checks if window is hidden on current desktop
+    hidden=$(bspc query -N -n .hidden -n $NODE_ID)
+    if [ -z "$hidden" ]; then
+        # checks if window is on current desktop at all
+        here=$(bspc query -N -n $NODE_ID.local)
+        if [ -z "$here" ]; then
+            # if not on current desktop, checks if it can be found at all
+            anywhere=$(bspc query -N $NODE_ID)
+            if [ -z "$anywhere" ]; then
+                echo "the window for $SERVICE was not found... restarting service"
+                notify-send "window not found, killing $SERVICE!"
+                pkill -i $SERVICE
+                start_time=$(date +%s)
+                end_time=$(($start_time + 30)) # 30 seconds from now
+                echo "waiting for service to stop..."
+                while pgrep -af "$SERVICE" --ignore-case | grep -v "summon" >/dev/null; do
+                    # check if process has stopped
+                    sleep 0.1
+                    if [ $(date +%s) -gt $end_time ]; then
+                    echo "service hasn't stopped after 30s... trying to restart anyway..."
+                    break
+                    fi
+                done
+                summon_app_bspc $SERVICE
+            else 
+                echo "node is not hidden but not on current desktop, shifting here..."
+                bspc node $NODE_ID -d $(bspc query -D -d focused)
+                bspc node $NODE_ID -l above
+                center_window $NODE_ID
+                bspc node -f $NODE_ID
+            fi
+        else
+            echo "hidding node"
+            window_offscreen $NODE_ID
+            sleep 0.5;
+            bspc node $NODE_ID -g hidden=on
+            bspc node $NODE_ID -d '^10'
+        fi
+    else
+        echo "unhidding node"
+        bspc node $NODE_ID -g hidden=off
+        bspc node $NODE_ID -d $(bspc query -D -d focused)
+        bspc node $NODE_ID -l above
+        center_window $NODE_ID
+        bspc node -f $NODE_ID
+    fi
+else
+    echo "$SERVICE is stopped"
+    echo "starting $SERVICE..."
+		$SERVICE &> /dev/null &
+
+    # lets a bit of time for window to open
+    start_time=$(date +%s)
+    end_time=$(($start_time + 30)) # 30 seconds from now
+    while [ -z "$NODE_ID" ]; do
+    # tries to find the window in which the process has started every second
+        sleep 0.1
+        NODE_ID=$(wmctrl -l -x | grep -v grep | grep -v summon_app_bspc | grep -v -f $DIR/summon_blacklist.dat | grep -i "$SERVICE" | awk '{print $1}')
+
+    if [ $(date +%s) -gt $end_time ]; then
+        echo "Unable to find the window under 30s... stopping"
+        break
+    fi
+
+    done
+    #NODE_ID=$(bspc query -N -n newest)
+    echo $NODE_ID > $DIR/$SERVICE.dat
+    echo "started in window $NODE_ID"
+fi

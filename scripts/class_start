@@ -1,0 +1,11 @@
+#!/bin/fish
+
+set num (ls | pcregrep -o1 "cours([0-9]+)" | sort -n |tail -n 1)
+set num (math $num + 1)
+
+printf "\\input{../parameters}\n\\\begin{document}\n\n\\\end{document}" > "cours$num"".tex"
+
+inkscape-figures watch
+
+edit "cours$num"".tex"
+
