@@ -20,26 +20,27 @@ function tmp
     $argv
     echo y | yay -R $argv[1] >/dev/null
 end
+
 alias bp bpython
 alias bt bpytop
 alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
 alias gg "git add -A; git commit -m \"quick commit!\"; git push"
-alias cat bat
+alias cat batcat
 alias ls "ls --hyperlink=auto --color=auto"
 alias lg lazygit
 
-alias edit $EDITOR
+alias edit nvim
 
 alias nvim-fg "nvim-qt --nofork"
 
-fish_add_path /$HOME/scripts/inkscape-figures/bin/
-fish_add_path /$HOME/.local/bin/
-fish_add_path /$HOME/.emacs.d/bin/
-fish_add_path /$HOME/.config/scrptis
-fish_add_path /$HOME/.local/share/gem/ruby/3.0.0/bin
-fish_add_path /$HOME/.cargo/bin
-fish_add_path /opt/cuda/bin
-
+#fish_add_path /$HOME/scripts/inkscape-figures/bin/
+#fish_add_path /$HOME/.local/bin/
+#fish_add_path /$HOME/.emacs.d/bin/
+#fish_add_path /$HOME/.config/scrptis
+#fish_add_path /$HOME/.local/share/gem/ruby/3.0.0/bin
+#fish_add_path /$HOME/.cargo/bin
+#fish_add_path /opt/cuda/bin
+set -gx PATH /usr/sbin $PATH
 set -Ua fish_user_paths /$HOME/scripts/SD
 set -Ua fish_user_paths /$HOME/scripts/gpt
 set -Ua fish_user_paths /$HOME/scripts/
@@ -47,5 +48,5 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 set fish_greeting
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
