@@ -1,6 +1,6 @@
 " general parmeters ----------------------------------------------------------
 setlocal nu rnu
-let g:python3_host_prog = "/home/amda/.cache/pypoetry/virtualenvs/nvim-XaeANpar-py3.10/bin/python3"
+let g:python3_host_prog = "/home/amda/.config/nvim/.venv/bin/python3"
 set textwidth=0
 set colorcolumn=79
 

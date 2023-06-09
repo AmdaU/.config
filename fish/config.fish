@@ -6,8 +6,15 @@ if status is-interactive
     set fish_cursor_replace_one underscore
     set fish_cursor_visual line
 
+    bind yy fish_clipboard_copy
+    bind Y fish_clipboard_copy
+    bind p fish_clipboard_paste   
+
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 end
+
+
+# aliases--------------------------------------------------------------------
 
 function mkcd
     mkdir $argv && cd $argv
@@ -20,6 +27,7 @@ function tmp
     $argv
     echo y | yay -R $argv[1] >/dev/null
 end
+
 alias bp bpython
 alias bt bpytop
 alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
@@ -27,10 +35,14 @@ alias gg "git add -A; git commit -m \"quick commit!\"; git push"
 alias cat bat
 alias ls "ls --hyperlink=auto --color=auto"
 alias lg lazygit
+alias lsg "git ls-files --exclude-standard | cut -d/ -f1 | uniq"
 
 alias edit $EDITOR
 
 alias nvim-fg "nvim-qt --nofork"
+
+
+# variables-----------------------------------------------------------------
 
 fish_add_path /$HOME/scripts/inkscape-figures/bin/
 fish_add_path /$HOME/.local/bin/

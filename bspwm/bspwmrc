@@ -91,5 +91,4 @@ sxhkd &
 
 setxkbmap -option caps:swapescape
 
-
-makefloat && urxvt -e fish -c "cbonsai -m (bad)"
+makefloat && $TERMINAL -e fish -c "cbonsai -m (bad)"

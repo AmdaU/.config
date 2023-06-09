@@ -53,11 +53,12 @@ super + m
 # set the window state
 super + {t,shift + t,f,shift + f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-s
+
+# set the flag of the current window (marked, locked, sticky, private)
 super + q; {m,l,s,p}
 	set flag {marked,locked,sticky,private};\
 	bspc node --flag $flag;\
-	set state (bspc query -T -n focused | jq '.["'$flag'"]');\
+	#set state (bspc query -T -n focused | jq '.["'$flag'"]');\
 	#notify-send Flags "$flag was set to <b>$state<\b>" -a BSWPM
 
 super + q; h
