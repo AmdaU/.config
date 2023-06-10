@@ -78,15 +78,15 @@ bspc rule -a Zotero state=tiled
 
 
 # bspc scipts! ----------------------------------------------------------------
-$HOME/scripts/bspi_listen.sh &
+$HOME/scripts/bspwm/bspi_listen.sh &
 pgrep bspswallow || bspswallow &
-killall bspc_color_border; $HOME/scripts/bspc_color_border &
+killall bspc_color_border; $HOME/scripts/bspwm/bspc_color_border &
 
 # Other -----------------------------------------------------------------------
 sed -i s/".*background.*"//g .cache/wal/colors.Xresources
 sed -i s/".*border.*"//g .cache/wal/colors.Xresources
 xrdb /home/amda/.config/.Xresources
-xrdb -merge .cache/wal/colors.Xresources
+#xrdb -merge .cache/wal/colors.Xresources
 sxhkd &
 
 setxkbmap -option caps:swapescape
