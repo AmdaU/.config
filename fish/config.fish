@@ -45,18 +45,18 @@ alias nvim-fg "nvim-qt --nofork"
 
 # variables-----------------------------------------------------------------
 
-fish_add_path /$HOME/scripts/inkscape-figures/bin/
-fish_add_path /$HOME/scripts/bspwm
+#fish_add_path /$HOME/scripts/inkscape-figures/bin/
+#fish_add_path /$HOME/scripts/bspwm
 #fish_add_path /$HOME/.local/bin/
 fish_add_path /$HOME/.emacs.d/bin/
 fish_add_path /$HOME/.local/share/gem/ruby/3.0.0/bin
 fish_add_path /$HOME/.cargo/bin
 fish_add_path /opt/cuda/bin
 
-set -Ua fish_user_paths /$HOME/scripts/SD
-set -Ua fish_user_paths /$HOME/scripts/gpt
-set -Ua fish_user_paths /$HOME/scripts/bspwm
-set -Ua fish_user_paths /$HOME/scripts/
+set -Ua fish_user_paths /$HOME/.config/scripts/SD
+set -Ua fish_user_paths /$HOME/.config/scripts/gpt
+set -Ua fish_user_paths /$HOME/.config/scripts/bspwm
+set -Ua fish_user_paths /$HOME/.config/scripts/
 export PYENV_ROOT="$HOME/.pyenv"
 
 set fish_greeting
