@@ -1,0 +1,33 @@
+#!/bin/fish
+
+switch $argv[1]
+	case "start"
+		set num (ls | pcregrep -o1 "cours([0-9]+)" | sort -n |tail -n 1)
+		set num (math $num + 1)
+
+		printf "\\input{../parameters}\n\n\\\begin{document}\n$(date "+%Y-%m-%d")\n\n\\\end{document}" > "cours$num"".tex"
+
+		inkscape-figures watch
+
+		deep_focus
+
+		edit "cours$num"".tex"
+	case "resume"
+		set num (ls | pcregrep -o1 "cours([0-9]+)" | sort -n |tail -n 1)
+
+		inkscape-figures watch
+
+		edit "cours$num"".tex"
+	case "over"
+		latexmk -c -f
+		rm -rf *.synctex.gz
+		rm all.pdf
+		pdfunite $(ls -v1 cours*.pdf) all.pdf
+		git add -A
+		git commit -m "plus de notes!"
+		git push
+
+		focus
+	case "*"
+		echo "$argv[1] is not a valid command!"
+end

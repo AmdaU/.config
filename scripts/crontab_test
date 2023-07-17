@@ -1,0 +1,1 @@
+date "+%H:%M:%S" >> /home/amda/crontab_test.txt

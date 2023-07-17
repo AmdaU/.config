@@ -1,0 +1,5 @@
+{
+  "controlnet_input_image": ["/home/amda/scripts/SD/del_2.png"],
+  "controlnet_module": "openpose",
+  "controlnet_model": "controlnetPreTrained_openposeV10 [9ca67cc5]"
+}

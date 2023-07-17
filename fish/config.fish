@@ -49,7 +49,6 @@ fish_add_path /$HOME/scripts/inkscape-figures/bin/
 fish_add_path /$HOME/scripts/bspwm
 #fish_add_path /$HOME/.local/bin/
 fish_add_path /$HOME/.emacs.d/bin/
-fish_add_path /$HOME/.config/scrptis
 fish_add_path /$HOME/.local/share/gem/ruby/3.0.0/bin
 fish_add_path /$HOME/.cargo/bin
 fish_add_path /opt/cuda/bin

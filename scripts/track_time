@@ -1,0 +1,8 @@
+#!/bin/sh
+get_class(){
+	echo $(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_CLASS | pcregrep -o1 "WM_CLASS\(STRING\) = \"([^\"]+)\"")
+}
+
+echo $(date "+%H:%M:%S") $(get_class)
+
+

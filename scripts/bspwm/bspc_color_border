@@ -1,0 +1,78 @@
+#!/bin/bash 
+focused_border_color=$(bspc config focused_border_color | sed 's/#//g') 
+normal_border_color=$(bspc config normal_border_color | sed 's/#//g') 
+
+yellow=$(xrdb -query | awk 'match($0, /\*color3:.*[^#]#([0-9a-fA-F]{6})$/, m) {print m[1]}')
+red=$(xrdb -query | awk 'match($0, /\*color1:.*[^#]#([0-9a-fA-F]{6})$/, m) {print m[1]}')
+aqua=$(xrdb -query | awk 'match($0, /\*color4:.*[^#]#([0-9a-fA-F]{6})$/, m) {print m[1]}')
+echo $yellow
+echo $red
+echo $aqua
+
+
+# width of the (colorful) border (must be a least 1 less than full width)
+outer_width=1
+default_highlight_width=2
+
+
+# set the border color according to the window flags 
+set_color() {
+	node_id=$1; default=$2; node_props=$3
+	read highlight border_width <<< $(get_highlight $node_id $default $node_props)
+	bspc config -n $node_id border_width $border_width
+	inner_width=$(($border_width-$outer_width))
+	chwb2 -O $highlight -I $default -i $inner_width -o $outer_width $node_id; 
+}
+
+# Get the color of the outer border (highlight) according to the window propreties
+# If multiple propreties are set the 'most important' win 
+get_highlight(){
+		if [ "$config_border_width" -ne 0 ]; then
+			highlight_width=$config_border_width
+		else
+			highlight_width=$default_highlight_width
+		fi
+		node_id=$1; default=$2;
+		bspc query -N -n .marked | grep -q $node_id
+		marked=$(check_prop marked $node_id &)
+		locked=$(check_prop locked $node_id &)
+		sticky=$(check_prop sticky $node_id &)
+		wait
+		if [ "$marked" == "true" ]; then
+			echo $red $highlight_width
+		elif [ "$locked" == "true" ]; then
+			echo $yellow $highlight_width
+		elif [ "$sticky" == "true" ]; then
+			echo $aqua $highlight_width
+		else
+			echo $default $config_border_width
+		fi
+		echo sticky
+}
+
+check_prop(){
+	prop=$1; node_id=$2
+	for item in $(bspc query -N -n .$prop);do
+		if [ "$item" == $node_id ]; then
+			echo "true"
+		fi
+	done
+}
+
+# every time any node is flagged, focused or resized the colors are updated
+# the `node_geometry` is necessary because else the border looks wrong when resizing windows
+bspc subscribe node_flag node_focus node_geometry | while read -r event _ _ _ _ _; do
+	config_border_width=$(bspc config border_width)
+	# the previous focused node is track so the colors can be changed when unfocused
+	previous_focused_node_id=$focused_node_id
+	focused_node_id=$(bspc query -N -n focused)
+	#node_props=$(bspc query -T -n $focused_node_id) 
+
+	if [ "$focused_node_id" != "$previous_focused_node_id" ]; then 
+		#previous_node_props=$(bspc query -T -n $previous_focused_node_id)
+		set_color $previous_focused_node_id $normal_border_color &
+	fi
+
+	set_color $focused_node_id $focused_border_color &
+
+done

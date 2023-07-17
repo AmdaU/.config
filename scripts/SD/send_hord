@@ -1,0 +1,112 @@
+#!/bin/python3
+import io
+import requests
+import json
+import time
+import argparse
+import base64
+# from cli_logger import logger, set_logger_verbosity
+from PIL import Image
+from io import BytesIO
+from requests.exceptions import ConnectionError
+
+# test miam
+
+# set_logger_verbosity(2)
+parser = argparse.ArgumentParser()
+
+parser.add_argument('-o',
+                    '--output',
+                    help='The name of the output file',
+                    type=str)
+args = parser.parse_args()
+
+
+url = "https://stablehorde.net"
+
+
+def file_to_base64(path):
+    pil_image = Image.open(path)
+    with io.BytesIO() as stream:
+        pil_image.save(stream, "PNG", pnginfo=None)
+        base64_str = str(base64.b64encode(stream.getvalue()), "utf-8")
+        return "data:image/png;base64," + base64_str
+
+
+def generate():
+    print('Loading parameters...')
+    with open('new.json') as read:
+        payload = json.load(read)
+
+    with open('headers_horde.json') as read:
+        headers = json.load(read)
+
+    if 'source_image' in payload.keys():
+        if 'http' not in payload['source_image']:
+            final_src_img = Image.open(payload['source_image'])
+            buffer = BytesIO()
+            # We send as WebP to avoid using all the horde bandwidth
+            final_src_img.save(buffer, format="Webp", quality=95, exact=True)
+            payload['source_image'] = base64.b64encode(
+                buffer.getvalue()).decode("utf8")
+
+    print('Submitting request...')
+    submit_req = requests.post(
+        f'{url}/api/v2/generate/async', json=payload, headers=headers)
+    if submit_req.ok:
+        submit_results = submit_req.json()
+        # logger.debug(submit_results)
+        req_id = submit_results['id']
+        is_done = False
+        retry = 0
+        cancelled = False
+        try:
+            while not is_done:
+                try:
+                    chk_req = requests.get(
+                        f'{url}/api/v2/generate/check/{req_id}')
+                    if not chk_req.ok:
+                        # logger.error(chk_req.text)
+                        print(chk_req.text)
+                        return
+                    chk_results = chk_req.json()
+                    print(chk_results, end='\r')
+                    is_done = chk_results['done']
+                    time.sleep(0.8)
+                except ConnectionError as e:
+                    retry += 1
+                    # logger.error(
+                        # f"Error {e} when retrieving status. Retry {retry}/10")
+                    print(
+                        f"Error {e} when retrieving status. Retry {retry}/10")
+                    if retry < 10:
+                        time.sleep(1)
+                        continue
+                    raise
+        except KeyboardInterrupt:
+            # logger.info(f"Cancelling {req_id}...")
+            print(f"Cancelling {req_id}...")
+            cancelled = True
+            retrieve_req = requests.delete(
+                f'{url}/api/v2/generate/status/{req_id}')
+        if not cancelled:
+            retrieve_req = requests.get(
+                f'{url}/api/v2/generate/status/{req_id}')
+        if not retrieve_req.ok:
+            # logger.error(retrieve_req.text)
+            print(retrieve_req.text)
+            return
+        results_json = retrieve_req.json()
+        results = results_json['generations']
+        for i, result in enumerate(results):
+            name_base = args.output if args.output else "output.png"
+            name = f'{name_base.split(".")[0]}' + f'_{i}.png'
+            img_data = requests.get(result["img"]).content
+            with open(name, 'wb') as handler:
+                handler.write(img_data)
+    else:
+        # logger.error(submit_req.text)
+        print(submit_req.text)
+
+
+generate()

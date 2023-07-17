@@ -1,0 +1,149 @@
+#!/bin/python3
+import argparse
+import json
+import requests
+import io
+import base64
+from PIL import Image, PngImagePlugin
+import os
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+
+def file_to_base64(path):
+    pil_image = Image.open(path)
+    with io.BytesIO() as stream:
+        pil_image.save(stream, "PNG", pnginfo=None)
+        base64_str = str(base64.b64encode(stream.getvalue()), "utf-8")
+        return "data:image/png;base64," + base64_str
+
+
+with open(f'{script_dir}/payload.json') as read:
+    payload = json.load(read)
+
+# Argument parsing ----------------------------------------------------------------------------
+parser = argparse.ArgumentParser()
+parser.add_argument('-p',
+                    '--prompt',
+                    help='The prompt for the image',
+                    type=str,
+                    default=payload["prompt"])
+parser.add_argument('-o',
+                    '--output',
+                    help='The name of the output file',
+                    default='output.png',
+                    type=str)
+parser.add_argument('--model_name',
+                    help='substring or hash of the model to use',
+                    type=str)
+parser.add_argument('-n',
+                    '--n_iter',
+                    help='number of images to make',
+                    default=1,
+                    type=int)
+parser.add_argument('-s', '--steps', help='number of interations', type=int)
+parser.add_argument('--url', help='url of the server', type=str)
+parser.add_argument('-g', '--gfc_scale', help='gfc scale', type=int)
+parser.add_argument('-i', '--input_image', help='input image for img2image')
+parser.add_argument('--ctrlnet_input', help='controlnet input image')
+parser.add_argument('--ctrlnet_module', help='module to use', type=str)
+parser.add_argument('--ctrlnet_model',
+                    help='substring of model to use',
+                    type=str)
+parser.add_argument('-c', help='Control net on', action='store_true')
+parser.add_argument('--horde', help='Control net on', action='store_true')
+
+args = parser.parse_args()
+
+# doing stuff to the arg -----------------------------------------------------
+
+# If no url is given, assume is running locally
+url = args.url if args.url else "http://127.0.0.1:7860"
+# If running on the horde
+if args.horde:
+    url = "https://stablehorde.net"
+
+# Look for matching specified model
+if args.model_name:
+    models = requests.get(url=f'{url}/sdapi/v1/sd-models')
+    # print(list(models.json())
+    for model in models.json():
+        if args.model_name in model['title']:
+            model_name = model['model_name']
+            print(f"found matching model: {model_name}")
+
+    if not model_name:
+        raise ("Found no matching model on server")
+
+    option_payload = {
+        "sd_model_checkpoint": f"{model_name}",
+    }
+    requests.post(url=f'{url}/sdapi/v1/options', json=option_payload)
+    print("using model: " + model_name)
+
+
+for arg in args._get_kwargs():
+    if not arg[1] is None and arg[0] in list(payload):
+        payload[arg[0]] = arg[1]
+
+if args.c or args.ctrlnet_input:
+    with open(f'{script_dir}/payload_cn.json') as read:
+        payload_cn = json.load(read)
+    payload.update(payload_cn)
+
+if args.ctrlnet_input:
+    payload['controlnet_input_image'] = args.ctrlnet_input
+
+if 'controlnet_input_image' in payload.keys():
+    payload['controlnet_input_image'] = [
+        file_to_base64(payload['controlnet_input_image'])
+    ]
+
+if args.ctrlnet_model:
+    models = requests.get(
+        url=f'{url}/controlnet/model_list').json()['model_list']
+    # print(list(models.json())
+    for i in models:
+        if args.ctrlnet_model in i:
+            model_name = i
+    payload["controlnet_model"] = model_name
+
+if args.ctrlnet_module:
+    payload["controlnet_module"] = args.ctrlnet_module
+
+if args.ctrlnet_module:
+    print(
+        f'Controlnet: using module {payload["controlnet_module"]} with model {payload["controlnet_model"]}'
+    )
+
+requests.post(url=f'{url}/sdapi/v1/options',
+              json={"sd_vae": "vae-ft-mse-840000-ema-pruned.safetensors"})
+
+if args.c or args.ctrlnet_input:
+    print('using controlnet!')
+    response = requests.post(url=f'{url}/controlnet/txt2img',
+                             json=payload,
+                             timeout=None)
+    using_ctrlnet = True
+else:
+    print('not using controlnet!')
+    response = requests.post(url=f'{url}/sdapi/v1/txt2img',
+                             json=payload,
+                             timeout=None)
+    using_ctrlnet = False
+
+print(response)
+
+for i, im in enumerate(response.json()['images']):
+    image = Image.open(io.BytesIO(base64.b64decode(im.split(",", 1)[0])))
+
+    png_payload = {"image": "data:image/png;base64," + im}
+    response2 = requests.post(url=f'{url}/sdapi/v1/png-info', json=png_payload)
+
+    pnginfo = PngImagePlugin.PngInfo()
+    pnginfo.add_text("parameters", response2.json().get("info"))
+    if i == args.n_iter:
+        outname = args.output.split(".")[0] + '_ctrlnet.png'
+    else:
+        outname = args.output.split(".")[0] + f'_{i}.png'
+    image.save(outname, pnginfo=pnginfo)

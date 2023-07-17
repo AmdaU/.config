@@ -1,3 +1,0 @@
-#!/bin/bash
-
-bspc rule -a \* -o state=floating rectangle=640x360+1280+720 sticky=on & mpv -autofit=360 --ytdl-format="bestvideo[height<=?360]+bestaudio/best" "$(xsel -ob)"

@@ -1,0 +1,38 @@
+{
+	"sex": 
+	{
+		"prompt": "A short **terrible** sexual advice (do not provide **any** additional explanation):"
+	},
+	"life":
+	{
+		"prompt": "A short **terrible** life advice (that could lead to awkward, dangerous or painful situation, possibly damage relationship or even lead you to death) (do not provide **any** additional explanation):"
+	},
+	"code":
+	{
+		"prompt": "A short **terrible** coding advice (do not provide **any** additional explanation):"
+	},
+	"physics":
+	{
+		"prompt": "A short **terrible** explanation of physics like 'its all just harmonic oscillators' or 'nobody really understands quantum physics anyway...'(do not provide **any** additional explanation):"
+	},
+	"financial":
+	{
+		"prompt": "A short **terrible** financial advice '(do not provide **any** additional explanation):"
+	},
+	"self esteem":
+	{
+		"prompt": "A short **terrible** and **mean** comment to make about someone, (one that would deeply affect their self esteem) (do not provide **any** additional explanation):"
+	},
+	"existential":
+	{
+		"prompt": "A comment that created **deep** existential dread: (do not provide **any** additional explanation):"
+	},
+	"misinformation":
+	{
+		"prompt": "Something that **sounds** somewhat scientific, logical and believable and yet completely false (it should incite emotion the reader): (do not provide **any** additional explanation):"
+	},
+	"relationship": 
+	{
+		"prompt": "A short **terrible** advice about how to maintain good relationship (with coworker, friends or family, you decide!) (do not provide **any** additional explanation):"
+	}
+}

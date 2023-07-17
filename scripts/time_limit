@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# program name as first argument
+program_name=$1
+
+# number of minutes as second argument
+num_minutes=$2
+
+echo $program_name will be terminated in $num_minutes minutes
+
+echo "notify-send '5 minutes remaining before closing $program_name'" | at now + $((num_minutes-5)) minutes > /dev/null 2>&1
+echo "notify-send '1 minutes remaining before closing $program_name'" | at now + $((num_minutes-1)) minutes > /dev/null 2>&1
+echo "killall $program_name" | at now + $num_minutes minutes > /dev/null 2>&1
