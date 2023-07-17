@@ -1,46 +1,23 @@
-# Lauch porgrams -------------------------------------------------------------
-super + {_,shift +} Return
-	{ ,bspc rule -a \* -o state=floating &&} kitty
+# Lauch {kitty, dolphin, python, gpt-ping, chrome, ranger, bpython}
+super + {_,shift +} {Return, e, p, c, g, r, b}
+	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping quick --live -l 500", google-chrome-stable, kitty -e ranger, kitty -e bpytop}
 
-super + {_,shift +} e
-	{dolphin, bspc rule -a \* -o state=floating && dolphin }
-
-super + space
-	rofi -show drun -show-icons -sort -sorting-method fzf
-
-super + g
-	google-chrome-stable
-
-super + r
-	kitty -e ranger
-
-# python
-super + {_,shift +} p
-	{kitty -e bpython, bspc rule -a \* -o state=floating && kitty -e bpython}
-
-# fancy chat-gpt
-super + {_,shift +} c
-	{ , bspc rule -a \* -o state=floating && } kitty -e fish -c "gpt_ping quick --live -l 500"
-
-super + shift + b 
-	makefloat kitty -e bpytop
+# "summoning" 
+super + s; {s, d, o, x, c, m, k}
+	summon_app_bspc {spotify, discord, obsidian, xournalpp, chat-gpt, android-messages-desktop, kalendar}
 
 super + u
 	bspc rule -a \* -o locked=true,state=floating; makefloat kitty -e yay
 
-# "summoning"
-super + s; {s, d, o, x, c, m, k}
-	summon_app_bspc {spotify, discord, obsidian, xournalpp, chat-gpt, android-messages-desktop, kalendar}
+super + space
+	rofi -show drun -show-icons -sort -sorting-method fzf
+
 
 # Reloading ------------------------------------------------------------------
-super + shift + r; {s, w, p}
+super + alt + r; {s, w, p}
 	notify-send {reloading sxhkd && killall sxhkd && sxhkd &, reloading wal && wal -R, p && killall plasmashell && kstart plasmashell}
 
-# bspwm hotkeys --------------------------------------------------------------
-# quit/restart bspwm
-super + alt + {q,r}
-	bspc {quit,wm -r && notify-send BSPWM reloading...} && bspc -l tiled
-
+# close/kill window
 super + {_,shift + }w
 	bspc node -{c,k}
 
@@ -125,21 +102,11 @@ super + {Left,Down,Up,Right}
 super + i; {h, w}
 	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=Faculté+des+sciences&travelmode=transit&dir_action=navigate",makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=Faculté+des+sciences&origin=home&travelmode=transit&dir_action=navigate"}
 
-#super + i; a
-	#makefloat surf -G "https://calendar.google.com/calendar/u/0/r"
-
 Print
 	flameshot gui
 
-bspc rule -a Blender state=tiled
 alt + Tab
 	rofi -show windowcd -theme tab_menu
-
-super + y
-	youtube_player &
-
-super + n; l
-	i3lock
 
 # Show help
 super + slash
@@ -150,5 +117,3 @@ super + slash
 ctrl + c + any
 	echo -n | xsel -i -n
 
-#button2
-	#notify-send up; 

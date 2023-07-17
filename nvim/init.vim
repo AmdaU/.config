@@ -190,17 +190,23 @@ au BufEnter *.asy nnoremap <C-s> <Esc>:w <CR>:!asy %<CR>
 
 " Theme stuff ----------------------------------------------------------------
 "Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'dylanaraps/wal.vim'
-"Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
+"Plug 'dylanaraps/wal.vim'
+Plug 'atppuccin/nvim', {' as ': 'catppuccin'}
 
+Plug 'aduros/ai.vim'
+let $OPENAI_API_KEY=readfile(expand('~/.openai.secrets'))[0]
+vnoremap <silent> <leader>g :AI fix grammar and spelling and replace slang and contractions with a formal academic writing style<CR>
+
+
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
 " Theme and look -------------------------------------------------------------
 
-colorscheme wal
+"colorscheme wal
 "colorscheme tokyonight
-"colorscheme catppuccin
+colorscheme catppuccin
 hi Normal guibg=NONE ctermbg=NONE
 hi clear SignColumn
 hi LineNr guifg=#626880

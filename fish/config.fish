@@ -30,12 +30,13 @@ end
 
 alias bp bpython
 alias bt bpytop
-alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
+#alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
 alias gg "git add -A; git commit -m \"quick commit!\"; git push"
 alias cat bat
 alias ls "ls --hyperlink=auto --color=auto"
 alias lg lazygit
 alias lsg "git ls-files --exclude-standard | cut -d/ -f1 | uniq"
+alias tm "tmux -u"
 
 alias edit $EDITOR
 
@@ -46,7 +47,7 @@ alias nvim-fg "nvim-qt --nofork"
 
 fish_add_path /$HOME/scripts/inkscape-figures/bin/
 fish_add_path /$HOME/scripts/bspwm
-fish_add_path /$HOME/.local/bin/
+#fish_add_path /$HOME/.local/bin/
 fish_add_path /$HOME/.emacs.d/bin/
 fish_add_path /$HOME/.config/scrptis
 fish_add_path /$HOME/.local/share/gem/ruby/3.0.0/bin

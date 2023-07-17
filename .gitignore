@@ -27,4 +27,7 @@ nvim/pack
 !copyq/copyq.conf
 !bat
 !spicetify
+spicetify/Extracted
+spicetify/Extentions
+spicetify/Themes
 !snips
