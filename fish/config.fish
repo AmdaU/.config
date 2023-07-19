@@ -1,6 +1,5 @@
 if status is-interactive
-
-    #fish_vi_key_bindings
+    fish_vi_key_bindings
     set fish_cursor_default block
     set fish_cursor_insert line
     set fish_cursor_replace_one underscore
@@ -8,7 +7,7 @@ if status is-interactive
 
     bind yy fish_clipboard_copy
     bind Y fish_clipboard_copy
-    bind p fish_clipboard_paste   
+    bind p fish_clipboard_paste
 
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 end

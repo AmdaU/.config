@@ -14,8 +14,8 @@ super + space
 
 
 # Reloading ------------------------------------------------------------------
-super + alt + r; {s, w, p}
-	notify-send {reloading sxhkd && killall sxhkd && sxhkd &, reloading wal && wal -R, p && killall plasmashell && kstart plasmashell}
+super + alt + r; {s, w, p, b}
+	notify-send reloading{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma && killall plasmashell && kstart plasmashell, bspwm && bspc wm -r}
 
 # close/kill window
 super + {_,shift + }w

@@ -8,13 +8,12 @@ from random import choice
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
+with open('/home/amda/.openai.secrets') as f:
+    api_key = f.readline().strip()
+
 numers_of_tries = 3;
-api_key = "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"
 endpoint = "https://api.openai.com/v1/chat/completions"
 
-
-class bad_response(Exception):
-    pass
 
 # Load 'parameters'
 badness_types = {}
@@ -74,11 +73,11 @@ def send_request():
     else:
         raise()
 
-for i in range(numers_of_tries):
-    try:
-        print(send_request())
-        break
-    except requests.exceptions.Timeout:
-        sys.exit(1)
-    except bad_response:
-        sys.exit(1)
+# for i in range(numers_of_tries):
+    # try:
+print(send_request())
+        # break
+    # except requests.exceptions.Timeout:
+        # sys.exit(1)
+    # except bad_response:
+        # sys.exit(1)
