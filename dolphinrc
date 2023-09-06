@@ -1,3 +1,6 @@
+[$Version]
+update_info=dolphin_detailsmodesettings.upd:move-content-display
+
 [General]
 Version=202
 ViewPropsTimestamp=2023,2,9,16,14,4.139
@@ -10,8 +13,8 @@ Places Icons Auto-resize=false
 Places Icons Static Size=22
 
 [KPropertiesDialog]
-1920x1200 screen: Height=573
-1920x1200 screen: Width=952
+1920x1200 screen: Height=1150
+1920x1200 screen: Width=1910
 eDP1 Height 1920x1200 eDP1=1156
 eDP1 Width 1920x1200 eDP1=956
 
@@ -20,4 +23,4 @@ MenuBar=Disabled
 ToolBarsMovable=Disabled
 
 [PreviewSettings]
-Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,ffmpegthumbs
+Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,gsthumbnail,svgthumbnail,ffmpegthumbs

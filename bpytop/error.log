@@ -878,3 +878,9 @@ Traceback (most recent call last):
     termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
 termios.error: (5, 'Input/output error')
 08/07/23 (12:17:24) | INFO: Loglevel set to INFO
+22/08/23 (14:57:51) | ERROR: Exception when sending signal 15 to pid 1
+22/08/23 (14:57:51) | ERROR: [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5479, in process_keys
+    os.kill(pid, sig)
+PermissionError: [Errno 1] Operation not permitted

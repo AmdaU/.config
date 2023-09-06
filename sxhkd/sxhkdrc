@@ -1,52 +1,62 @@
-# Lauch {kitty, dolphin, python, gpt-ping, chrome, ranger, bpython}
-super + {_,shift +} {Return, e, p, c, g, r, b}
-	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping quick --live -l 500", google-chrome-stable, kitty -e ranger, kitty -e bpytop}
+# Launch---------------------------------------------------------------------
+# Lauch {kitty, dolphin, python, gpt-ping, chrome, ranger, bpytop}
+super + {_, shift} + {Return, e, p, c, g, r, b}
+	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping quick --live -l 500", $BROWSER, kitty -e ranger, kitty -e bpytop}
 
-# "summoning" 
-super + s; {s, d, o, x, c, m, k}
-	summon_app_bspc {spotify, discord, obsidian, xournalpp, chat-gpt, android-messages-desktop, kalendar}
+# "summon" a program
+super + s; {s, d, o, x, m, k, l}
+	summon_app_bspc {spotify, discord, obsidian, xournalpp, android-messages-desktop, kalendar, slack}
 
+# update
 super + u
-	bspc rule -a \* -o locked=true,state=floating; makefloat kitty -e yay
+	bspc rule -a \* -o locked=true,state=floating; kitty -e tmux -u new-session "yes | yay"
 
-super + space
-	rofi -show drun -show-icons -sort -sorting-method fzf
-
+super + {_, shift} + space
+	{ , makefloat &&} rofi -theme catppuccin-mocha -show drun -show-icons
 
 # Reloading ------------------------------------------------------------------
 super + alt + r; {s, w, p, b}
-	notify-send reloading{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma && killall plasmashell && kstart plasmashell, bspwm && bspc wm -r}
+	notify-send reloading{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma; killall plasmashell && kstart plasmashell, bspwm && bspc wm -r}
 
 # close/kill window
-super + {_,shift + }w
+super + {_,ctrl + }w
 	bspc node -{c,k}
 
-# alternate between the tiled and monocle layout
+
+# state/flags ----------------------------------------------------------------
+# toggle monocle
 super + m
 	bspc desktop -l next
 
-# state/flags ----------------------------------------------------------------
-
-# set the window state
-super + {t,shift + t,f,shift + f}
+# set the window state {tiled,pseudo_tiled,floating,fullscreen}
+super + {t, shift + t, f, shift + f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the flag of the current window (marked, locked, sticky, private)
 super + q; {m,l,s,p}
 	set flag {marked,locked,sticky,private};\
 	bspc node --flag $flag;\
-	#set state (bspc query -T -n focused | jq '.["'$flag'"]');\
-	#notify-send Flags "$flag was set to <b>$state<\b>" -a BSWPM
 
-super + q; h
-	bsp_hide
+#super + q; h
+	#bsp_hide
 
 # focus/swap -----------------------------------------------------------------
-# focus the node in the /given direction
-super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+# focus the node in the given direction
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
 
-# focus the next/previous window in the current desktop
+#Shift with node in given direction (or to monitor in given direction)
+super + {shift} + {h,j,k,l}
+	set dir {west,south,north,east}; \
+	if not [ (bspc query -N -n focused.floating) ];\
+		bspc node -s "$dir.local" --follow \
+				|| bspc node -m "$dir" --follow; \
+	else;\
+		bspc node -m "$dir" --follow ;\
+	end;
+
+
+# focus the next/previous window in the current desktop			
 super + {_,shift + } Tab
 	bspc node -f {next,prev}.local.!hidden.window
 
@@ -58,7 +68,9 @@ super + bracket{left,right}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
+
 # preselect ------------------------------------------------------------------
+# make next window {floating, tiled}
 super + ctrl + {f,t}
 	bspc rule -a \* -o state={floating,tiled}
 
@@ -70,50 +82,38 @@ super + ctrl + {h,j,k,l}
 super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
-# cancel the preselection for the focused node
-super + ctrl + space
-	bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
-
-# send the node to the newest preselected node get latest marked node, if none, get focused
+# cancel the preselection for the focused {node, desktop}
+super + ctrl + {_, shift}space
+	{bspc node -p cancel, bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+}
+	
+# send node to the newest preselected node (latest marked node, if none, focused)
 super + o
-	if not set node (bspc query -N -n last.marked);\
-		set node (bspc query -N -n focused);end;\
-	bspc node $node -n newest.!automatic.local -t tiled
+	if not set node (bspc query -N -n last.marked); set node (bspc query -N -n focused); end; bspc node $node -n newest.!automatic.local -t tiled
 
 # move/resize ----------------------------------------------------------------
-
 # expand a window by moving one of its side outward
-super + alt + {h,j,k,l}
+super + alt + {Left,Down,Up,Right}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
-super + alt + shift + {h,j,k,l}
+super + alt + shift + {Left,Down,Up,Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# Others ---------------------------------------------------------------------
-super + i; {h, w}
-	{makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=home&origin=Faculté+des+sciences&travelmode=transit&dir_action=navigate",makefloat surf -G "https://www.google.com/maps/dir/?api=1&destination=Faculté+des+sciences&origin=home&travelmode=transit&dir_action=navigate"}
 
+# Others ---------------------------------------------------------------------
+# take screenshot
 Print
 	flameshot gui
 
+# toggle between apps
 alt + Tab
-	rofi -show windowcd -theme tab_menu
+	rofi -show windowcd -config tab_menu -theme catppuccin-mocha
 
 # Show help
 super + slash
     sxhkd-help
-
-# test -----------------------------------------------------------------------
-
-ctrl + c + any
-	echo -n | xsel -i -n
-
