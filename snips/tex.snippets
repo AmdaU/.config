@@ -633,6 +633,22 @@ snippet '\\?ket' "ket" -irA
 \ket{${1:\psi}}$0
 endsnippet
 
+
+priority 2
+
+context "math()"
+snippet '\\bra\{ket' "braket" -irA
+\braket{${1:\psi}$0
+endsnippet
+
+context "math()"
+snippet '\\ket\{bra' "ketbra" -irA
+\ketbra{${1:\psi}$0
+endsnippet
+
+priority 1
+
+
 context "math()"
 snippet '\\?mel' "matrix element" -irA
 \mel{${1:\psi}}{${2:H}}{${3:\psi}}$0
@@ -900,6 +916,12 @@ endsnippet
 
 # common mistakes ==========
 
+priority 1
+
 snippet simga "sigma" iA
 sigma
+endsnippet
+
+snippet espilon "epsilon" iA
+epsilon
 endsnippet

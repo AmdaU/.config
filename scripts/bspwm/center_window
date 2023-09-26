@@ -10,6 +10,7 @@ read -r w h <<<$(wattr wh $wid);
 #test=$(xrandr | grep -w $(bspc query -M -m focused --names))
 #echo $test
 #res=$(xrandr | grep -w $(bspc query -M -m focused --names) | awk '{print $4}' | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+desktop=$(bspc query -D -d focused)
 res=$(xrandr | grep -w $(bspc query -M -m focused --names) | awk '{match($0, /[0-9]+x[0-9]+/); print substr($0, RSTART, RLENGTH)}')
 echo $res
 
@@ -19,3 +20,4 @@ newx=$(expr $X / 2 - $((w / 2)))
 newy=$(expr $Y / 2 - $((h / 2)))
 
 wtp $newx $newy $w $h $wid
+bspc node $wid -d $desktop

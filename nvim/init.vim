@@ -24,6 +24,12 @@ nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 
+#diabling arrow keys
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
 function! Append_dash()
   let line = line('.')
   call feedkeys("$bea \<Esc>D")
@@ -51,24 +57,24 @@ call plug#begin()
 " Latex Stuff! ---------------------------------------------------------------
 Plug 'lervag/vimtex'
 "let g:tex_flavor='latex'
-let g:vimtex_compiler_engine = 'lualatex'
+let g:vimtex_compiler_engine = 'pdflatex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 set conceallevel=2
 let g:tex_conceal='abdmg'
 
 
-Plug 'raghur/vim-ghost'
-function! s:SetupGhostBuffer()
-    if match(expand("%:a"), '\v/ghost-(overleaf)\.com-')
-        set ft=tex
-    endif
-endfunction
-augroup vim-ghost
-    au!
-    au User vim-ghost#connected call s:SetupGhostBuffer()
-augroup END
-au BufEnter *.tex :VimtexCompile
+"Plug 'raghur/vim-ghost'
+"function! s:SetupGhostBuffer()
+    "if match(expand("%:a"), '\v/ghost-(overleaf)\.com-')
+        "set ft=tex
+    "endif
+"endfunction
+"augroup vim-ghost
+    "au!
+    "au User vim-ghost#connected call s:SetupGhostBuffer()
+"augroup END
+"au BufEnter *.tex :VimtexCompile
 
 "snippets + autocomplete -----------------------------------------------------
 
@@ -191,11 +197,12 @@ au BufEnter *.asy nnoremap <C-s> <Esc>:w <CR>:!asy %<CR>
 " Theme stuff ----------------------------------------------------------------
 "Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 "Plug 'dylanaraps/wal.vim'
-Plug 'atppuccin/nvim', {' as ': 'catppuccin'}
+Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 
 Plug 'aduros/ai.vim'
 let $OPENAI_API_KEY=readfile(expand('~/.openai.secrets'))[0]
 vnoremap <silent> <leader>g :AI fix grammar and spelling and replace slang and contractions with a formal academic writing style<CR>
+"g:ai_completions_model = "gpt-3.5"
 
 
 Plug 'christoomey/vim-tmux-navigator'
