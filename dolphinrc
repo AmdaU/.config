@@ -13,8 +13,8 @@ Places Icons Auto-resize=false
 Places Icons Static Size=22
 
 [KPropertiesDialog]
-1920x1200 screen: Height=1150
-1920x1200 screen: Width=1910
+1920x1200 screen: Height=1154
+1920x1200 screen: Width=954
 eDP1 Height 1920x1200 eDP1=1156
 eDP1 Width 1920x1200 eDP1=956
 
@@ -24,3 +24,6 @@ ToolBarsMovable=Disabled
 
 [PreviewSettings]
 Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,gsthumbnail,svgthumbnail,ffmpegthumbs
+
+[Search]
+Location=Everywhere

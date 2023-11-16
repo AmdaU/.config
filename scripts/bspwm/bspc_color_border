@@ -11,7 +11,7 @@ echo $aqua
 
 
 # width of the (colorful) border (must be a least 1 less than full width)
-outer_width=1
+outer_width=2
 default_highlight_width=2
 
 
@@ -21,6 +21,7 @@ set_color() {
 	read highlight border_width <<< $(get_highlight $node_id $default $node_props)
 	bspc config -n $node_id border_width $border_width
 	inner_width=$(($border_width-$outer_width))
+	echo $inner_width $outer_width
 	chwb2 -O $highlight -I $default -i $inner_width -o $outer_width $node_id; 
 }
 

@@ -24,11 +24,17 @@ nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 
-#diabling arrow keys
+noremap <leader>ve :VimtexErrors<CR>
+noremap <leader>vc :VimtexCompile<CR>
+noremap <leader>vv :VimtexView<CR>
+
+" disabling arrow keys
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
 noremap <Up> <Nop>
 noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
 
 function! Append_dash()
   let line = line('.')
@@ -62,7 +68,12 @@ let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 set conceallevel=2
 let g:tex_conceal='abdmg'
-
+function! s:startlatex()
+  :VimtexCompile
+  ":VimtexView
+endfunction
+let g:vimtex_view_use_temp_files = 0
+au BufEnter *.tex call s:startlatex()
 
 "Plug 'raghur/vim-ghost'
 "function! s:SetupGhostBuffer()
@@ -74,7 +85,6 @@ let g:tex_conceal='abdmg'
     "au!
     "au User vim-ghost#connected call s:SetupGhostBuffer()
 "augroup END
-"au BufEnter *.tex :VimtexCompile
 
 "snippets + autocomplete -----------------------------------------------------
 
@@ -199,13 +209,38 @@ au BufEnter *.asy nnoremap <C-s> <Esc>:w <CR>:!asy %<CR>
 "Plug 'dylanaraps/wal.vim'
 Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 
-Plug 'aduros/ai.vim'
-let $OPENAI_API_KEY=readfile(expand('~/.openai.secrets'))[0]
+"Plug 'aduros/ai.vim'
+Plug 'madox2/vim-ai'
+"let $OPENAI_API_KEY=readfile(expand('~/.openai.secrets'))[0]
 vnoremap <silent> <leader>g :AI fix grammar and spelling and replace slang and contractions with a formal academic writing style<CR>
 "g:ai_completions_model = "gpt-3.5"
+let initial_prompt =<< trim END
+>>> system
 
+You are going to play a role of a completion engine with following parameters:
+Task: Provide compact code/text completion, generation, transformation or explanation
+Topic: general programming and text editing
+Style: Plain result without any commentary, unless commentary is necessary
+Audience: Users of text editor and programmers that need to transform/generate text
+END
+let chat_engine_config = {
+\  "engine": "chat",
+\  "options": {
+\    "model": "gpt-4",
+\    "max_tokens": 1000,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "selection_boundary": "",
+\    "initial_prompt": initial_prompt,
+\  },
+\}
 
+let g:vim_ai_complete = chat_engine_config
+let g:vim_ai_edit = chat_engine_config
 Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'JuliaEditorSupport/julia-vim'
+"let g:latex_to_unicode_auto = 1
 
 call plug#end()
 
@@ -248,3 +283,7 @@ lua << EOF
 EOF
 au BufEnter *.md :MarkdownPreview
 au BufEnter *.md :set nonu
+nnoremap <Up> <Nop>
+nnoremap <Down> <Nop>
+nnoremap <Left> <Nop>
+nnoremap <Right> <Nop>

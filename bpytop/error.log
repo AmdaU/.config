@@ -884,3 +884,99 @@ Traceback (most recent call last):
   File "/usr/bin/bpytop", line 5479, in process_keys
     os.kill(pid, sig)
 PermissionError: [Errno 1] Operation not permitted
+28/10/23 (22:37:46) | ERROR: <urlopen error _ssl.c:989: The handshake operation timed out>
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/urllib/request.py", line 1348, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/usr/lib/python3.11/http/client.py", line 1286, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.11/http/client.py", line 1332, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.11/http/client.py", line 1281, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.11/http/client.py", line 1041, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.11/http/client.py", line 979, in send
+    self.connect()
+  File "/usr/lib/python3.11/http/client.py", line 1458, in connect
+    self.sock = self._context.wrap_socket(self.sock,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/ssl.py", line 517, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/ssl.py", line 1108, in _create
+    self.do_handshake()
+  File "/usr/lib/python3.11/ssl.py", line 1379, in do_handshake
+    self._sslobj.do_handshake()
+TimeoutError: _ssl.c:989: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5029, in _checker
+    with urllib.request.urlopen("https://github.com/aristocratos/bpytop/raw/master/bpytop.py", timeout=5) as source: # type: ignore
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 519, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 536, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 1391, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 1351, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error _ssl.c:989: The handshake operation timed out>
+03/11/23 (14:57:20) | ERROR: HTTP Error 404: Not Found
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5029, in _checker
+    with urllib.request.urlopen("https://github.com/aristocratos/bpytop/raw/master/bpytop.py", timeout=5) as source: # type: ignore
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 525, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 634, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 563, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 643, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: Not Found
+03/11/23 (14:59:57) | ERROR: HTTP Error 404: Not Found
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5029, in _checker
+    with urllib.request.urlopen("https://github.com/aristocratos/bpytop/raw/master/bpytop.py", timeout=5) as source: # type: ignore
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 525, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 634, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 563, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 643, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: Not Found

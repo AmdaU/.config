@@ -36,6 +36,7 @@ alias ls "ls --hyperlink=auto --color=auto"
 alias lg lazygit
 alias lsg "git ls-files --exclude-standard | cut -d/ -f1 | uniq"
 alias tm "tmux -u"
+alias julia_itensors="julia --sysimage ~/.julia/sysimages/sys_itensors.so -e \"using ITensors\" -i "
 
 alias edit $EDITOR
 

@@ -925,3 +925,13 @@ endsnippet
 snippet espilon "epsilon" iA
 epsilon
 endsnippet
+
+context "math()"
+snippet hat "\hat" iA
+\hat
+endsnippet
+	
+context "math()"
+snippet 'sbf (.+) ' "boldsymbol" irA
+\boldsymbol{`!p snip.rv = match.group(1)`}$0
+endsnippet

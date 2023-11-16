@@ -4,8 +4,8 @@ super + {_, shift} + {Return, e, p, c, g, r, b}
 	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping quick --live -l 500", $BROWSER, kitty -e ranger, kitty -e bpytop}
 
 # "summon" a program
-super + s; {s, d, o, x, m, k, l}
-	summon_app_bspc {spotify, discord, obsidian, xournalpp, android-messages-desktop, kalendar, slack}
+super + s; {s, d, o, x, m, k, l, n}
+	summon_app_bspc {spotify, discord, obsidian, xournalpp, android-messages-desktop, kalendar, slack, notion-app}
 
 # update
 super + u
@@ -16,7 +16,8 @@ super + {_, shift} + space
 
 # Reloading ------------------------------------------------------------------
 super + alt + r; {s, w, p, b}
-	notify-send reloading{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma; killall plasmashell && kstart plasmashell, bspwm && bspc wm -r}
+	set app{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma; killall plasmashell; kstart plasmashell, bspwm && bspc wm -r};\
+	notify-send reloading $app
 
 # close/kill window
 super + {_,ctrl + }w

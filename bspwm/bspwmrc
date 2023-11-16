@@ -6,14 +6,17 @@ fish "set -U SXHKD_SHELL sh"
 # services stuff --------------------------------------------------------------
 pkill -USR1 -x sxhkd &
 picom --backend glx --glx-no-rebind-pixmap --glx-no-stencil --vsync&
-#libinput-gestures-setup restart
-xbindkeys &
-copyq &
-flameshot &
-kstart plasmashell
 
-pkill stupid
-stupid &
+if [[ "$1" = 0 ]]; then
+	#libinput-gestures-setup restart
+	xbindkeys &
+	copyq &
+	flameshot &
+	kstart plasmashell
+
+	#pkill stupid
+	stupid &
+fi
 
 # Monitor stuff ---------------------------------------------------------------
 EXT_MON=$(xrandr -q | pcregrep -o1 "(\bDP.+) connected")
@@ -72,6 +75,7 @@ bspc rule -a imv state=tiled
 bspc rule -a Inkscape state=fullscreen
 bspc rule -a "kdeconnect.daemon" state=fullscreen
 bspc rule -a kitty state=tiled center=true rectangle=1418x860+0+0
+bspc rule -a libreoffice state=tiled
 bspc rule -a Mathematica state=pseudo_tiled
 bspc rule -a nvim-qt state=tiled bspc rule -a obsidian state=tiled
 bspc rule -a Slack state=floating center=true
@@ -96,12 +100,14 @@ sxhkd &
 setxkbmap -option caps:escape
 #setxkbmap -option caps:swapescape
 
-makefloat && $TERMINAL -e fish -c "cbonsai -m (bad)"
+if [[ "$1" = 0 ]]; then
+	makefloat && $TERMINAL -e fish -c "cbonsai -m (bad)"
 
-sleep 20
+	sleep 20
 
-# bspc scipts! ----------------------------------------------------------------
-killall bspc_color_border
-$HOME/scripts/bspwm/bspc_color_border &
-#$HOME/scripts/bspwm/bspi_listen.sh &
-pgrep bspswallow || bspswallow &
+	# bspc scipts! ----------------------------------------------------------------
+	killall bspc_color_border
+	$HOME/scripts/bspwm/bspc_color_border &
+	#$HOME/scripts/bspwm/bspi_listen.sh &
+	pgrep bspswallow || bspswallow &
+fi
