@@ -2,7 +2,12 @@
 setlocal nu rnu
 let g:python3_host_prog = "/home/amda/.config/nvim/.venv/bin/python3"
 set textwidth=0
-set colorcolumn=79
+
+if &filetype ==# 'jl'
+  set colorcolumn=92
+else
+  set colorcolumn=79
+endif
 
 source ~/.config/nvim/extra_funcs/warp.vim
 " Controls --------------------------------------------
@@ -65,7 +70,7 @@ Plug 'lervag/vimtex'
 "let g:tex_flavor='latex'
 let g:vimtex_compiler_engine = 'pdflatex'
 let g:vimtex_view_method='zathura'
-let g:vimtex_quickfix_mode=0
+let g:vimtex_quickfix_mode=1
 set conceallevel=2
 let g:tex_conceal='abdmg'
 function! s:startlatex()
@@ -96,19 +101,10 @@ let g:UltiSnipsJumpBackwardTrigger="<M-h>"
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips",expand("$HOME") . "/.config/snips/"]
 Plug 'honza/vim-snippets'
 
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"inoremap <silent><expr> <TAB>
-      "\ pumvisible() ? coc#_select_confirm() :
-      "\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      "\ <SID>check_back_space() ? "\<TAB>" :
-      "\ coc#refresh()
 
-"function! s:check_back_space() abort
-  "let col = col('.') - 1
-  "return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
-"let g:coc_snippet_next = '<M-l>'
-"let g:coc_snippet_prev = '<M-h>'
+"if &filetype !=# 'tex'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 
 " Markdown -------------------------------------------------------------------
@@ -213,6 +209,12 @@ Plug 'catppuccin/nvim', {' as ': 'catppuccin'}
 Plug 'madox2/vim-ai'
 "let $OPENAI_API_KEY=readfile(expand('~/.openai.secrets'))[0]
 vnoremap <silent> <leader>g :AI fix grammar and spelling and replace slang and contractions with a formal academic writing style<CR>
+let g:vim_ai_chat = {
+\  "options": {
+\    "model": "gpt-4",
+\    "temperature": 0.2,
+\  },
+\}
 "g:ai_completions_model = "gpt-3.5"
 let initial_prompt =<< trim END
 >>> system

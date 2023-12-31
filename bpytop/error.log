@@ -980,3 +980,15 @@ Traceback (most recent call last):
   File "/usr/lib/python3.11/urllib/request.py", line 643, in http_error_default
     raise HTTPError(req.full_url, code, msg, hdrs, fp)
 urllib.error.HTTPError: HTTP Error 404: Not Found
+17/12/23 (19:14:29) | ERROR: Data collection thread failed with exception: list index out of range
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+  File "/usr/bin/bpytop", line 2835, in _draw_fg
+    vals += [f'{THEME.gradient["proc_color" if val < 100 else "process"][val if val < 100 else val - 100]}']
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: list index out of range
+17/12/23 (19:14:30) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
