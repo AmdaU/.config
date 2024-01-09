@@ -1,6 +1,11 @@
 [$Version]
 update_info=dolphin_detailsmodesettings.upd:move-content-display
 
+[ExtractDialog]
+1920x1200 screen: Height=574
+1920x1200 screen: Width=954
+DirHistory[$e]=$HOME/Documents/Projects/diff/ramcastV3/cropped/,$HOME/Documents/Projects/diff/gelcast/1024x1024/,$HOME/Documents/Projects/diff/gelcast/512x512/
+
 [General]
 Version=202
 ViewPropsTimestamp=2023,2,9,16,14,4.139
@@ -11,9 +16,12 @@ PreviewSize=256
 [KFileDialog Settings]
 Places Icons Auto-resize=false
 Places Icons Static Size=22
+Recent Files[$e]=file:$HOME,file:$HOME/Documents/Projects/diff/gelcast/1024x1024
+Recent URLs[$e]=file:$HOME/Documents/Projects/diff/gelcast/512x512/,file:$HOME/Documents/Projects/diff/gelcast/1024x1024/,file:$HOME/Documents/Projects/diff/ramcastV3/cropped/
+listViewIconSize=64
 
 [KPropertiesDialog]
-1920x1200 screen: Height=1154
+1920x1200 screen: Height=574
 1920x1200 screen: Width=954
 2 screens: Height=1154
 2 screens: Width=1914
