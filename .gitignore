@@ -23,6 +23,7 @@ nvim/pack
 !.Xresources
 !libinput-gestures*
 !scripts
+*.dat
 !xsession
 !copyq/copyq.conf
 !bat
