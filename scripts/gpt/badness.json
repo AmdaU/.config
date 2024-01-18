@@ -5,7 +5,7 @@
 	},
 	"life":
 	{
-		"prompt": "A short **terrible** life advice (that could lead to awkward, dangerous or painful situation, possibly damage relationship or even lead you to death) (do not provide **any** additional explanation):"
+		"prompt": "A short **terrible** life advice (that could lead to awkward, dangerous or painful situation, possibly damage relationship) (do not provide **any** additional explanation):"
 	},
 	"code":
 	{

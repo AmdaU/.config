@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('type',
                     help=f'type of badness. Can be one of: {type_list}',
                     default=choice(type_list), nargs='?')
-parser.add_argument('-T', help='temperature', default=1.5, type=float)
+parser.add_argument('-T', help='temperature', default=1.3, type=float)
 parser.add_argument('-m', help='max tokens', default=100, type=int)
 
 args = parser.parse_args()

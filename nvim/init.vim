@@ -68,7 +68,7 @@ call plug#begin()
 " Latex Stuff! ---------------------------------------------------------------
 Plug 'lervag/vimtex'
 "let g:tex_flavor='latex'
-let g:vimtex_compiler_engine = 'pdflatex'
+let g:vimtex_compiler_engine = 'latexmk'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=1
 set conceallevel=2
@@ -77,7 +77,7 @@ function! s:startlatex()
   :VimtexCompile
   ":VimtexView
 endfunction
-let g:vimtex_view_use_temp_files = 0
+"let g:vimtex_view_use_temp_files = 0
 au BufEnter *.tex call s:startlatex()
 
 "Plug 'raghur/vim-ghost'

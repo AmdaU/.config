@@ -5,7 +5,7 @@ super + {_, shift} + {Return, e, p, c, g, r, b}
 
 # "summon" a program
 super + s; {s, d, o, x, m, k, l, n}
-	summon_app_bspc {spotify, discord, obsidian, xournalpp, android-messages-desktop, kalendar, slack, notion-app}
+	summon_app_bspc {spotify, discord, obsidian, xournalpp, android-messages-desktop, merkuro-calendar, slack, notion-app}
 
 # update
 super + u
