@@ -6,7 +6,7 @@ set textwidth=0
 if &filetype ==# 'jl'
   set colorcolumn=92
 else
-  set colorcolumn=79
+  set colorcolumn=81
 endif
 
 source ~/.config/nvim/extra_funcs/warp.vim
@@ -32,6 +32,7 @@ noremap <silent> <Leader>w :call ToggleWrap()<CR>
 noremap <leader>ve :VimtexErrors<CR>
 noremap <leader>vc :VimtexCompile<CR>
 noremap <leader>vv :VimtexView<CR>
+noremap <leader>vl :VimtexClean<CR>
 
 " disabling arrow keys
 inoremap <Up> <Nop>
@@ -242,6 +243,8 @@ let g:vim_ai_edit = chat_engine_config
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'JuliaEditorSupport/julia-vim'
+Plug 'benekastah/neomake' 
+Plug 'zyedidia/julialint.vim'
 "let g:latex_to_unicode_auto = 1
 
 call plug#end()

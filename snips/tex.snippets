@@ -643,6 +643,10 @@ endsnippet
 
 priority 1
 
+context "math()"
+snippet '\\?avg' "expval or average" -irA
+\expval{${1:\hat 0}}$0
+endsnippet
 
 context "math()"
 snippet '\\?mel' "matrix element" -irA
@@ -810,14 +814,22 @@ snippet ... "three dots mathmode" iA
 \dotsb
 endsnippet
 
+context "math()"
 snippet elem "matrix element" i
 \bra{$1}$2\ket{$3}$0
 endsnippet
 
+context "math()"
 snippet '\\?varp' "fast varphi" irA
 \varphi
 endsnippet
 
+context "math()"
+snippet '\\?kb' "fast boltzmann" irA
+k_{B}
+endsnippet
+
+context "math()"
 snippet exp "exponential" i
 e^{$1}$0
 endsnippet
@@ -882,6 +894,16 @@ snippet === "'triple' equality" iA
 \equiv$0
 endsnippet
 
+context "math()"
+snippet hat "\hat" iA
+\hat
+endsnippet
+	
+context "math()"
+snippet 'sbf (.+) ' "boldsymbol" irA
+\boldsymbol{`!p snip.rv = match.group(1)`}$0
+endsnippet
+
 priority 10000
 snippet 'sympy(.*)sympy' "evaluate sympy" wr
 `!p
@@ -930,12 +952,14 @@ snippet espilon "epsilon" iA
 epsilon
 endsnippet
 
-context "math()"
-snippet hat "\hat" iA
-\hat
+snippet xhi "chi" iA
+chi
 endsnippet
-	
-context "math()"
-snippet 'sbf (.+) ' "boldsymbol" irA
-\boldsymbol{`!p snip.rv = match.group(1)`}$0
+
+snippet pho "rho" iA
+rho
+endsnippet
+
+snippet cric "cirle or degree symbol" iA
+circ
 endsnippet
