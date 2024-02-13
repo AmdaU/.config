@@ -1,13 +1,11 @@
 " general parmeters ----------------------------------------------------------
-setlocal nu rnu
+set nu rnu
 let g:python3_host_prog = "/home/amda/.config/nvim/.venv/bin/python3"
 set textwidth=0
+set tabstop=4
 
-if &filetype ==# 'jl'
-  set colorcolumn=92
-else
-  set colorcolumn=81
-endif
+:autocmd FileType julia set tabstop=2
+
 
 source ~/.config/nvim/extra_funcs/warp.vim
 " Controls --------------------------------------------
@@ -41,6 +39,8 @@ noremap <Up> <Nop>
 noremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
+
+set mouse=ncrv
 
 function! Append_dash()
   let line = line('.')
@@ -127,7 +127,7 @@ let g:NERDTreeGitStatusConcealBrackets = 1
 " syntax stuff ---------------------------------------------------------------
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-syntastic/syntastic'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'sbdchd/neoformat'
 "let g:neoformat_verbose = 1
 let g:neoformat_python_autopep8 = {
@@ -276,6 +276,8 @@ function! UpdateFile()
        let b:save_time = localtime()
    endif
 endfunction
+
+autocmd BufReadPost * set shiftwidth=0
 
 set clipboard+=unnamedplus
 

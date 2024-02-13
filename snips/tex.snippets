@@ -576,7 +576,7 @@ endsnippet
 priority 1
 
 snippet mk "quick math" iA
-$${1:${VISUAL}}$$0
+\(${1:${VISUAL}}\)$0
 endsnippet	
 
 snippet dm "display mode" iA
@@ -609,8 +609,14 @@ snippet bb "mathbb" i
 \mathbb{$1}$0
 endsnippet
 
-snippet ds "mathds" i
-\mathds{$1}$0
+#context "math()"
+#snippet ds "mathds" i
+#\mathds{$1}$0
+#endsnippet
+
+context "math()"
+snippet 'ds(\w)' "ds Letter" ir
+`!p snip.rv = r"\mathds{" + match.group(1) + r"}"`$1
 endsnippet
 
 context "math()"
@@ -857,7 +863,7 @@ snippet del "partial ou del" i
 endsnippet
 
 context "math()"
-snippet set "set" iA
+snippet set "set" i
 \\{ $1 \\} $0
 endsnippet
 
@@ -944,18 +950,22 @@ endsnippet
 
 priority 1
 
+context "math()"
 snippet simga "sigma" iA
 sigma
 endsnippet
 
+context "math()"
 snippet espilon "epsilon" iA
 epsilon
 endsnippet
 
+context "math()"
 snippet xhi "chi" iA
 chi
 endsnippet
 
+context "math()"
 snippet pho "rho" iA
 rho
 endsnippet
