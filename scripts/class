@@ -9,7 +9,7 @@ switch $argv[1]
 
         inkscape-figures watch
 
-        deep_focus
+        #deep_focus
 
         edit "cours$num"".tex"
     case resume

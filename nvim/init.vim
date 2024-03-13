@@ -71,7 +71,8 @@ Plug 'lervag/vimtex'
 "let g:tex_flavor='latex'
 let g:vimtex_compiler_engine = 'latexmk'
 let g:vimtex_view_method='zathura'
-let g:vimtex_quickfix_mode=1
+let g:vimtex_quickfix_mode=2
+let g:vimtex_quickfix_method='pplatex'
 set conceallevel=2
 let g:tex_conceal='abdmg'
 function! s:startlatex()
@@ -268,9 +269,9 @@ au CursorHold,CursorHoldI * call UpdateFile()
 au CursorMoved,CursorMovedI * call UpdateFile()
 
 function! UpdateFile()
-    if &filetype ==# 'tex'
-       let g:autosave_time = 5
-    endif
+    "if &filetype ==# 'tex'
+       "let g:autosave_time = 5
+    "endif
     if((localtime() - g:save_time) >= g:autosave_time)
        update
        let b:save_time = localtime()
@@ -289,6 +290,7 @@ lua << EOF
   }
 EOF
 au BufEnter *.md :MarkdownPreview
+autocmd TermOpen * :setlocal nonu norelativenumber
 au BufEnter *.md :set nonu
 nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>

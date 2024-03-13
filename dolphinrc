@@ -32,8 +32,8 @@ eDP1 Width 1920x1200 eDP1=956
 MenuBar=Disabled
 ToolBarsMovable=Disabled
 
+[Notification Messages]
+Location BarShow PreviewsF12=false
+
 [PreviewSettings]
 Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,gsthumbnail,svgthumbnail,ffmpegthumbs
-
-[Search]
-Location=Everywhere
