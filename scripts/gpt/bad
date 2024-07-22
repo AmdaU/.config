@@ -75,7 +75,7 @@ def send_request():
 
 # for i in range(numers_of_tries):
     # try:
-print(send_request())
+print(send_request()+"\n\t\t - The GPT")
         # break
     # except requests.exceptions.Timeout:
         # sys.exit(1)

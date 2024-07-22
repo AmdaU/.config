@@ -9,8 +9,7 @@ SERVICE=$1
 TIME_TO_STOP=30 # Number of seconds let to a service to fully stop if necessary
 
 # check if the service is running, if not: runs it!
-if pgrep -af "$SERVICE" --ignore-case | grep -v "summon" >/dev/null  
-then
+if pgrep -af "$SERVICE" --ignore-case | grep -v "summon" >/dev/null; then
     echo "$SERVICE is running"
     # get the stored id of the window
     NODE_ID=$(cat $DIR/$SERVICE.dat)
@@ -50,15 +49,16 @@ then
         else
             echo "hidding node"
             window_offscreen $NODE_ID
-            sleep 0.5;
+			#sleep 0.1
             bspc node $NODE_ID -g hidden=on
             bspc node $NODE_ID -d '^10'
         fi
     else
         echo "unhidding node"
         bspc node $NODE_ID -g hidden=off
-        bspc node $NODE_ID -d $(bspc query -D -d focused)
         bspc node $NODE_ID -l above
+		sleep 0.1
+        bspc node $NODE_ID -d $(bspc query -D -d focused)
         center_window $NODE_ID
         bspc node -f $NODE_ID
     fi

@@ -1,4 +1,3 @@
-##########
 # GLOBAL #
 ##########
 
@@ -203,12 +202,11 @@ endsnippet
 snippet table "Table environment" b
 \begin{table}[${1:htpb}]
 	\centering
-	\caption{${2:caption}}
-	\label{tab:${3:label}}
-
 	\begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
 		$0${5/(?<=.)(c|l|r)|./(?1: & )/g}
 	\end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+	\caption{${2:caption}}
+	\label{tab:${3:label}}
 \end{table}
 endsnippet
 
@@ -713,12 +711,14 @@ endsnippet
 
 priority 2
 
+context "math()"
 snippet '\\?pdv( ([0-9]+))? ([^\d].*) (.+) ' "derivative" irA
 \pdv`!p snip.rv = '['+match.group(2)+']' if not match.group(2) is None else ''`{`!p snip.rv = match.group(3)`}{`!p snip.rv = match.group(4)`} 
 endsnippet
 
 priority 1
 
+context "math()"
 snippet '\\?sqrt ?([0-9]+) ' "sqrt auto" irA
 \sqrt{`!p snip.rv = match.group(1)`} 
 endsnippet
@@ -747,22 +747,27 @@ snippet 'scr([A-Za-z])' "mathcal" irA
 \mathscr{`!p snip.rv = match.group(1)`}
 endsnippet
 
+context "math()"
 snippet eval "evalulation" i
 \eval{${1:${VISUAL}}}_{$2} $0
 endsnippet
 
+context "math()"
 snippet '\\?vb' "vector bold auto" irA
 \vb{$1}$0
 endsnippet
 
+context "math()"
 snippet '(\\vb\{.\})' "vector bold auto part 2" irA
 `!p snip.rv = match.group(1) + "allo"`$1
 endsnippet
 
+context "math()"
 snippet '\\?Vb' "vector bold auto" irA
 \vec{$1}$0
 endsnippet
 
+context "math()"
 snippet '(\\Vb\{.\})' "vector bold auto part 2" irA
 `!p snip.rv = match.group(1) + "allo"`$1
 endsnippet
@@ -792,23 +797,27 @@ snippet id "identity" i
 \mathds{1}
 endsnippet
 
+context "math()"
 snippet un "underbraces" i
 \underbrace{${VISUAL}}_{$2} $0
 endsnippet
 
+context "math()"
 snippet ov "overbrace" i
 \overbrace{${VISUAL}}^{$2} $0
 endsnippet
 
+context "math()"
 snippet _t "text subscript" i
 _{\text{$1}} $0
 endsnippet
 
-
+context "math()"
 snippet ^t "text superscript" i
 ^{\text{$1}} $0
 endsnippet
 
+context "math()"
 snippet c. "dot product" iA
 \cdot 
 endsnippet

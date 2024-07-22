@@ -3,8 +3,12 @@ set nu rnu
 let g:python3_host_prog = "/home/amda/.config/nvim/.venv/bin/python3"
 set textwidth=0
 set tabstop=4
+"set shiftwidth=4
+"set expandtab
+set colorcolumn=80
 
 :autocmd FileType julia set tabstop=2
+:autocmd FileType typst :TypstWatch
 
 
 source ~/.config/nvim/extra_funcs/warp.vim
@@ -43,10 +47,10 @@ inoremap <Right> <Nop>
 set mouse=ncrv
 
 function! Append_dash()
-  let line = line('.')
+  "let line = line('.')
   call feedkeys("$bea \<Esc>D")
   let result = substitute(col('.'), '\d\+', '\=' . &colorcolumn . ' - submatch(0) - 2', '')
-  call feedkeys(result . "a-\<Esc>")
+  call feedkeys("a \<Esc>" . result . "a-\<Esc>")
 endfunction
 
 noremap <Leader>d :call Append_dash()<CR>
@@ -101,6 +105,12 @@ let g:UltiSnipsJumpForwardTrigger="<M-l>"
 let g:UltiSnipsJumpBackwardTrigger="<M-h>"
 "let g:UltiSnipsSnippetDirectories = [expand("$HOME") . "/.config/snips/"]
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips",expand("$HOME") . "/.config/snips/"]
+"Make Tab work normally also
+"function! CheckBackSpace() abort
+    "let col = col('.') - 1
+    "return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : CheckBackSpace() ? "\<Tab>": UltiSnips#ExpandSnippetOrJump()
 Plug 'honza/vim-snippets'
 
 
@@ -248,6 +258,13 @@ Plug 'benekastah/neomake'
 Plug 'zyedidia/julialint.vim'
 "let g:latex_to_unicode_auto = 1
 
+if !exists('g:vscode')
+	Plug 'Exafunction/codeium.vim'
+endif
+
+Plug 'kaarmu/typst.vim'
+let g:typst_auto_open_quickfix = 0
+
 call plug#end()
 
 " Theme and look -------------------------------------------------------------
@@ -260,18 +277,20 @@ hi clear SignColumn
 hi LineNr guifg=#626880
 hi clear Conceal
 
-
+let g:autosave_time = 600
+autocmd FileType typst let g:autosave_time = 2
 " Autosave -------------------------------------------------------------------
-let g:autosave_time = 600 
+if &filetype ==# 'typst'
+   let g:autosave_time = 2
+else
+	let g:autosave_time = 600
+endif
 let g:save_time = localtime()
 au BufRead,BufNewFile * let g:save_time = localtime()
 au CursorHold,CursorHoldI * call UpdateFile()
 au CursorMoved,CursorMovedI * call UpdateFile()
 
 function! UpdateFile()
-    "if &filetype ==# 'tex'
-       "let g:autosave_time = 5
-    "endif
     if((localtime() - g:save_time) >= g:autosave_time)
        update
        let b:save_time = localtime()
