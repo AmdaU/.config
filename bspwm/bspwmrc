@@ -30,6 +30,8 @@ if [[ "$1" = 0 ]]; then
 fi
 
 # Monitor stuff ---------------------------------------------------------------
+bspc config remove_unplugged_monitors true
+
 EXT_MON=$(xrandr -q | pcregrep -o1 "(\bDP.+) connected")
 
 if [[ $EXT_MON ]]; then
@@ -43,7 +45,7 @@ if [[ $EXT_MON ]]; then
 else
 	EXT_MON=$(bspc query -M --names | pcregrep -o1 "(\bDP.+)")
 	if [[ $EXT_MON ]]; then
-		bspc monitor $EXT_MON -r
+		#bspc monitor $EXT_MON -r
 		bspc wm -o
 	fi
 	bspc monitor eDP1 			-d I    II   III  IV   V   VI   VII  VIII IX X
@@ -92,6 +94,7 @@ bspc rule -a Inkscape state=fullscreen
 bspc rule -a "kdeconnect.daemon" state=fullscreen
 bspc rule -a kitty state=tiled center=true rectangle=1418x860+0+0
 bspc rule -a libreoffice-impress state=tiled
+bspc rule -a Soffice state=tiled
 bspc rule -a Mathematica state=pseudo_tiled
 bspc rule -a nvim-qt state=tiled bspc rule -a obsidian state=tiled
 bspc rule -a Slack state=floating center=true
@@ -126,3 +129,5 @@ if [[ "$1" = 0 ]]; then
 	#$HOME/scripts/bspwm/bspi_listen.sh &
 	pgrep bspswallow || bspswallow &
 fi
+
+ssh -f -N -L 8080:localhost:8080 amda@amda.ddns.net -p 45447

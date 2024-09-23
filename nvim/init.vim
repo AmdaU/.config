@@ -8,6 +8,7 @@ set tabstop=4
 set colorcolumn=80
 
 :autocmd FileType julia set tabstop=2
+:autocmd FileType julia set colorcolumn=92
 :autocmd FileType typst :TypstWatch
 
 
@@ -16,7 +17,6 @@ source ~/.config/nvim/extra_funcs/warp.vim
 let mapleader = ";"
 inoremap <C-s> <Esc>:w <CR>
 nnoremap <C-s> <Esc>:w <CR>
-inoremap <C-z> <Esc>ua
 inoremap <C-b> <Esc>:NERDTreeToggle<CR>
 nnoremap <C-b> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFocus<CR>
@@ -30,11 +30,21 @@ inoremap <C-w> <Esc>:tabclose<CR>
 nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
+noremap <leader>s :vsplit<CR>
 
 noremap <leader>ve :VimtexErrors<CR>
 noremap <leader>vc :VimtexCompile<CR>
 noremap <leader>vv :VimtexView<CR>
 noremap <leader>vl :VimtexClean<CR>
+
+nnoremap <leader>jf :JuliaFormatterFormat<CR>
+vnoremap <leader>jf :JuliaFormatterFormat<CR>
+
+"let g:comfortable_motion_scroll_down_key = "j"
+"let g:comfortable_motion_scroll_up_key = "k"
+"noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+"noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+
 
 " disabling arrow keys
 inoremap <Up> <Nop>
@@ -264,6 +274,16 @@ endif
 
 Plug 'kaarmu/typst.vim'
 let g:typst_auto_open_quickfix = 0
+
+Plug 'kdheepak/JuliaFormatter.vim'
+let g:JuliaFormatter_options = {
+        \ 'indent'                    : 2,
+        \ 'margin'                    : 92,
+        \ }
+
+"Plug 'yuttie/comfortable-motion.vim'
+"Plug 'terryma/vim-smooth-scroll'
+"Plug 'joeytwiddle/sexy_scroller.vim'
 
 call plug#end()
 

@@ -1,0 +1,19 @@
+#!/bin/bash
+EXT_MON=$(xrandr -q | pcregrep -o1 "(\bDP.+) connected")
+
+if [[ $EXT_MON ]]; then
+	if [[ $(xrandr | grep $EXT_MON | grep primary -o) ]]; then
+		bspc monitor eDP1 		-d VI   VII  VIII IX   X
+		bspc monitor $EXT_MON   -d I    II   III  IV   V
+	else
+		bspc monitor eDP1 		-d I    II   III  IV   V
+		bspc monitor $EXT_MON   -d VI   VII  VIII IX   X
+	fi
+else
+	EXT_MON=$(bspc query -M --names | pcregrep -o1 "(\bDP.+)")
+	if [[ $EXT_MON ]]; then
+		#bspc monitor $EXT_MON -r
+		bspc wm -o
+	fi
+	bspc monitor eDP1 			-d I    II   III  IV   V   VI   VII  VIII IX X
+fi

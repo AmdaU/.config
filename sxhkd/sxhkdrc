@@ -1,7 +1,7 @@
 # Launch---------------------------------------------------------------------
 # Lauch {kitty, dolphin, python, gpt-ping, chrome, ranger, bpytop}
-super + {_, shift} + {Return, e, p, c, g, r, b, q}
-	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping "concise" --live -l 500", $BROWSER, kitty -e ranger, kitty -e bpytop, bspc rule -a \* -o state=floating rectangle=1500x450+0+0 && firefox --new-window https://monkeytype.com/ --kiosk}
+super + {_, shift} + {Return, e, p, c, g, r, b, i}
+	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping "concise" --live -l 500", $BROWSER, kitty -e ranger, kitty -e bpytop, bspc rule -a \* -o state=floating rectangle=1500x500+0+500 && firefox --new-window https://monkeytype.com/ --kiosk}
 
 # "summon" a program
 super + s; {s, d, o, x, m, k, l, n}
@@ -16,8 +16,11 @@ super + {_, shift} + space
 
 # Reloading ------------------------------------------------------------------
 super + alt + r; {s, w, p, b}
-	set app{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma; killall -9 plasmashell; kstart plasmashell, bspwm && bspc wm -r};\
+	set app{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma; killall -9 plasmashell; kstart plasmashell && sleep 2 && xdo lower -n plasmashell && xdo lower (xdotool search --name "Desktop"), bspwm && bspc wm -r};\
 	notify-send reloading $app
+
+super + n;
+	fix_monitors
 
 # close/kill window
 super + {_,ctrl + }w

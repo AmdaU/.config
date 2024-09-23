@@ -7,6 +7,7 @@ update_info=dolphin_detailsmodesettings.upd:move-content-display
 DirHistory[$e]=$HOME/Documents/Projects/diff/ramcastV3/cropped/,$HOME/Documents/Projects/diff/gelcast/1024x1024/,$HOME/Documents/Projects/diff/gelcast/512x512/
 
 [General]
+GlobalViewProps=false
 Version=202
 ViewPropsTimestamp=2023,2,9,16,14,4.139
 
@@ -36,4 +37,4 @@ ToolBarsMovable=Disabled
 Location BarShow PreviewsF12=false
 
 [PreviewSettings]
-Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,gsthumbnail,svgthumbnail,ffmpegthumbs
+Plugins=appimagethumbnail,audiothumbnail,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,gsthumbnail,svgthumbnail,textthumbnail,ffmpegthumbs

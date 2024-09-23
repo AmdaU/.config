@@ -34,8 +34,11 @@ if pgrep -af "$SERVICE" --ignore-case | grep -v "summon" >/dev/null; then
                     # check if process has stopped
                     sleep 0.1
                     if [ $(date +%s) -gt $end_time ]; then
-                    echo "service hasn't stopped after 30s... trying to restart anyway..."
-                    break
+						#echo "service hasn't stopped after 30s... trying to restart anyway..."
+						#break
+						echo "service hasn't stopped after 30s... giving up 😢"
+                		notify-send -a "Summoner" "$SERVICE has not stopped after $TIME_TO_STOP seconds, giving up 😢" -i $SERVICE
+						exit 1
                     fi
                 done
                 summon_app_bspc $SERVICE
