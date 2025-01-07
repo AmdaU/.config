@@ -1,0 +1,123 @@
+# Launch---------------------------------------------------------------------
+# Lauch {kitty, dolphin, python, gpt-ping, chrome, ranger, bpytop}
+alt + {_, shift} + {Return, e, p, c, g, r, b, i}
+	{ , makefloat &&} {kitty, dolphin, kitty -e bpython, kitty -e fish -c "gpt_ping "concise" --live -l 500", $BROWSER, kitty -e ranger, kitty -e bpytop, bspc rule -a \* -o state=floating rectangle=1500x500+0+500 && firefox --new-window https://monkeytype.com/ --kiosk}
+
+# "summon" a program
+alt + s; {s, d, o, x, m, k, l, n}
+	summon_app_bspc {spotify, discord, obsidian, xournalpp, android-messages-desktop, merkuro-calendar, slack, notion-app}
+
+# update
+alt + u
+	systemd-inhibit --what=shutdown:sleep:idle (bspc rule -a \* -o locked=true,state=floating && kitty -e tmux -u new-session "yes | yay")
+
+alt + {_, shift} + space
+	{ , makefloat &&} rofi -theme catppuccin-mocha -show drun -show-icons
+
+# Reloading ------------------------------------------------------------------
+alt + alt + r; {s, w, p, b}
+	set app{ sxhkd && killall sxhkd && sxhkd &, wal && wal -R, plasma; killall -9 plasmashell; kstart plasmashell && sleep 2 && xdo lower -n plasmashell && xdo lower (xdotool search --name "Desktop"), bspwm && bspc wm -r};\
+	notify-send reloading $app
+
+alt + n;
+	fix_monitors
+
+# close/kill window
+alt + {_,ctrl + }w
+	bspc node -{c,k}
+
+
+# state/flags ----------------------------------------------------------------
+# toggle monocle
+alt + m
+	bspc desktop -l next
+
+# set the window state {tiled,pseudo_tiled,floating,fullscreen}
+alt + {t, shift + t, f, shift + f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the flag of the current window (marked, locked, sticky, private)
+alt + q; {m,l,s,p}
+	set flag {marked,locked,sticky,private};\
+	bspc node --flag $flag;\
+
+#alt + q; h
+	#bsp_hide
+
+# focus/swap -----------------------------------------------------------------
+# focus the node in the given direction
+alt + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+#Shift with node in given direction (or to monitor in given direction)
+alt + {shift} + {h,j,k,l}
+	set dir {west,south,north,east}; \
+	if not [ (bspc query -N -n focused.floating) ];\
+		bspc node -s "$dir.local" --follow \
+				|| bspc node -m "$dir" --follow; \
+	else;\
+		bspc node -m "$dir" --follow ;\
+	end;
+
+
+# focus the next/previous window in the current desktop			
+alt + {_,shift + } Tab
+	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+alt + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus or send to the given desktop
+alt + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+
+# preselect ------------------------------------------------------------------
+# make next window {floating, tiled}
+alt + ctrl + {f,t}
+	bspc rule -a \* -o state={floating,tiled}
+
+# preselect the direction
+alt + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+alt + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused {node, desktop}
+alt + ctrl + {_, shift} + space
+	{bspc node -p cancel, bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+}
+	
+# send node to the newest preselected node (latest marked node, if none, focused)
+alt + o
+	if not set node (bspc query -N -n last.marked); set node (bspc query -N -n focused); end; bspc node $node -n newest.!automatic.local -t tiled
+
+# move/resize ----------------------------------------------------------------
+# expand a window by moving one of its side outward
+alt + alt + {Left,Down,Up,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+alt + alt + shift + {Left,Down,Up,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+alt + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+
+# Others ---------------------------------------------------------------------
+# take screenshot
+Print
+	flameshot gui
+
+# toggle between apps
+alt + Tab
+	rofi -show windowcd -config tab_menu -theme catppuccin-mocha
+
+# Show help
+alt + slash
+    sxhkd-help

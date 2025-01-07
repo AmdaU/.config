@@ -9,7 +9,7 @@ super + s; {s, d, o, x, m, k, l, n}
 
 # update
 super + u
-	bspc rule -a \* -o locked=true,state=floating; kitty -e tmux -u new-session "yes | yay"
+	systemd-inhibit --what=shutdown:sleep:idle (bspc rule -a \* -o locked=true,state=floating && kitty -e tmux -u new-session "yes | yay")
 
 super + {_, shift} + space
 	{ , makefloat &&} rofi -theme catppuccin-mocha -show drun -show-icons

@@ -25,6 +25,7 @@ nvim/pack
 !scripts
 *.dat
 !xsession
+!kitty
 !copyq/copyq.conf
 !bat
 !spicetify

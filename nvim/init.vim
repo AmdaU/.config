@@ -268,7 +268,7 @@ Plug 'benekastah/neomake'
 Plug 'zyedidia/julialint.vim'
 "let g:latex_to_unicode_auto = 1
 
-if !exists('g:vscode')
+if !exists('g:vscode') && &filetype !=# 'tex'
 	Plug 'Exafunction/codeium.vim'
 endif
 

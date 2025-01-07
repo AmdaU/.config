@@ -90,7 +90,7 @@ bspc rule -a Emacs state=tiled
 bspc rule -a firefox state=tiled
 bspc rule -a Google-chrome state=tiled
 bspc rule -a imv state=tiled
-bspc rule -a Inkscape state=fullscreen
+bspc rule -a Inkscape state=tiled
 bspc rule -a "kdeconnect.daemon" state=fullscreen
 bspc rule -a kitty state=tiled center=true rectangle=1418x860+0+0
 bspc rule -a libreoffice-impress state=tiled
