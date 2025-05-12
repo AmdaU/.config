@@ -1,6 +1,9 @@
 [$Version]
 update_info=dolphin_detailsmodesettings.upd:move-content-display
 
+[DetailsMode]
+PreviewSize=64
+
 [ExtractDialog]
 1920x1200 screen: Height=574
 1920x1200 screen: Width=954
@@ -12,7 +15,7 @@ Version=202
 ViewPropsTimestamp=2023,2,9,16,14,4.139
 
 [IconsMode]
-PreviewSize=256
+PreviewSize=192
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false
@@ -31,7 +34,6 @@ eDP1 Width 1920x1200 eDP1=956
 
 [MainWindow]
 MenuBar=Disabled
-ToolBarsMovable=Disabled
 
 [Notification Messages]
 Location BarShow PreviewsF12=false

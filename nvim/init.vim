@@ -211,7 +211,7 @@ set timeoutlen=500
 
 Plug 'lilydjwg/colorizer'
 Plug 'jacquesg/p5-Neovim-Ext'
-Plug 'wincent/terminus'
+"Plug 'wincent/terminus'
 Plug 'sjl/gundo.vim'
 let g:gundo_prefer_python3 = 1
 
@@ -269,7 +269,8 @@ Plug 'zyedidia/julialint.vim'
 "let g:latex_to_unicode_auto = 1
 
 if !exists('g:vscode') && &filetype !=# 'tex'
-	Plug 'Exafunction/codeium.vim'
+	"Plug 'Exafunction/codeium.vim'
+	Plug 'supermaven-inc/supermaven-nvim'
 endif
 
 Plug 'kaarmu/typst.vim'
@@ -284,6 +285,7 @@ let g:JuliaFormatter_options = {
 "Plug 'yuttie/comfortable-motion.vim'
 "Plug 'terryma/vim-smooth-scroll'
 "Plug 'joeytwiddle/sexy_scroller.vim'
+
 
 call plug#end()
 
