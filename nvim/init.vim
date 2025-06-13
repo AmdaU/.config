@@ -110,11 +110,11 @@ au BufEnter *.tex call s:startlatex()
 "snippets + autocomplete -----------------------------------------------------
 
 Plug 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsJumpForwardTrigger="<M-l>"
 let g:UltiSnipsJumpBackwardTrigger="<M-h>"
 "let g:UltiSnipsSnippetDirectories = [expand("$HOME") . "/.config/snips/"]
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips",expand("$HOME") . "/.config/snips/"]
+"let g:UltiSnipsSnippetDirectories = ['UltiSnips', "bundle/vim-snippets/UltiSnips",expand("$HOME") . "/.config/snips/"]
 "Make Tab work normally also
 "function! CheckBackSpace() abort
     "let col = col('.') - 1
@@ -268,10 +268,6 @@ Plug 'benekastah/neomake'
 Plug 'zyedidia/julialint.vim'
 "let g:latex_to_unicode_auto = 1
 
-if !exists('g:vscode') && &filetype !=# 'tex'
-	"Plug 'Exafunction/codeium.vim'
-	Plug 'supermaven-inc/supermaven-nvim'
-endif
 
 Plug 'kaarmu/typst.vim'
 let g:typst_auto_open_quickfix = 0
@@ -286,6 +282,44 @@ let g:JuliaFormatter_options = {
 "Plug 'terryma/vim-smooth-scroll'
 "Plug 'joeytwiddle/sexy_scroller.vim'
 
+if !exists('g:vscode') && &filetype !=# 'tex'
+	"Plug 'Exafunction/codeium.vim'
+	Plug 'supermaven-inc/supermaven-nvim'
+
+	require('supermaven-nvim').setup({
+	  disable_keymaps = true,
+	})
+
+	local preview = require('supermaven-nvim.completion_preview')
+
+	function _G.SM_has_suggestion()
+	  return preview.has_suggestion()
+	end
+
+	function _G.SM_accept_suggestion()
+	  preview.on_accept_suggestion()
+	end
+	EOF
+	" ---------- Smart <Tab> mapping ----------
+	function! SmartTab() abort
+	  " 1) UltiSnips jump / expand ...........................................
+	  if exists('*UltiSnips#ExpandSnippetOrJumpable') &&
+			\ UltiSnips#ExpandSnippetOrJumpable()
+		" feed the <Plug> mapping UltiSnips provides
+		return "<Plug>(ultisnips_expand_or_jump)"
+	  endif
+	  " 2) Accept Supermaven suggestion ......................................
+	  if v:lua.SM_has_suggestion()
+		" schedule to escape the current insert callback → no E565
+		call luaeval('vim.schedule(function() _G.SM_accept_suggestion() end)')
+		return ''            " nothing to insert here – callback will do it
+	  endif
+
+	  " 3) Fallback = literal <Tab> ..........................................
+	  return "\t"
+	endfunction
+	inoremap <silent><expr> <Tab> SmartTab()
+endif
 
 call plug#end()
 
@@ -327,9 +361,10 @@ call ToggleWrap()
 call ToggleWrap()
 
 lua << EOF
+
   require("which-key").setup {
   }
-EOF
+
 au BufEnter *.md :MarkdownPreview
 autocmd TermOpen * :setlocal nonu norelativenumber
 au BufEnter *.md :set nonu
