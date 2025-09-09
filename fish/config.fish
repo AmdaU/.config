@@ -30,7 +30,13 @@ end
 alias bp bpython
 alias bt bpytop
 #alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
-alias gg "git add -A; git commit -m \"quick commit!\"; git push"
+function gg
+    set -l msg "quick commit!"
+    if test (count $argv) -gt 0
+        set msg (string join " " $argv)
+    end
+    git add -A && git commit -m "$msg" && git push
+end
 alias cat bat
 alias ls "ls --hyperlink=auto --color=auto"
 alias lg lazygit
@@ -61,5 +67,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 set fish_greeting
 
+status --is-interactive; and source (pyenv virtualenv-init -|psub)
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"

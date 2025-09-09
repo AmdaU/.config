@@ -31,7 +31,6 @@ eDP1 Width 1920x1200 eDP1=956
 
 [MainWindow]
 MenuBar=Disabled
-ToolBarsMovable=Disabled
 
 [Notification Messages]
 Location BarShow PreviewsF12=false

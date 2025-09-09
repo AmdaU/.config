@@ -1522,3 +1522,398 @@ Traceback (most recent call last):
   File "/usr/lib/python3.13/urllib/request.py", line 1322, in do_open
     raise URLError(err)
 urllib.error.URLError: <urlopen error [Errno -3] Temporary failure in name resolution>
+01/03/25 (17:04:05) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+04/03/25 (17:47:15) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2739, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Sign not allowed in string format specifier
+04/03/25 (17:47:15) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+04/03/25 (17:56:33) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2739, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Sign not allowed in string format specifier
+04/03/25 (17:56:33) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+04/03/25 (18:00:56) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2739, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Sign not allowed in string format specifier
+04/03/25 (18:00:57) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+15/03/25 (21:13:56) | ERROR: Exception when sending signal 9 to pid 797
+15/03/25 (21:13:56) | ERROR: [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5479, in process_keys
+    os.kill(pid, sig)
+    ~~~~~~~^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+15/03/25 (21:14:02) | ERROR: Exception when sending signal 9 to pid 797
+15/03/25 (21:14:02) | ERROR: [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5479, in process_keys
+    os.kill(pid, sig)
+    ~~~~~~~^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+15/03/25 (21:20:43) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2739, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Sign not allowed in string format specifier
+15/03/25 (21:20:43) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+15/03/25 (21:49:36) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2739, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Sign not allowed in string format specifier
+15/03/25 (21:49:36) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+05/04/25 (22:35:45) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+05/04/25 (22:35:45) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+05/04/25 (22:35:48) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+05/04/25 (22:35:48) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+13/04/25 (14:12:39) | WARNING: The menu system only works on a terminal size of 80x24 or above!
+13/04/25 (14:12:43) | WARNING: The menu system only works on a terminal size of 80x24 or above!
+13/04/25 (14:12:44) | WARNING: The menu system only works on a terminal size of 80x24 or above!
+13/04/25 (14:12:45) | WARNING: The menu system only works on a terminal size of 80x24 or above!
+13/04/25 (14:12:50) | WARNING: The menu system only works on a terminal size of 80x24 or above!
+22/04/25 (09:06:32) | ERROR: Data collection thread failed with exception: integer division or modulo by zero
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2834, in _draw_fg
+    val = ((v if v <= 100 else 100) + 100) - calc * 100 // cls.select_max
+                                             ~~~~~~~~~~~^^~~~~~~~~~~~~~~~
+ZeroDivisionError: integer division or modulo by zero
+22/04/25 (09:06:32) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+27/04/25 (23:02:53) | ERROR: Data collection thread failed with exception: list index out of range
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2835, in _draw_fg
+    vals += [f'{THEME.gradient["proc_color" if val < 100 else "process"][val if val < 100 else val - 100]}']
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: list index out of range
+27/04/25 (23:02:53) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+27/04/25 (23:03:41) | ERROR: Data collection thread failed with exception: list index out of range
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2835, in _draw_fg
+    vals += [f'{THEME.gradient["proc_color" if val < 100 else "process"][val if val < 100 else val - 100]}']
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: list index out of range
+27/04/25 (23:03:42) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+28/04/25 (00:27:03) | ERROR: Data collection thread failed with exception: list index out of range
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2835, in _draw_fg
+    vals += [f'{THEME.gradient["proc_color" if val < 100 else "process"][val if val < 100 else val - 100]}']
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: list index out of range
+28/04/25 (00:27:03) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+29/04/25 (17:05:56) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2739, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Sign not allowed in string format specifier
+29/04/25 (17:05:56) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+02/05/25 (20:11:22) | ERROR: Data collection thread failed with exception: list index out of range
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2835, in _draw_fg
+    vals += [f'{THEME.gradient["proc_color" if val < 100 else "process"][val if val < 100 else val - 100]}']
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: list index out of range
+02/05/25 (20:11:22) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+09/05/25 (13:35:22) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^06/06/25 (15:50:14) | ERROR: Data collection thread failed with exception: 'pid'
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2638, in _draw_fg
+    f'{Mv.to(dy-1, x+1)}{THEME.proc_box(Symbol.title_left)}{Fx.b}{THEME.title(str(proc.details["pid"]))}{Fx.ub}{THEME.proc_box(Symbol.title_right)}'
+                                                                                  ~~~~~~~~~~~~^^^^^^^
+KeyError: 'pid'
+06/06/25 (15:50:15) | WARNING: Exiting with errorcode (1). Runtime 0:31:03 
+
+09/06/25 (17:57:13) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+09/06/25 (17:57:13) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+10/06/25 (23:36:08) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+10/06/25 (23:36:08) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+11/06/25 (18:44:11) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+11/06/25 (18:44:11) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+16/06/25 (23:56:30) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+17/06/25 (13:06:38) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+17/06/25 (13:06:38) | ERROR: [Errno 5] Input/output error
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5677, in main
+    run()
+    ~~~^^
+  File "/usr/bin/bpytop", line 5670, in run
+    if Key.input_wait(Timer.left()):
+       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 931, in input_wait
+    cls.new.wait(sec if sec > 0 else 0.0)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/threading.py", line 659, in wait
+    signaled = self._cond.wait(timeout)
+  File "/usr/lib/python3.13/threading.py", line 363, in wait
+    gotit = waiter.acquire(True, timeout)
+  File "/usr/bin/bpytop", line 5248, in quit_sigint
+    clean_quit()
+    ~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 5261, in clean_quit
+    Draw.now(Term.clear, Term.normal_screen, Term.show_cursor, Term.mouse_off, Term.mouse_direct_off, Term.title())
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 1039, in now
+    print(*args, sep="", end="", flush=True)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+23/06/25 (14:20:16) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+04/08/25 (10:38:04) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+04/08/25 (10:38:04) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+04/08/25 (10:38:06) | ERROR: Data collection thread failed with exception: Format specifier missing precision
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2959, in _runner
+    collector._draw()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 3991, in _draw
+    ProcBox._draw_fg()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/bin/bpytop", line 2849, in _draw_fg
+    f'{c_color}{name:<{offset}.{offset}} {end}' +
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Format specifier missing precision
+04/08/25 (10:38:06) | WARNING: Exiting with errorcode (1). Runtime 0:00:00 
+
+11/08/25 (14:48:11) | ERROR: HTTP Error 503: Service Unavailable
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5029, in _checker
+    with urllib.request.urlopen("https://github.com/aristocratos/bpytop/raw/master/bpytop.py", timeout=5) as source: # type: ignore
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/urllib/request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/urllib/request.py", line 495, in open
+    response = meth(req, response)
+  File "/usr/lib/python3.13/urllib/request.py", line 604, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "/usr/lib/python3.13/urllib/request.py", line 533, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/lib/python3.13/urllib/request.py", line 466, in _call_chain
+    result = func(*args)
+  File "/usr/lib/python3.13/urllib/request.py", line 613, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 503: Service Unavailable
+11/08/25 (14:50:05) | ERROR: HTTP Error 503: Service Unavailable
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 5029, in _checker
+    with urllib.request.urlopen("https://github.com/aristocratos/bpytop/raw/master/bpytop.py", timeout=5) as source: # type: ignore
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/urllib/request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/urllib/request.py", line 495, in open
+    response = meth(req, response)
+  File "/usr/lib/python3.13/urllib/request.py", line 604, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "/usr/lib/python3.13/urllib/request.py", line 533, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/lib/python3.13/urllib/request.py", line 466, in _call_chain
+    result = func(*args)
+  File "/usr/lib/python3.13/urllib/request.py", line 613, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 503: Service Unavailable
