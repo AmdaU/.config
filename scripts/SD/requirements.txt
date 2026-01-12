@@ -1,5 +1,5 @@
 werkzeug~=2.2.2
-Flask~=2.2.2
+Flask~=2.2.5
 flask-restx
 flask_limiter~=2.8.1
 Flask-Caching   
