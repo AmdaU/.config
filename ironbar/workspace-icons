@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Dynamic workspace icon mapper for Ironbar
+# Returns an icon based on the primary window class in each workspace
+
+# Icon mappings
+declare -A icon_map=(
+    # Browsers
+    ["vivaldi-stable"]="icon:vivaldi"
+    ["firefox"]=""
+    ["chromium"]=""
+    ["brave-browser"]=""
+    
+    # Development
+    ["kitty"]=""
+    ["Cursor"]="󰨞"
+    ["Code"]="󰨞"
+    ["neovim"]=""
+    ["nvim"]=""
+    
+    # Gaming
+    ["steam"]="icon:steam"
+    ["Steam"]=""
+    ["gamescope"]=""
+    
+    # Media
+    ["spotify"]=""
+    ["discord"]="󰙯"
+    ["Spotify"]=""
+    
+    # File managers
+    ["thunar"]=""
+    ["nautilus"]=""
+    ["dolphin"]=""
+    
+    # Default
+    ["default"]=""
+)
+
+# Get workspace number from argument (default to 1)
+workspace="${1:-1}"
+
+# Get all clients in the workspace
+clients=$(hyprctl clients -j | jq -r ".[] | select(.workspace.id == $workspace) | .class" | head -1)
+
+# If workspace is empty or class not found, use default
+if [[ -z "$clients" ]]; then
+    echo "${icon_map[default]}"
+else
+    # Get the icon for the first client's class
+    icon="${icon_map[$clients]}"
+    if [[ -z "$icon" ]]; then
+        echo "${icon_map[default]}"
+    else
+        echo "$icon"
+    fi
+fi
+

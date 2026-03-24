@@ -1,0 +1,324 @@
+/* Catppuccin Mocha Color Palette */
+/* Catppuccin Mocha */
+@define-color rosewater #f5e0dc;
+@define-color flamingo #f2cdcd;
+@define-color pink #f5c2e7;
+@define-color mauve #cba6f7;
+@define-color red #f38ba8;
+@define-color maroon #eba0ac;
+@define-color peach #fab387;
+@define-color yellow #f9e2af;
+@define-color green #a6e3a1;
+@define-color teal #94e2d5;
+@define-color sky #89dceb;
+@define-color sapphire #74c7ec;
+@define-color blue #89b4fa;
+@define-color lavender #b4befe;
+@define-color text #cdd6f4;
+@define-color subtext1 #bac2de;
+@define-color subtext0 #a6adc8;
+@define-color overlay2 #9399b2;
+@define-color overlay1 #7f849c;
+@define-color overlay0 #6c7086;
+@define-color surface2 #585b70;
+@define-color surface1 #45475a;
+@define-color surface0 #313244;
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color crust #11111b;
+@define-color basealph #1e1e2e40;
+@define-color surface0alph #31324450;
+@define-color crustalph #11111b50;
+@define-color basetransp #1e1e2e70;
+
+@define-color accent_color @lavender;
+
+* {
+    font-family: "Material Design Icons", "FiraCode Nerd Font", "Noto Color Emoji", "DejaVu Sans", sans-serif;
+    font-size: 16px;
+}
+
+/* Global rule to prevent all widgets from expanding vertically */
+.sysinfo .item,
+.gpu,
+.cpu,
+.volume,
+.tray,
+.power-menu #power-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.background {
+    background-color: @basetransp;
+}
+
+.clock,
+.workspaces {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+/* Remove outline/border for all buttons by default */
+button {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+    transition: all 0.2s linear;
+    background-color: @surace0alph;
+    border-radius: 20px;
+}
+
+
+button:focus {
+    background-color: @crustalph;
+    background-image: none;
+    border-radius: 20px;
+}
+
+button:hover {
+    background-color: @surface0;
+    border-radius: 10px;
+}
+
+.clock {
+    background-color: @crustalph;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.gpu {
+    font-weight: bold;
+    padding: 0px;
+    border-radius: 20px;
+    color: @peach;
+    background: @basealph;
+}
+
+.gpu .gpu-icon {
+    color: @mantle;
+    background-color: @peach;
+    border-radius: 50%;
+    margin-right: 0px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0px;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.gpu .gpu-stats {
+    padding-left: 0px;
+    padding-right: 10px;
+    border-left: 0px solid;
+    margin-left: 8px;
+}
+
+/* CPU widget matching GPU styling */
+.cpu {
+    font-weight: bold;
+    padding: 0px;
+    border-radius: 20px;
+    color: @blue;
+    background: @basealph;
+}
+
+.cpu .cpu-icon {
+    color: @mantle;
+    background-color: @blue;
+    border-radius: 50%;
+    margin-right: 0px;
+    margin-left: 0px;
+    min-width: 34px;
+    min-height: 40px;
+    padding: 0px 6px 0px 0px;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.cpu .cpu-stats {
+    padding-left: 0px;
+    padding-right: 10px;
+    border-left: 0px solid;
+    margin-left: 8px;
+}
+
+/* cpu and meme
+.sysinfo .item:nth-child(1) {
+    font-weight: bold;
+    padding: 0px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 0px;
+    border-radius: 20px;
+    color: @peach;
+    background: @basealph;
+}
+
+.sysinfo .item:nth-child(2) {
+    font-weight: bold;
+    padding: 0px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 0px;
+    border-radius: 20px;
+    color: @blue;
+    background: @basealph;
+}
+*/
+
+/* temp */
+
+.sysinfo .item:nth-child(1) {
+    font-weight: bold;
+    padding: 0px 10px;
+    margin-right: 0px;
+    border-radius: 20px;
+    color: @red;
+    background: @basealph;
+    /* box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px; */
+}
+
+/* disk */
+.sysinfo .item:nth-child(2) {
+    font-weight: bold;
+    padding: 0px 10px;
+    border-radius: 20px;
+    color: @green;
+    background: @basealph;
+    /* box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px; */
+}
+
+.volume {
+    font-weight: bold;
+    padding: 0px 10px;
+    border-radius: 20px;
+    color: @lavender;
+    background: @basealph;
+    /* box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px; */
+}
+
+.popup-volume {
+    padding: 20px 20px 20px 20px;
+    border-radius: 5px;
+    color: @lavender;
+    background-color: @surface0;
+    border: 2px solid @lavender;
+}
+
+/* Exception: keep a visible border/outline for workspace buttons */
+.workspaces {
+    font-weight: bold;
+    padding: 5px 5px;
+    margin-right: 10px;
+    border-radius: 20px;
+    transition: all 0.1s ease-in-out;
+    background-color: @basealph;
+}
+
+.workspaces button:hover {
+    border-radius: 10px;
+    min-width: 50px;
+}
+
+.workspaces button {
+    padding: 1px 1px;
+    margin: 0px 2px;
+    border: 1px solid @overlay2;
+    background-color: mix(@accent_color, @basealph, 0.5);
+    border-radius: 20px;
+    min-width: 50px;
+    padding: 0;
+}
+
+.workspaces button label {
+    transition: color 0.1s ease-in-out;
+    color: @text;
+}
+
+
+/* Highlight currently focused workspace */
+.workspaces .item.focused {
+    background-color: @accent_color;
+    border-color: @accent_color;
+    min-width: 50px;
+    border-radius: 10px;
+}
+
+.workspaces .item.focused label {
+    color: @base;
+}
+
+/* change color of actives workspace */
+.workspaces .item.inactive {
+    background-color: mix(@accent_color, @basealph, 0.5);
+    min-width: 50px;
+    transform: scale(0.52);
+    margin: 0px 2px;
+    border-radius: 50%;
+}
+
+
+.tray {
+    font-weight: bold;
+    padding: 0px 10px;
+    border-radius: 20px;
+    background: @basealph;
+
+    /* box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px; */
+}
+
+.tray button:hover {
+    background-color: rgba(255, 255, 255, 0.0);
+}
+
+.tray .item {
+    padding: 2px;
+}
+
+.power-menu {
+    margin-right: 5px;
+    margin-left: 5px;
+    background: none;
+}
+
+.power-menu #power-btn {
+    color: @text;
+    background-color: @basealph;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    padding-right: 10px;
+    min-width: 20px;
+}
+
+.power-menu #power-btn:hover {
+    background-color: @surface0;
+}
+
+.popup-power-menu {
+    padding: 1em;
+}
+
+
+.popup-power-menu #header {
+    color: @text;
+    font-size: 1.4em;
+    border-bottom: 1px solid @text;
+    padding-bottom: 0.4em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-bottom: 0.8sm;
+}
+
+.popup-power-menu .power-btn {
+    color: @text;
+    background-color: @basealph;
+    border: 1px solid @text;
+    padding-right: 30px;
+    padding-left: 20px;
+}
