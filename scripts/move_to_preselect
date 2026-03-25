@@ -1,0 +1,31 @@
+#!/bin/bash
+# Move the focused window to the preselected dwindle slot (bspwm-style super+o).
+#
+# Requires: preselect_overlay has been called first (super+ctrl+h/j/k/l),
+# which saves the preselect target window address to a temp file.
+#
+# How it works: dwindle only places *new* windows at a preselected slot.
+# So we temporarily move the focused window to a special workspace (removing
+# it from the dwindle tree entirely), focus the preselect target, then move
+# the window back — dwindle treats it as a fresh insertion and respects
+# the preselection.
+
+PRESELECT_FILE="/tmp/hypr_preselect_target"
+
+[ -f "$PRESELECT_FILE" ] || exit 1
+
+TARGET_ADDR=$(cat "$PRESELECT_FILE")
+FOCUSED_JSON=$(hyprctl activewindow -j)
+FOCUSED_ADDR=$(echo "$FOCUSED_JSON" | jq -r '.address')
+FOCUSED_WS=$(echo "$FOCUSED_JSON" | jq -r '.workspace.id')
+
+[ -z "$FOCUSED_ADDR" ] || [ "$FOCUSED_ADDR" = "null" ] && exit 1
+[ "$FOCUSED_ADDR" = "$TARGET_ADDR" ] && exit 0
+
+# Remove from tree and focus the preselect target
+hyprctl --batch "dispatch movetoworkspacesilent special:__preselect,address:$FOCUSED_ADDR ; dispatch focuswindow address:$TARGET_ADDR"
+sleep 0.05
+# Re-insert at the preselected slot, then refocus the moved window
+hyprctl --batch "dispatch movetoworkspacesilent $FOCUSED_WS,address:$FOCUSED_ADDR ; dispatch focuswindow address:$FOCUSED_ADDR"
+
+rm -f "$PRESELECT_FILE"

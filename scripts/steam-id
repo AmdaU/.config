@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Usage: steam-id <steam-url>" >&2
+  exit 1
+fi
+
+id=$(echo "$1" | grep -oP '(?<=id=)\d+')
+
+if [ -z "$id" ]; then
+  echo "No ID found in URL" >&2
+  exit 1
+fi
+
+echo "$id"
+
+linux-wallpaperengine --screen-root DP-3 --bg $id --fps 60
