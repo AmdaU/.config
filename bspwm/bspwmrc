@@ -5,7 +5,7 @@ fish "set -U SXHKD_SHELL sh"
 
 # services stuff --------------------------------------------------------------
 pkill -USR1 -x sxhkd &
-picom --backend glx --glx-no-rebind-pixmap --glx-no-stencil --vsync&
+picom --vsync&
 
 if [[ "$1" = 0 ]]; then
 	#libinput-gestures-setup restart

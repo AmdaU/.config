@@ -29,6 +29,8 @@ nnoremap <C-w> :tabclose<CR>
 inoremap <C-w> <Esc>:tabclose<CR>
 nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
+
+
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 noremap <leader>s :vsplit<CR>
 
@@ -80,6 +82,7 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " ############################################################################
 call plug#begin()
 
+if !exists('g:vscode')
 " Latex Stuff! ---------------------------------------------------------------
 Plug 'lervag/vimtex'
 "let g:tex_flavor='latex'
@@ -96,6 +99,7 @@ endfunction
 "let g:vimtex_view_use_temp_files = 0
 au BufEnter *.tex call s:startlatex()
 
+endif
 "Plug 'raghur/vim-ghost'
 "function! s:SetupGhostBuffer()
     "if match(expand("%:a"), '\v/ghost-(overleaf)\.com-')
@@ -109,7 +113,7 @@ au BufEnter *.tex call s:startlatex()
 
 "snippets + autocomplete -----------------------------------------------------
 
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsJumpForwardTrigger="<M-l>"
 let g:UltiSnipsJumpBackwardTrigger="<M-h>"
@@ -285,40 +289,6 @@ let g:JuliaFormatter_options = {
 if !exists('g:vscode') && &filetype !=# 'tex'
 	"Plug 'Exafunction/codeium.vim'
 	Plug 'supermaven-inc/supermaven-nvim'
-
-	require('supermaven-nvim').setup({
-	  disable_keymaps = true,
-	})
-
-	local preview = require('supermaven-nvim.completion_preview')
-
-	function _G.SM_has_suggestion()
-	  return preview.has_suggestion()
-	end
-
-	function _G.SM_accept_suggestion()
-	  preview.on_accept_suggestion()
-	end
-	EOF
-	" ---------- Smart <Tab> mapping ----------
-	function! SmartTab() abort
-	  " 1) UltiSnips jump / expand ...........................................
-	  if exists('*UltiSnips#ExpandSnippetOrJumpable') &&
-			\ UltiSnips#ExpandSnippetOrJumpable()
-		" feed the <Plug> mapping UltiSnips provides
-		return "<Plug>(ultisnips_expand_or_jump)"
-	  endif
-	  " 2) Accept Supermaven suggestion ......................................
-	  if v:lua.SM_has_suggestion()
-		" schedule to escape the current insert callback → no E565
-		call luaeval('vim.schedule(function() _G.SM_accept_suggestion() end)')
-		return ''            " nothing to insert here – callback will do it
-	  endif
-
-	  " 3) Fallback = literal <Tab> ..........................................
-	  return "\t"
-	endfunction
-	inoremap <silent><expr> <Tab> SmartTab()
 endif
 
 call plug#end()
@@ -343,8 +313,8 @@ else
 endif
 let g:save_time = localtime()
 au BufRead,BufNewFile * let g:save_time = localtime()
-au CursorHold,CursorHoldI * call UpdateFile()
-au CursorMoved,CursorMovedI * call UpdateFile()
+"au CursorHold,CursorHoldI * call UpdateFile()
+"au CursorMoved,CursorMovedI * call UpdateFile()
 
 function! UpdateFile()
     if((localtime() - g:save_time) >= g:autosave_time)
@@ -364,6 +334,7 @@ lua << EOF
 
   require("which-key").setup {
   }
+EOF
 
 au BufEnter *.md :MarkdownPreview
 autocmd TermOpen * :setlocal nonu norelativenumber

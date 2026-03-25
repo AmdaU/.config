@@ -1638,3 +1638,39 @@ Traceback (most recent call last):
   File "/usr/lib/python3.13/urllib/request.py", line 1322, in do_open
     raise URLError(err)
 urllib.error.URLError: <urlopen error _ssl.c:1011: The handshake operation timed out>
+23/10/25 (16:50:07) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+03/02/26 (17:18:46) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+06/02/26 (17:40:09) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')
+09/02/26 (17:17:05) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 954, in _get_key
+    with Raw(sys.stdin):
+         ~~~^^^^^^^^^^^
+  File "/usr/bin/bpytop", line 798, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (5, 'Input/output error')

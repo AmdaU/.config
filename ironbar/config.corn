@@ -1,0 +1,136 @@
+let{
+    $clock = { 
+        type = "clock" 
+        justify = "center"
+         format = "<span size=\"large\" weight=\"bold\">%H:%M:%S</span>
+         <span>%A, %B %d, %Y</span>"
+        }
+
+    $volume = { type = "volume" }
+    $keyboard_us = {
+        type = "custom"
+        class = "keyboard keyboard-us"
+        bar = [
+            {
+                type = "box"
+                class = "keyboard"
+                widgets = [
+                    { type = "label" class = "keyboard-icon" label = "US" }
+                ]
+            }
+        ]
+        show_if = "{{1000:hyprctl -j getoption input:kb_layout 2>/dev/null | jq -r .str 2>/dev/null | grep -q '^us$'}}"
+    }
+    $keyboard_ca = {
+        type = "custom"
+        class = "keyboard keyboard-ca"
+        bar = [
+            {
+                type = "box"
+                class = "keyboard"
+                widgets = [
+                    { type = "label" class = "keyboard-icon" label = "CA" }
+                ]
+            }
+        ]
+        show_if = "{{1000:hyprctl -j getoption input:kb_layout 2>/dev/null | jq -r .str 2>/dev/null | grep -q '^ca$'}}"
+    }
+    $tray = { type = "tray" }
+    $sys_info = { 
+        type = "sys_info"
+        $test = "{cpu_percent}"
+        format = [
+        //" {cpu_percent}%"
+        //" {memory_percent}%"
+        " {temp_c:coretemp-Package-id-0}°C"
+        " {disk_free:/}GB"
+        ]
+    }
+    $workspaces = {
+        type = "workspaces"
+        all_monitors = false
+        favorites = ["1" "2" "3" "4" "5"] //"6" "7" "8" "9" "10"]
+    }
+
+    // -- power button --
+    $button = { type = "button" name="power-btn" label ="" on_click = "popup:toggle" }
+
+    $popup = {
+        type = "box"
+        orientation = "vertical"
+        widgets = [
+            { type = "label" name = "header" label = "Power menu" }
+            {
+                type = "box"
+                widgets = [
+                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!shutdown now" }
+                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!reboot" }
+                ]
+            }
+            { type = "label" name = "uptime" label = "Uptime: {{30000:uptime -p | cut -d ' ' -f2-}}" }
+        ]
+    }
+    $power_menu = {
+        type = "custom"
+        class = "power-menu"
+
+        bar = [ $button ]
+        popup = [ $popup ]
+
+        tooltip = "Up: {{30000:uptime -p | cut -d ' ' -f2-}}"
+    }
+    $pacman = {
+    type = "custom"
+    bar = [
+        {
+            type = "label"
+            name = "pacman"
+            class = "pacman"
+            label = " {{600000:checkupdates | wc -l}}"
+            }
+    ]
+    }
+    $gpu_usage = "{{2000:printf \"%02d\n\" $(gpustat --json | jq '.gpus[0][\"utilization.gpu\"]')}}"
+    $gpu_mem = "{{2000:printf \"%02d\n\" $(( 100 * $(gpustat --json | jq '.gpus[0][\"memory.used\"]') / $(gpustat --json | jq '.gpus[0][\"memory.total\"]') ))}}"
+    $gpu_fan = "{{2000:printf \"%02d\n\" $(gpustat --json | jq '.gpus[0][\"fan.speed\"]')}}"
+    $gpu_temp = "{{2000:printf \"%02d\n\" $(gpustat --json | jq '.gpus[0][\"temperature.gpu\"]')}}"
+    $cpu_usage = "{{2000:printf \"%02d\n\" $(vmstat 1 2 | tail -1 | awk '{print 100-$15}')}}"
+    $mem = "{{free -m | awk 'NR==2 {printf(\"%02d\", $3/$2*100)}'}}"
+    $gpu = {
+    type = "custom"
+    bar = [
+        {
+            type = "box"
+            class = "gpu"
+            widgets = [
+                { type = "label" class = "gpu-icon" label = "<span size=\"large\">󰢮</span>" }
+                { type = "label" class = "gpu-stats" label = "$gpu_usage%  $gpu_mem% $gpu_temp" }
+            ]
+        }
+    ]
+    }
+    $cpu = {
+    type = "custom"
+    bar = [
+        {
+            type = "box"
+            class = "cpu"
+            widgets = [
+                { type = "label" class = "cpu-icon" label = "" }
+                { type = "label" class = "cpu-stats" label = "$cpu_usage%  $mem%" }
+            ]
+        }
+    ]
+    }
+} 
+in
+{
+    anchor_to_edges = true
+    position = "top"
+    height = 10
+    icon_theme = "Qogir"
+    start = [$workspaces ]
+    center = [$clock]
+    end = [$gpu $cpu $sys_info $keyboard_us $keyboard_ca $tray $volume $power_menu]
+
+}
