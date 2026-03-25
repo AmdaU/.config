@@ -1,11 +1,5 @@
 " general parmeters ----------------------------------------------------------
-set nu rnu
 let g:python3_host_prog = "/home/amda/.config/nvim/.venv/bin/python3"
-set textwidth=0
-set tabstop=4
-"set shiftwidth=4
-"set expandtab
-set colorcolumn=80
 
 :autocmd FileType julia set tabstop=2
 :autocmd FileType julia set colorcolumn=92
@@ -14,49 +8,15 @@ set colorcolumn=80
 
 source ~/.config/nvim/extra_funcs/warp.vim
 " Controls --------------------------------------------
-let mapleader = ";"
-inoremap <C-s> <Esc>:w <CR>
-nnoremap <C-s> <Esc>:w <CR>
-inoremap <C-b> <Esc>:NERDTreeToggle<CR>
-nnoremap <C-b> :NERDTreeToggle<CR>
-nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <leader>p :lua require("nabla").popup()<CR>
-nnoremap <C-j> <C-w>s<C-w>j:term<CR>:setlocal nonu<CR>i
-inoremap <C-j> <Esc><C-w>s<C-w>j:term<CR>i
-nnoremap <C-t> :tabnew<CR>
-inoremap <C-t> <Esc>:tabnew<CR>
-nnoremap <C-w> :tabclose<CR>
-inoremap <C-w> <Esc>:tabclose<CR>
-nnoremap <C-q> :q<CR>
-inoremap <C-q> <Esc>:q<CR>
-
 
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
-noremap <leader>s :vsplit<CR>
-
-noremap <leader>ve :VimtexErrors<CR>
-noremap <leader>vc :VimtexCompile<CR>
-noremap <leader>vv :VimtexView<CR>
-noremap <leader>vl :VimtexClean<CR>
-
-nnoremap <leader>jf :JuliaFormatterFormat<CR>
-vnoremap <leader>jf :JuliaFormatterFormat<CR>
 
 "let g:comfortable_motion_scroll_down_key = "j"
 "let g:comfortable_motion_scroll_up_key = "k"
 "noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
 "noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 
-
-" disabling arrow keys
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
-
-set mouse=ncrv
 
 function! Append_dash()
   "let line = line('.')
@@ -343,8 +303,3 @@ nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 nnoremap <Left> <Nop>
 nnoremap <Right> <Nop>
-
-function yay
-      systemd-inhibit --what=shutdown --who=yay --why="Package upgrade in progress" /usr/bin yay $argv
-end
-
