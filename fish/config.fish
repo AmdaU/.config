@@ -63,10 +63,10 @@ set -Ua fish_user_paths /$HOME/.config/scripts/SD
 set -Ua fish_user_paths /$HOME/.config/scripts/gpt
 set -Ua fish_user_paths /$HOME/.config/scripts/bspwm
 set -Ua fish_user_paths /$HOME/.config/scripts/
-export PYENV_ROOT="$HOME/.pyenv"
+set -gx PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
 
 set fish_greeting
 
-status --is-interactive; and source (pyenv virtualenv-init -|psub)
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+pyenv init - --no-rehash | source
+pyenv virtualenv-init - | source

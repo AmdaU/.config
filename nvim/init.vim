@@ -335,3 +335,8 @@ nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 nnoremap <Left> <Nop>
 nnoremap <Right> <Nop>
+
+function yay
+      systemd-inhibit --what=shutdown --who=yay --why="Package upgrade in progress" /usr/bin yay $argv
+end
+

@@ -1,7 +1,6 @@
 #exclude top directories and top directories files
 /*
 ./*
-
 !.gitignore
 !polybar
 !bspwm
@@ -10,14 +9,13 @@
 !nvim
 nvim/tmp
 nvim/pack
-!BetterDiscord
 !README.md
-!alacritty
 !fish
+*fish_variables*
+*fish_variable*
+*fish_history
 !tmux
 !bpython
-!bpytop
-!dolphinrc
 !omf
 !rofi
 !.Xresources
@@ -26,7 +24,6 @@ nvim/pack
 *.dat
 !xsession
 !kitty
-!copyq/copyq.conf
 !bat
 !spicetify
 spicetify/Extracted
