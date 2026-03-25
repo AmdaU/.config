@@ -67,7 +67,7 @@ button {
     box-shadow: none;
     background-image: none;
     transition: all 0.2s linear;
-    background-color: @surface0alph;
+    background-color: @surace0alph;
     border-radius: 20px;
 }
 
