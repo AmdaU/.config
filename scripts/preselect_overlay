@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+"""
+Preselect a dwindle split direction and show a ghost overlay (bspwm-style).
+
+Usage: preselect_overlay [l|r|u|d]
+
+Sets the dwindle preselection via hyprctl and displays a translucent
+rectangle showing where the new window will be placed. Also saves the
+target window address to /tmp/hypr_preselect_target so that
+move_to_preselect can later send an existing window there.
+"""
 import json
 import subprocess
 import sys
@@ -97,8 +107,19 @@ def compute_ghost_rect(focus_rect, dir_char, ratio=SPLIT_RATIO):
         else:
             return (x, y, w, h - int(h * ratio))
 
+def save_preselect_target():
+    try:
+        data = hypr_json("activewindow")
+        addr = data.get("address", "")
+        if addr:
+            with open("/tmp/hypr_preselect_target", "w") as f:
+                f.write(addr)
+    except Exception:
+        pass
+
 def dispatch_preselect(direction):
     subprocess.call(["hyprctl", "dispatch", "layoutmsg", f"preselect {direction}"])
+    save_preselect_target()
 
 class Overlay(Gtk.Window):
     def __init__(self, direction):

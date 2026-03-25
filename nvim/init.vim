@@ -129,8 +129,8 @@ Plug 'honza/vim-snippets'
 
 
 "if &filetype !=# 'tex'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 
 " Markdown -------------------------------------------------------------------
@@ -195,7 +195,7 @@ nnoremap X D
 
 
 " language specific stuff ----------------------------------------------------
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'master' }
 Plug 'nvie/vim-flake8'
 Plug 'rust-lang/rust.vim'
 Plug 'elkowar/yuck.vim'
@@ -343,3 +343,8 @@ nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 nnoremap <Left> <Nop>
 nnoremap <Right> <Nop>
+
+function yay
+      systemd-inhibit --what=shutdown --who=yay --why="Package upgrade in progress" /usr/bin yay $argv
+end
+

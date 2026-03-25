@@ -29,7 +29,6 @@ end
 alias bp bpython
 alias bt bpytop
 #alias tm "tmux -f $HOME/.config/tmux/tmux.conf"
-#alias gg "git add -A; git commit -m \"quick commit!\"; git push"
 function gg
     set -l msg "quick commit!"
     if test (count $argv) -gt 0
@@ -106,9 +105,10 @@ set -Ua fish_user_paths /$HOME/.config/scripts/SD
 set -Ua fish_user_paths /$HOME/.config/scripts/gpt
 set -Ua fish_user_paths /$HOME/.config/scripts/bspwm
 set -Ua fish_user_paths /$HOME/.config/scripts/
-export PYENV_ROOT="$HOME/.pyenv"
+set -gx PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
 
 set fish_greeting
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+pyenv init - --no-rehash | source
+pyenv virtualenv-init - | source

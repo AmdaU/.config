@@ -1,7 +1,6 @@
 #exclude top directories and top directories files
 /*
 ./*
-
 !.gitignore
 !polybar
 !bspwm
@@ -11,14 +10,12 @@
 nvim/tmp
 nvim/pack
 !README.md
-!alacritty
 !fish
 *fish_variables*
 *fish_variable*
 *fish_history
 !tmux
 !bpython
-!bpytop
 !omf
 !rofi
 !.Xresources
