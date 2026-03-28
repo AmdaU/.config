@@ -12,7 +12,7 @@ packages = [{include = "ai_horde"}]
 python = "^3.10"
 requests = ">=2.27"
 loguru = ">=0.6.0,<0.7.0"
-pillow = ">=9.3.0,<9.4.0"
+pillow = ">=9.3.0,<10.1.0"
 werkzeug = ">=2.2.2,<2.3.0"
 flask = ">=2.2.2,<2.3.0"
 flask-restx = "^1.1.0"
