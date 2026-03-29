@@ -46,6 +46,7 @@ alias julia_itensors="julia --sysimage ~/.julia/sysimages/sys_itensors.so -e \"u
 alias edit $EDITOR
 
 alias nvim-fg "nvim-qt --nofork"
+alias sus 'systemd-inhibit --what=shutdown --who="me" --why="why not?" --mode=delay bash -c'
 # A versatile function to launch a tmux monitoring session
 # Usage:
 #   monitor                  (runs on the local machine)
