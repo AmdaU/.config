@@ -1,8 +1,12 @@
 #!/bin/bash
-prev=$(cat /tmp/net_stat 2>/dev/null || echo "0 0")
+now=$(date +%s)
 curr=$(awk 'NR>2 && !/lo/{rx+=$2; tx+=$10} END{print rx+0, tx+0}' /proc/net/dev)
-echo "$curr" > /tmp/net_stat
-echo "$prev $curr" | awk '
+
+# Append current sample and keep last 5 entries
+echo "$now $curr" >> /tmp/net_stat
+tail -n 5 /tmp/net_stat > /tmp/net_stat.tmp && mv /tmp/net_stat.tmp /tmp/net_stat
+
+awk '
     function fmt(b) {
         if      (b < 100)         return sprintf("%02dB", b);
         else if (b < 1000)        return sprintf(".%01dK", int(b/100));
@@ -12,8 +16,14 @@ echo "$prev $curr" | awk '
         else if (b < 1000000000)  return sprintf(".%01dG", int(b/100000000));
         else                      return sprintf("%02dG", int(b/1000000000));
     }
-    {
-        dt=($3-$1)/2; ut=($4-$2)/2;
-        if(dt<0) dt=0; if(ut<0) ut=0;
-        printf "↓%s ↑%s\n", fmt(dt), fmt(ut)
-    }'
+    NR==1 { t0=$1; rx0=$2; tx0=$3 }
+    END   {
+        dt = $1 - t0;
+        if (dt <= 0) dt = 1;
+        dr = ($2 - rx0) / dt;
+        du = ($3 - tx0) / dt;
+        if (dr < 0) dr = 0;
+        if (du < 0) du = 0;
+        printf "↓%s ↑%s\n", fmt(dr), fmt(du)
+    }
+' /tmp/net_stat
