@@ -42,6 +42,7 @@
 .sysinfo .item,
 .gpu,
 .cpu,
+.net,
 .volume,
 .tray,
 .power-menu #power-btn {
@@ -118,6 +119,34 @@ button:hover {
     margin-left: 8px;
 }
 
+/* Net widget matching GPU styling */
+.net {
+    font-weight: bold;
+    padding: 0px;
+    border-radius: 20px;
+    color: @red;
+    background: @basealph;
+}
+
+.net .net-icon {
+    color: @mantle;
+    background-color: @red;
+    border-radius: 50%;
+    margin-right: 0px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0px;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.net .net-stats {
+    padding-left: 0px;
+    padding-right: 10px;
+    border-left: 0px solid;
+    margin-left: 8px;
+}
+
 /* CPU widget matching GPU styling */
 .cpu {
     font-weight: bold;
@@ -171,22 +200,11 @@ button:hover {
 }
 */
 
-/* temp */
-
+/* disk */
 .sysinfo .item:nth-child(1) {
     font-weight: bold;
     padding: 0px 10px;
     margin-right: 0px;
-    border-radius: 20px;
-    color: @red;
-    background: @basealph;
-    /* box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px; */
-}
-
-/* disk */
-.sysinfo .item:nth-child(2) {
-    font-weight: bold;
-    padding: 0px 10px;
     border-radius: 20px;
     color: @green;
     background: @basealph;
