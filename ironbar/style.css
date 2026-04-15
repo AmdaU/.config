@@ -281,6 +281,43 @@ button:hover {
 }
 
 
+.dictation {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 0px;
+    border-radius: 50%;
+    background: none;
+}
+
+.dictation .dictation-icon {
+    border-radius: 50%;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0px;
+    font-size: 20px;
+    line-height: 40px;
+    border: none;
+    box-shadow: none;
+    color: @overlay1;
+    background-color: @surface1;
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.dictation .dictation-icon:hover {
+    background-color: @surface2;
+    border-radius: 50%;
+}
+
+.listening .dictation-icon {
+    color: @mantle;
+    background-color: @red;
+}
+
+.listening .dictation-icon:hover {
+    background-color: @maroon;
+}
+
 .tray {
     font-weight: bold;
     padding: 0px 10px;

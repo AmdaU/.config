@@ -34,14 +34,33 @@ DETAILS=""
 while IFS= read -r line; do
     pkg=$(echo "$line" | awk '{print $1}')
     info=$(yay -Si "$pkg" 2>/dev/null | grep -E "^(Name|Version|Description|URL|AUR URL|Maintainer|Votes|Popularity|Out-of-date)" || true)
+
+    pkg_diff=""
+    pkg_cache="$HOME/.cache/yay/$pkg"
+    if [[ -d "$pkg_cache/.git" ]]; then
+        git -C "$pkg_cache" fetch origin -q 2>/dev/null || true
+        raw_diff=$(git -C "$pkg_cache" diff HEAD..FETCH_HEAD 2>/dev/null || true)
+        if [[ -n "$raw_diff" ]]; then
+            # Truncate to 4000 chars to avoid overwhelming the prompt
+            pkg_diff=$(echo "$raw_diff" | head -c 4000)
+            [[ ${#raw_diff} -gt 4000 ]] && pkg_diff+=$'\n... (diff truncated)'
+        fi
+    fi
+
     DETAILS+="--- $line ---
 $info
-
 "
+    if [[ -n "$pkg_diff" ]]; then
+        DETAILS+="PKGBUILD diff:
+$pkg_diff
+"
+    fi
+    DETAILS+=$'\n'
 done <<< "$UPDATES"
 
 PROMPT="You are evaluating pending AUR (Arch User Repository) package updates for safety.
 For each update below, consider:
+- The PKGBUILD diff: new sources, changed checksums, added install hooks, or suspicious commands
 - Major version bumps that could introduce breaking changes
 - Pre-release versions (alpha, beta, rc) being installed as stable
 - Whether the change seems routine/expected or suspicious
