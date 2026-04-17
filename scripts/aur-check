@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# Check pending AUR updates with Claude and exit 0 if safe, 1 if not
+
+set -euo pipefail
+
+BOLD='\033[1m'
+DIM='\033[2m'
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[1;36m'
+RESET='\033[0m'
+
+UPDATES=$(yay -Qu 2>/dev/null)
+
+if [[ -z "$UPDATES" ]]; then
+    echo -e "${GREEN}${BOLD} No AUR updates pending.${RESET}"
+    exit 0
+fi
+
+echo -e "\n${CYAN}${BOLD} AUR Updates${RESET}"
+echo -e "${DIM}─────────────────────────────────${RESET}"
+while IFS= read -r line; do
+    pkg=$(echo "$line" | awk '{print $1}')
+    old=$(echo "$line" | awk '{print $2}')
+    new=$(echo "$line" | awk '{print $4}')
+    echo -e "  ${BOLD}${pkg}${RESET}  ${DIM}${old}${RESET} ${YELLOW}→${RESET} ${CYAN}${new}${RESET}"
+done <<< "$UPDATES"
+echo -e "${DIM}─────────────────────────────────${RESET}\n"
+
+echo -e "${DIM} Consulting Claude...${RESET}\n"
+
+DETAILS=""
+while IFS= read -r line; do
+    pkg=$(echo "$line" | awk '{print $1}')
+    info=$(yay -Si "$pkg" 2>/dev/null | grep -E "^(Name|Version|Description|URL|AUR URL|Maintainer|Votes|Popularity|Out-of-date)" || true)
+    DETAILS+="--- $line ---
+$info
+
+"
+done <<< "$UPDATES"
+
+PROMPT="You are evaluating pending AUR (Arch User Repository) package updates for safety.
+For each update below, consider:
+- Major version bumps that could introduce breaking changes
+- Pre-release versions (alpha, beta, rc) being installed as stable
+- Whether the change seems routine/expected or suspicious
+- Any other obvious red flags
+
+Updates to review:
+$DETAILS
+
+Respond in this exact format:
+First line: either SAFE or UNSAFE
+If UNSAFE, follow with a concise explanation of which package(s) are concerning and why.
+If SAFE, optionally add a one-line note."
+
+RESPONSE=$(echo "$PROMPT" | claude -p 2>/dev/null)
+
+VERDICT=$(echo "$RESPONSE" | head -1 | tr '[:lower:]' '[:upper:]' | tr -d '[:space:]')
+EXPLANATION=$(echo "$RESPONSE" | tail -n +2 | sed '/^[[:space:]]*$/d')
+
+if [[ "$VERDICT" == "SAFE" ]]; then
+    echo -e "${GREEN}${BOLD} SAFE${RESET}"
+    [[ -n "$EXPLANATION" ]] && echo -e "${DIM} ${EXPLANATION}${RESET}"
+    echo
+    exit 0
+else
+    echo -e "${RED}${BOLD} UNSAFE${RESET}"
+    if [[ -n "$EXPLANATION" ]]; then
+        echo -e "${DIM}─────────────────────────────────${RESET}"
+        echo "$EXPLANATION" | while IFS= read -r line; do
+            echo -e "  ${line}"
+        done
+        echo -e "${DIM}─────────────────────────────────${RESET}"
+    fi
+    echo
+    exit 1
+fi

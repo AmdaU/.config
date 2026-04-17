@@ -1,6 +1,6 @@
 let{
-    $clock = { 
-        type = "clock" 
+    $clock = {
+        type = "clock"
         justify = "center"
          format = "<span size=\"large\" weight=\"bold\">%H:%M:%S</span>
          <span>%A, %B %d, %Y</span>"
@@ -36,24 +36,28 @@ let{
         show_if = "{{1000:hyprctl -j getoption input:kb_layout 2>/dev/null | jq -r .str 2>/dev/null | grep -q '^ca$'}}"
     }
     $tray = { type = "tray" }
-    $sys_info = { 
+    $sys_info = {
         type = "sys_info"
         $test = "{cpu_percent}"
         format = [
-        //" {cpu_percent}%"
-        //" {memory_percent}%"
-        " {temp_c:coretemp-Package-id-0}°C"
+        //" {cpu_percent}%"
+        //" {memory_percent}%"
+        //" {temp_c:coretemp-Package-id-0}°C"
         " {disk_free:/}GB"
         ]
     }
     $workspaces = {
         type = "workspaces"
         all_monitors = false
+<<<<<<< HEAD
         favorites = []//["1" "2" "3" "4" "5"] //"6" "7" "8" "9" "10"]
+=======
+        favorites = ["1" "2" "3" "4" "5" "6" "7" "8" "9" "10"]
+>>>>>>> b91d9649b45a13a60bde514a5b03738148eb2fce
     }
 
     // -- power button --
-    $button = { type = "button" name="power-btn" label ="" on_click = "popup:toggle" }
+    $button = { type = "button" name="power-btn" label ="" on_click = "popup:toggle" }
 
     $popup = {
         type = "box"
@@ -63,8 +67,8 @@ let{
             {
                 type = "box"
                 widgets = [
-                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!shutdown now" }
-                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!reboot" }
+                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!shutdown now" }
+                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!reboot" }
                 ]
             }
             { type = "label" name = "uptime" label = "Uptime: {{30000:uptime -p | cut -d ' ' -f2-}}" }
@@ -86,7 +90,7 @@ let{
             type = "label"
             name = "pacman"
             class = "pacman"
-            label = " {{600000:checkupdates | wc -l}}"
+            label = " {{600000:checkupdates | wc -l}}"
             }
     ]
     }
@@ -95,6 +99,7 @@ let{
     $gpu_fan = "{{2000:printf \"%02d\n\" $(gpustat --json | jq '.gpus[0][\"fan.speed\"]')}}"
     $gpu_temp = "{{2000:printf \"%02d\n\" $(gpustat --json | jq '.gpus[0][\"temperature.gpu\"]')}}"
     $cpu_usage = "{{2000:printf \"%02d\n\" $(vmstat 1 2 | tail -1 | awk '{print 100-$15}')}}"
+    $cpu_temp = "{{2000:sensors | awk '/Tccd1/{printf \"%d\", $2+0}'}}"
     $mem = "{{free -m | awk 'NR==2 {printf(\"%02d\", $3/$2*100)}'}}"
     $gpu = {
     type = "custom"
@@ -117,12 +122,26 @@ let{
             class = "cpu"
             widgets = [
                 { type = "label" class = "cpu-icon" label = "" }
-                { type = "label" class = "cpu-stats" label = "$cpu_usage%  $mem%" }
+                { type = "label" class = "cpu-stats" label = "$cpu_usage%  $mem% $cpu_temp" }
             ]
         }
     ]
     }
-} 
+    $net_speed = "{{2000:~/.config/ironbar/net_speed.sh}}"
+    $net = {
+    type = "custom"
+    bar = [
+        {
+            type = "box"
+            class = "net"
+            widgets = [
+                { type = "label" class = "net-icon" label = "󰛳" }
+                { type = "label" class = "net-stats" label = "$net_speed" }
+            ]
+        }
+    ]
+    }
+}
 in
 {
     anchor_to_edges = true
@@ -131,6 +150,6 @@ in
     icon_theme = "Qogir"
     start = [$workspaces ]
     center = [$clock]
-    end = [$gpu $cpu $sys_info $keyboard_us $keyboard_ca $tray $volume $power_menu]
+    end = [$gpu $cpu $net $sys_info $keyboard_us $keyboard_ca $tray $volume $power_menu]
 
 }
