@@ -35,6 +35,19 @@ let{
         ]
         show_if = "{{1000:hyprctl -j getoption input:kb_layout 2>/dev/null | jq -r .str 2>/dev/null | grep -q '^ca$'}}"
     }
+    $dictation = {
+        type = "custom"
+        name = "dictation-mic"
+        class = "dictation"
+        bar = [
+            { type = "button" class = "dictation-icon" label = "󰍬" on_click = "!~/.config/scripts/dictation/dictation-rt-toggle.sh" }
+        ]
+        show_if = {
+            cmd = "/home/amda/.config/scripts/dictation/dictation-sync-class.sh"
+            interval = 2000
+            mode = "poll"
+        }
+    }
     $tray = { type = "tray" }
     $sys_info = {
         type = "sys_info"
@@ -150,6 +163,6 @@ in
     icon_theme = "Qogir"
     start = [$workspaces ]
     center = [$clock]
-    end = [$gpu $cpu $net $sys_info $keyboard_us $keyboard_ca $tray $volume $power_menu]
+    end = [$dictation $gpu $cpu $net $sys_info $keyboard_us $keyboard_ca $tray $volume $power_menu]
 
 }
