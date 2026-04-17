@@ -25,8 +25,9 @@ else
     pkill -f "realtimestt-daemon.py" 2>/dev/null
     pkill -f "dictation-venv.*python" 2>/dev/null
 
-    dictation_rt_notify "$DICTATION_ICON_ON" "Dictation (RT)" "Listening (loading model)..." -t 60000
+    dictation_rt_notify "$DICTATION_ICON_ON" "Dictation (RT)" "Starting..." -t 60000 \
+        > "$HOME/.local/share/dictation-notif.id"
     "$VENV_PYTHON" -u "$DAEMON" >> "$LOG" 2>&1 &
     echo $! > "$PID_FILE"
-    ironbar style add-class dictation-mic listening 2>/dev/null
+    ironbar style add-class dictation-mic loading 2>/dev/null
 fi

@@ -8,6 +8,15 @@ Usage: run via dictation-rt-toggle.sh; kill with SIGTERM.
 
 Voice commands (entire utterance, case-insensitive):
   "scratch that" / "delete that"       — delete last typed utterance (repeat to undo more)
+  "scratch all" / "undo all"           — delete all typed text since last voice command
+  "verbatim on"                        — enter verbatim mode (only text typed, no commands)
+  "verbatim off"                       — exit verbatim mode
+  "toggle verbatim mode"               — toggle verbatim mode (works in all modes)
+  "command mode on"                    — enter command mode (only commands; unrecognised input
+                                         triggers a notification instead of being typed)
+  "command mode off"                   — exit command mode
+  "toggle command mode"                — toggle command mode (works in all modes)
+  "toggle normal mode"                 — return to normal mode from verbatim or command mode
   "[key]" only (entire utterance)      — same as "press [key]" when the transcript is
       exactly a known key name, e.g. "enter" / "escape" / "page up"
   "[modifier]-[key]" / "[modifier] [key]" — chord without "press", e.g. "ctrl-c", "alt f4"
@@ -23,6 +32,8 @@ Voice commands (entire utterance, case-insensitive):
   "dictation off" / "dictation of"     — stop dictation (runs dictation-rt-toggle.sh; Whisper
       often says "of" for "off"); also "dication off", "stop dictation", etc.
   "again"                             — repeat the last command (not text)
+  "space" (in text)                   — insert a literal space character, e.g.
+      "space slash clear" → " /clear"
 """
 import json
 import re
@@ -40,16 +51,24 @@ VOICE_LAUNCH_JSON = Path.home() / ".config/dictation/voice-launch.json"
 _HELP_MENU_LINES = (
     "again — repeat last voice command",
     "scratch / delete / undo that — remove last typed utterance",
+    "scratch / undo all — remove all typed text since last voice command",
+    "verbatim on / off — bypass all commands, type everything literally",
+    "toggle verbatim mode — toggle verbatim on/off (works in all modes)",
+    "command mode on / off — only commands accepted; unrecognised input notified",
+    "toggle command mode — toggle command mode on/off (works in all modes)",
+    "toggle normal mode — return to normal mode from verbatim or command",
     "dictation help — show this menu (wofi)",
     "dictation off — stop dictation",
     "key name alone — enter, escape, F5, page up, c, …",
     "chord without “press” — ctrl c, ctrl-c, alt f4, control shift t",
     "press … — press control C, press alt F4, press escape",
-    "go to workspace N — switch workspace (1–10 or one … ten)",
-    "switch to workspace N — same",
+    "workspace N — switch workspace (1–10 or one … ten)",
+    "go to workspace N / switch to workspace N — same",
     "move window to workspace N — move focused window",
+    "next window / switch window / alt tab — cycle to next window",
     "close window — close focused window (killactive)",
     "launch / open / start <name> — app from voice-launch.json whitelist",
+    'space (in text) — insert literal space, e.g. "space slash clear" → " /clear"',
 )
 
 # ── Spoken punctuation ────────────────────────────────────────────────────────
@@ -69,6 +88,8 @@ _PUNCT = [
     (r"\bclose paren\b",         ")"),
     (r"\bsemicolon\b",           ";"),
     (r"\bcolon\b",               ":"),
+    (r"\bbackslash\b",           "\\\\"),
+    (r"\bslash\b",               "/"),
 ]
 _PUNCT_RE = [(re.compile(p, re.IGNORECASE), s) for p, s in _PUNCT]
 
@@ -135,8 +156,8 @@ _KEY_MAP: dict[str, str] = {
     # Common symbols
     "minus": "minus", "dash": "minus", "hyphen": "minus",
     "equals": "equal", "equal": "equal",
-    "slash": "slash",
-    "backslash": "backslash",
+    "slash": "slash",   "/": "slash",
+    "backslash": "backslash", "\\": "backslash",
     "grave": "grave", "backtick": "grave",
     "bracket left": "bracketleft", "left bracket": "bracketleft",
     "bracket right": "bracketright", "right bracket": "bracketright",
@@ -245,7 +266,7 @@ _NUM_WORDS = {
 }
 
 _CMD_WORKSPACE_GO = re.compile(
-    r"^\s*(?:go to|switch to|workspace)\s+workspace\s+(?P<n>\d+|one|two|three|four|five|six|seven|eight|nine|ten)[.!?]?\s*$",
+    r"^\s*(?:(?:go\s+to|switch\s+to)\s+workspace|workspace)\s+(?P<n>\d+|one|two|three|four|five|six|seven|eight|nine|ten)[.!?]?\s*$",
     re.IGNORECASE,
 )
 _CMD_WORKSPACE_MOVE = re.compile(
@@ -259,10 +280,20 @@ _CMD_CLOSE_WINDOW = re.compile(
     r")[.!?]?\s*$",
     re.IGNORECASE,
 )
+_CMD_NEXT_WINDOW = re.compile(
+    r"^\s*(?:next\s+window|switch\s+window|alt\s+tab)[.!?]?\s*$",
+    re.IGNORECASE,
+)
 
 
 def try_hyprland(text: str) -> bool:
     """Handle Hyprland dispatcher commands. Returns True if handled."""
+    if _CMD_NEXT_WINDOW.match(text):
+        subprocess.run(["hyprctl", "dispatch", "cyclenext"], check=False)
+        with LOG.open("a") as f:
+            f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [next window]\n")
+        return True
+
     if _CMD_CLOSE_WINDOW.match(text):
         subprocess.run(["hyprctl", "dispatch", "killactive"], check=False)
         with LOG.open("a") as f:
@@ -290,6 +321,15 @@ def try_hyprland(text: str) -> bool:
 
 # ── Delete command ────────────────────────────────────────────────────────────
 _CMD_DELETE = re.compile(r"^\s*(scratch|delete|undo)\s+that[.!?]?\s*$", re.IGNORECASE)
+_CMD_DELETE_ALL = re.compile(r"^\s*(scratch|delete|undo)\s+all[.!?]?\s*$", re.IGNORECASE)
+_CMD_VERBATIM_ON  = re.compile(r"^\s*verbatim\s+on[.!?]?\s*$",  re.IGNORECASE)
+_CMD_VERBATIM_OFF = re.compile(r"^\s*verbatim\s+of+[.!?]?\s*$", re.IGNORECASE)
+_CMD_COMMAND_MODE_ON  = re.compile(r"^\s*command\s+mode\s+on[.!?]?\s*$",  re.IGNORECASE)
+_CMD_COMMAND_MODE_OFF = re.compile(r"^\s*command\s+mode\s+of+[.!?]?\s*$", re.IGNORECASE)
+_CMD_TOGGLE_MODE = re.compile(
+    r"^\s*toggle\s+(?P<mode>verbatim|command|normal)\s+mode[.!?]?\s*$",
+    re.IGNORECASE,
+)
 _CMD_AGAIN = re.compile(r"^\s*again[.!?]?\s*$", re.IGNORECASE)
 _CMD_DICTATION_OFF = re.compile(
     r"^\s*(?:"
@@ -432,8 +472,86 @@ def try_dictation_stop(text: str) -> bool:
     )
     return True
 
+VERBATIM_FLAG = Path.home() / ".local/share/dictation-verbatim.flag"
+COMMAND_MODE_FLAG = Path.home() / ".local/share/dictation-command.flag"
+
+
+def _icon_args(name: str) -> list[str]:
+    """Return ['-i', path] for a breeze-dark/breeze status icon, or [] if not found."""
+    for theme in ("breeze-dark", "breeze"):
+        p = Path(f"/usr/share/icons/{theme}/status/24/{name}.svg")
+        if p.exists():
+            return ["-i", str(p)]
+    return []
+
+
+# Icons for each mode (resolved once at import time).
+_ICON_NORMAL   = _icon_args("microphone-sensitivity-high")
+_ICON_VERBATIM = _icon_args("microphone-sensitivity-medium")
+_ICON_COMMAND  = _icon_args("microphone-sensitivity-low")
+
 # Stack of typed payloads (newest last). Each delete pops one utterance.
 _typed_stack: list[str] = []
+
+# Index into _typed_stack marking where we were when the last voice command ran.
+# "undo all" deletes everything at or above this checkpoint.
+_stack_checkpoint: int = 0
+
+_verbatim_mode: bool = False
+_command_mode: bool = False
+
+
+def _set_verbatim(on: bool, *, notify: bool = True) -> None:
+    global _verbatim_mode
+    _verbatim_mode = on
+    if on:
+        VERBATIM_FLAG.touch()
+    else:
+        VERBATIM_FLAG.unlink(missing_ok=True)
+    with LOG.open("a") as f:
+        f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [verbatim {'on' if on else 'off'}]\n")
+    if notify:
+        label, icon = ("Mode: Verbatim", _ICON_VERBATIM) if on else ("Mode: Normal", _ICON_NORMAL)
+        subprocess.run(["notify-send", "-t", "2000"] + icon + ["Dictation", label], check=False)
+
+
+def _set_command_mode(on: bool, *, notify: bool = True) -> None:
+    global _command_mode
+    _command_mode = on
+    if on:
+        COMMAND_MODE_FLAG.touch()
+    else:
+        COMMAND_MODE_FLAG.unlink(missing_ok=True)
+    with LOG.open("a") as f:
+        f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [command mode {'on' if on else 'off'}]\n")
+    if notify:
+        label, icon = ("Mode: Command", _ICON_COMMAND) if on else ("Mode: Normal", _ICON_NORMAL)
+        subprocess.run(["notify-send", "-t", "2000"] + icon + ["Dictation", label], check=False)
+
+
+def _do_toggle_mode(mode: str) -> None:
+    """Toggle the named mode. Works from any current mode. Only one notification is shown."""
+    mode = mode.lower()
+    if mode == "verbatim":
+        if _verbatim_mode:
+            _set_verbatim(False)
+        else:
+            if _command_mode:
+                _set_command_mode(False, notify=False)
+            _set_verbatim(True)
+    elif mode == "command":
+        if _command_mode:
+            _set_command_mode(False)
+        else:
+            if _verbatim_mode:
+                _set_verbatim(False, notify=False)
+            _set_command_mode(True)
+    elif mode == "normal":
+        if _verbatim_mode:
+            _set_verbatim(False)
+        elif _command_mode:
+            _set_command_mode(False)
+
 
 # Last executed command (callable). "again" replays this; not set by plain text.
 _last_command: object = None
@@ -461,34 +579,117 @@ def delete_last() -> None:
         f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [deleted: {payload!r}]\n")
 
 
-# ── Dispatcher ────────────────────────────────────────────────────────────────
-def handle(raw: str) -> None:
-    global _last_command
-    text = clean_whisper_artifacts(apply_spoken_punctuation(raw))
-    if not text:
+def delete_all() -> None:
+    """Delete all typed utterances since the last voice command checkpoint."""
+    global _typed_stack, _stack_checkpoint
+    if len(_typed_stack) <= _stack_checkpoint:
         return
+    to_delete = _typed_stack[_stack_checkpoint:]
+    total_chars = sum(len(p) for p in to_delete)
+    keys: list[str] = []
+    for _ in range(total_chars):
+        keys += ["-k", "BackSpace"]
+    subprocess.run(["wtype"] + keys, check=False)
+    joined = "".join(to_delete)
+    _typed_stack = _typed_stack[:_stack_checkpoint]
+    with LOG.open("a") as f:
+        f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [deleted all: {joined!r}]\n")
+
+
+# ── Dispatcher ────────────────────────────────────────────────────────────────
+def _try_all_commands(text: str) -> bool:
+    """Attempt every recognised command. Return True if one matched."""
+    global _last_command, _stack_checkpoint
     if _CMD_AGAIN.match(text):
         if _last_command is not None:
             _last_command()
-            return
+        return True
+    if _CMD_DELETE_ALL.match(text):
+        delete_all()
+        _last_command = delete_all
+        return True
     if _CMD_DELETE.match(text):
         delete_last()
         _last_command = delete_last
-    elif try_dictation_help(text):
+        return True
+    if try_dictation_help(text):
+        _stack_checkpoint = len(_typed_stack)
         _last_command = show_dictation_help_menu
-    elif try_dictation_stop(text):
-        pass  # toggle script stops daemon after ironbar + notify
-    elif try_hyprland(text):
+        return True
+    if try_dictation_stop(text):
+        return True
+    if try_hyprland(text):
+        _stack_checkpoint = len(_typed_stack)
         _last_command = lambda: try_hyprland(text)
-    elif try_launch_app(text):
+        return True
+    if try_launch_app(text):
+        _stack_checkpoint = len(_typed_stack)
         _last_command = lambda: try_launch_app(text)
-    elif try_key_press(text):
+        return True
+    if try_key_press(text):
+        _stack_checkpoint = len(_typed_stack)
         _last_command = lambda: try_key_press(text)
-    elif try_compact_chord(text):
+        return True
+    if try_compact_chord(text):
+        _stack_checkpoint = len(_typed_stack)
         _last_command = lambda: try_compact_chord(text)
-    elif try_bare_key_press(text):
+        return True
+    if try_bare_key_press(text):
+        _stack_checkpoint = len(_typed_stack)
         _last_command = lambda: try_bare_key_press(text)
-    else:
+        return True
+    return False
+
+
+def handle(raw: str) -> None:
+    global _last_command, _stack_checkpoint
+    text = clean_whisper_artifacts(apply_spoken_punctuation(raw))
+    if not text:
+        return
+
+    # Verbatim mode: "verbatim off" and "toggle * mode" are special; everything else is typed.
+    if _verbatim_mode:
+        if _CMD_VERBATIM_OFF.match(text):
+            _set_verbatim(False)
+        elif m := _CMD_TOGGLE_MODE.match(text):
+            _do_toggle_mode(m.group("mode"))
+        else:
+            type_text(text)
+        return
+
+    # Mode-toggle commands are always recognised regardless of command mode.
+    if _CMD_VERBATIM_ON.match(text):
+        _set_verbatim(True)
+        return
+    if _CMD_COMMAND_MODE_ON.match(text):
+        _set_command_mode(True)
+        return
+    if _CMD_COMMAND_MODE_OFF.match(text):
+        _set_command_mode(False)
+        return
+    if m := _CMD_TOGGLE_MODE.match(text):
+        _do_toggle_mode(m.group("mode"))
+        return
+
+    # Command mode: run commands; notify if nothing matches; never type text.
+    if _command_mode:
+        if not _try_all_commands(text):
+            subprocess.run(
+                ["notify-send", "-t", "3000", "Dictation", f"Command not recognized: {text}"],
+                check=False,
+            )
+            with LOG.open("a") as f:
+                f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [unrecognized cmd] {text}\n")
+        return
+
+    # Normal mode: try commands first, fall back to typing.
+    if not _try_all_commands(text):
+        text = re.sub(r" +([/\\])", r"\1", text)
+        text = re.sub(r"([/\\]) +", r"\1", text)
+        # "space" → literal space; consume flanking whitespace so "A space A" → "A A" not "A   A"
+        text = re.sub(r" *\bspace\b *", " ", text, flags=re.IGNORECASE)
+        # Strip Whisper's sentence-final dot from slash/backslash commands, e.g. "/clear."
+        text = re.sub(r"([/\\]\w+)\.\s*$", r"\1", text)
         type_text(text)
 
 
@@ -509,14 +710,54 @@ def main() -> None:
         wake_words="",
         spinner=False,
         beam_size=5,
+        initial_prompt=(
+            "Voice commands: scratch that, delete that, scratch all, undo all, "
+            "verbatim on, verbatim off, toggle verbatim mode, command mode on, command mode off, "
+            "toggle command mode, toggle normal mode, dictation off, dictation help, "
+            "press enter, press escape, press tab, press backspace, press delete, "
+            "press control C, press control V, press control Z, press alt F4, "
+            "press shift tab, press page up, press page down, "
+            "go to workspace one, switch to workspace two, move window to workspace three, "
+            "close window, close the window, next window, switch window, "
+            "launch, open, start, again, new line, new paragraph."
+        ),
     )
 
     def on_shutdown(sig, frame):
+        VERBATIM_FLAG.unlink(missing_ok=True)
+        COMMAND_MODE_FLAG.unlink(missing_ok=True)
         recorder.stop()
         sys.exit(0)
 
     signal.signal(signal.SIGTERM, on_shutdown)
     signal.signal(signal.SIGINT, on_shutdown)
+
+    subprocess.run(
+        ["ironbar", "style", "remove-class", "dictation-mic", "loading"],
+        check=False, capture_output=True,
+    )
+    subprocess.run(
+        ["ironbar", "style", "add-class", "dictation-mic", "listening"],
+        check=False, capture_output=True,
+    )
+
+    notif_id_file = Path.home() / ".local/share/dictation-notif.id"
+    notif_args: list[str] = []
+    try:
+        notif_id = notif_id_file.read_text().strip()
+        if notif_id:
+            notif_args = ["--replace-id", notif_id]
+    except OSError:
+        pass
+
+    icon = Path("/usr/share/icons/breeze-dark/status/24/microphone-sensitivity-high.svg")
+    if not icon.exists():
+        icon = Path("/usr/share/icons/breeze/status/24/microphone-sensitivity-high.svg")
+    cmd = ["notify-send", "-t", "3000"] + notif_args
+    if icon.exists():
+        cmd += ["-i", str(icon)]
+    cmd += ["Dictation (RT)", "Listening"]
+    subprocess.run(cmd, check=False, capture_output=True)
 
     print("RealtimeSTT daemon ready", flush=True)
 

@@ -65,33 +65,6 @@ let{
         favorites = ["1" "2" "3" "4" "5" "6" "7" "8" "9" "10"]
     }
 
-    // -- power button --
-    $button = { type = "button" name="power-btn" label ="" on_click = "popup:toggle" }
-
-    $popup = {
-        type = "box"
-        orientation = "vertical"
-        widgets = [
-            { type = "label" name = "header" label = "Power menu" }
-            {
-                type = "box"
-                widgets = [
-                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!shutdown now" }
-                    { type = "button" class="power-btn" label = "<span font-size='40pt'></span>" on_click = "!reboot" }
-                ]
-            }
-            { type = "label" name = "uptime" label = "Uptime: {{30000:uptime -p | cut -d ' ' -f2-}}" }
-        ]
-    }
-    $power_menu = {
-        type = "custom"
-        class = "power-menu"
-
-        bar = [ $button ]
-        popup = [ $popup ]
-
-        tooltip = "Up: {{30000:uptime -p | cut -d ' ' -f2-}}"
-    }
     $pacman = {
     type = "custom"
     bar = [
@@ -158,7 +131,7 @@ in
     height = 10
     icon_theme = "Qogir"
     start = [$workspaces ]
-    center = [$clock]
-    end = [$dictation $gpu $cpu $net $sys_info $keyboard_us $keyboard_ca $tray $volume $power_menu]
+    center = [$dictation $clock]
+    end = [$gpu $cpu $net $sys_info $keyboard_us $keyboard_ca $volume $tray]
 
 }

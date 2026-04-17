@@ -309,6 +309,15 @@ button:hover {
     border-radius: 50%;
 }
 
+.loading .dictation-icon {
+    color: @mantle;
+    background-color: @yellow;
+}
+
+.loading .dictation-icon:hover {
+    background-color: @peach;
+}
+
 .listening .dictation-icon {
     color: @mantle;
     background-color: @red;
@@ -316,6 +325,24 @@ button:hover {
 
 .listening .dictation-icon:hover {
     background-color: @maroon;
+}
+
+.verbatim .dictation-icon {
+    color: @mantle;
+    background-color: @blue;
+}
+
+.verbatim .dictation-icon:hover {
+    background-color: @sapphire;
+}
+
+.command .dictation-icon {
+    color: @mantle;
+    background-color: @green;
+}
+
+.command .dictation-icon:hover {
+    background-color: @teal;
 }
 
 .tray {
