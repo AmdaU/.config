@@ -62,11 +62,7 @@ let{
     $workspaces = {
         type = "workspaces"
         all_monitors = false
-<<<<<<< HEAD
         favorites = []//["1" "2" "3" "4" "5"] //"6" "7" "8" "9" "10"]
-=======
-        favorites = ["1" "2" "3" "4" "5" "6" "7" "8" "9" "10"]
->>>>>>> b91d9649b45a13a60bde514a5b03738148eb2fce
     }
 
     $pacman = {
