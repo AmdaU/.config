@@ -49,15 +49,22 @@ let{
         }
     }
     $tray = { type = "tray" }
-    $sys_info = {
-        type = "sys_info"
-        $test = "{cpu_percent}"
-        format = [
-        //" {cpu_percent}%"
-        //" {memory_percent}%"
-        //" {temp_c:coretemp-Package-id-0}°C"
-        " {disk_free:/}GB"
-        ]
+    $disk_ssd = "{{30000:df -BG / --output=avail | tail -1 | tr -d ' '}}"
+    $disk_hdd = "{{30000:df -BG /mnt/data --output=avail | tail -1 | tr -d ' '}}"
+    $disk = {
+    type = "custom"
+    bar = [
+        {
+            type = "box"
+            class = "disk"
+            widgets = [
+                { type = "label" class = "disk-icon" label = "" }
+                { type = "label" class = "disk-ssd" label = "$disk_ssd" }
+                { type = "box" class = "disk-sep" }
+                { type = "label" class = "disk-hdd" label = "$disk_hdd" }
+            ]
+        }
+    ]
     }
     $workspaces = {
         type = "workspaces"
@@ -132,6 +139,6 @@ in
     icon_theme = "Qogir"
     start = [$workspaces ]
     center = [$dictation $clock]
-    end = [$gpu $cpu $net $sys_info $keyboard_us $keyboard_ca $volume $tray]
+    end = [$gpu $cpu $net $disk $keyboard_us $keyboard_ca $volume $tray]
 
 }

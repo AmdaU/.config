@@ -43,6 +43,7 @@
 .gpu,
 .cpu,
 .net,
+.disk,
 .volume,
 .tray,
 .power-menu #power-btn {
@@ -201,14 +202,42 @@ button:hover {
 */
 
 /* disk */
-.sysinfo .item:nth-child(1) {
+.disk {
     font-weight: bold;
-    padding: 0px 10px;
-    margin-right: 0px;
+    padding: 0px;
     border-radius: 20px;
     color: @green;
     background: @basealph;
-    /* box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px; */
+}
+
+.disk .disk-icon {
+    color: @mantle;
+    background-color: @green;
+    border-radius: 50%;
+    margin-left: -2px;
+    margin-right: 0px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0px;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.disk .disk-ssd {
+    margin-left: 8px;
+}
+
+.disk .disk-hdd {
+    padding-right: 10px;
+}
+
+.disk .disk-sep {
+    min-width: 3px;
+    min-height: 16px;
+    background-color: @green;
+    opacity: 0.4;
+    margin: 0px 6px;
+    border-radius: 1px;
 }
 
 .volume {
