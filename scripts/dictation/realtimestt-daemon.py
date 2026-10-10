@@ -289,13 +289,13 @@ _CMD_NEXT_WINDOW = re.compile(
 def try_hyprland(text: str) -> bool:
     """Handle Hyprland dispatcher commands. Returns True if handled."""
     if _CMD_NEXT_WINDOW.match(text):
-        subprocess.run(["hyprctl", "dispatch", "cyclenext"], check=False)
+        subprocess.run(["hyprctl", "dispatch", "hl.dsp.window.cycle_next()"], check=False)
         with LOG.open("a") as f:
             f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [next window]\n")
         return True
 
     if _CMD_CLOSE_WINDOW.match(text):
-        subprocess.run(["hyprctl", "dispatch", "killactive"], check=False)
+        subprocess.run(["hyprctl", "dispatch", "hl.dsp.window.close()"], check=False)
         with LOG.open("a") as f:
             f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [close window]\n")
         return True
@@ -303,7 +303,7 @@ def try_hyprland(text: str) -> bool:
     m = _CMD_WORKSPACE_GO.match(text)
     if m:
         n = _NUM_WORDS.get(m.group("n").lower(), m.group("n"))
-        subprocess.run(["hyprctl", "dispatch", "workspace", n], check=False)
+        subprocess.run(["hyprctl", "dispatch", f"hl.dsp.focus({{ workspace = {n} }})"], check=False)
         with LOG.open("a") as f:
             f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [workspace {n}]\n")
         return True
@@ -311,7 +311,7 @@ def try_hyprland(text: str) -> bool:
     m = _CMD_WORKSPACE_MOVE.match(text)
     if m:
         n = _NUM_WORDS.get(m.group("n").lower(), m.group("n"))
-        subprocess.run(["hyprctl", "dispatch", "movetoworkspace", n], check=False)
+        subprocess.run(["hyprctl", "dispatch", f"hl.dsp.window.move({{ workspace = {n} }})"], check=False)
         with LOG.open("a") as f:
             f.write(f"[{datetime.now().strftime('%H:%M:%S')}] [move window → workspace {n}]\n")
         return True

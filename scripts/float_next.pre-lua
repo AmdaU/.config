@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+import json
+import os
+import signal
+import socket as socket_mod
+import subprocess
+import sys
+import atexit
+import threading
+from math import pi
+
+import cairo
+import gi
+gi.require_version("Gtk", "3.0")
+gi.require_version("GtkLayerShell", "0.1")
+from gi.repository import Gtk, Gdk, GLib, GtkLayerShell
+
+GHOST_FILL = (0.15, 0.55, 1.0, 0.22)
+GHOST_BORDER = (0.15, 0.55, 1.0, 0.9)
+BORDER_WIDTH = 3.0
+VEIL = (0.0, 0.0, 0.0, 0.08)
+CORNER_RADIUS = 10
+
+FLOAT_W_RATIO = 0.70
+FLOAT_H_RATIO = 0.70
+TIMEOUT_S = 10
+
+PIDFILE = "/tmp/hypr_float_next.pid"
+
+
+def cleanup_pidfile():
+    try:
+        os.remove(PIDFILE)
+    except FileNotFoundError:
+        pass
+
+
+def hypr_json(cmd):
+    return json.loads(subprocess.check_output(
+        ["hyprctl", "-j"] + cmd.split(), text=True
+    ))
+
+
+def rounded_rect(cr, x, y, w, h, r):
+    r = max(0.0, min(r, min(w, h) * 0.5))
+    cr.new_sub_path()
+    cr.arc(x + w - r, y + r, r, -pi / 2, 0)
+    cr.arc(x + w - r, y + h - r, r, 0, pi / 2)
+    cr.arc(x + r, y + h - r, r, pi / 2, pi)
+    cr.arc(x + r, y + r, r, pi, 3 * pi / 2)
+    cr.close_path()
+
+
+class FloatOverlay(Gtk.Window):
+    def __init__(self):
+        Gtk.Window.__init__(self, type=Gtk.WindowType.TOPLEVEL)
+
+        GtkLayerShell.init_for_window(self)
+        GtkLayerShell.set_layer(self, GtkLayerShell.Layer.OVERLAY)
+        GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.NONE)
+
+        mon = next((m for m in hypr_json("monitors") if m.get("focused")), None)
+        self.mon_w = mon["width"] if mon else 1920
+        self.mon_h = mon["height"] if mon else 1080
+
+        self.float_w = int(self.mon_w * FLOAT_W_RATIO)
+        self.float_h = int(self.mon_h * FLOAT_H_RATIO)
+
+        self.set_default_size(self.mon_w, self.mon_h)
+
+        area = Gtk.DrawingArea()
+        area.connect("draw", self.on_draw)
+        self.add(area)
+
+        for edge in (GtkLayerShell.Edge.LEFT, GtkLayerShell.Edge.RIGHT,
+                     GtkLayerShell.Edge.TOP, GtkLayerShell.Edge.BOTTOM):
+            GtkLayerShell.set_anchor(self, edge, True)
+
+        visual = self.get_screen().get_rgba_visual()
+        if visual:
+            self.set_visual(visual)
+        self.set_app_paintable(True)
+
+        self.connect("realize", self._make_passthrough)
+
+        self.sock = self._connect_socket()
+        threading.Thread(target=self._listen, daemon=True).start()
+        GLib.timeout_add_seconds(TIMEOUT_S, self._on_timeout)
+
+    def _make_passthrough(self, widget):
+        self.get_window().input_shape_combine_region(cairo.Region(), 0, 0)
+
+    def _connect_socket(self):
+        path = os.path.join(
+            os.environ["XDG_RUNTIME_DIR"], "hypr",
+            os.environ["HYPRLAND_INSTANCE_SIGNATURE"],
+            ".socket2.sock"
+        )
+        s = socket_mod.socket(socket_mod.AF_UNIX, socket_mod.SOCK_STREAM)
+        s.connect(path)
+        return s
+
+    def _listen(self):
+        buf = b""
+        try:
+            while True:
+                data = self.sock.recv(4096)
+                if not data:
+                    break
+                buf += data
+                while b"\n" in buf:
+                    line, buf = buf.split(b"\n", 1)
+                    decoded = line.decode("utf-8", errors="replace")
+                    if decoded.startswith("openwindow>>"):
+                        addr = decoded[len("openwindow>>"):].split(",")[0]
+                        subprocess.run([
+                            "hyprctl", "--batch",
+                            f"dispatch togglefloating address:0x{addr};"
+                            f"dispatch resizewindowpixel exact {self.float_w} {self.float_h},address:0x{addr};"
+                            f"dispatch centerwindow"
+                        ])
+                        GLib.idle_add(Gtk.main_quit)
+                        return
+        except OSError:
+            pass
+
+    def _on_timeout(self):
+        try:
+            self.sock.close()
+        except OSError:
+            pass
+        Gtk.main_quit()
+        return False
+
+    def on_draw(self, area, cr):
+        cr.set_source_rgba(*VEIL)
+        cr.paint()
+
+        fx = (self.mon_w - self.float_w) // 2
+        fy = (self.mon_h - self.float_h) // 2
+
+        rounded_rect(cr, fx, fy, self.float_w, self.float_h, CORNER_RADIUS)
+        cr.set_source_rgba(*GHOST_FILL)
+        cr.fill_preserve()
+        cr.set_source_rgba(*GHOST_BORDER)
+        cr.set_line_width(BORDER_WIDTH)
+        cr.stroke()
+
+        return False
+
+
+def main():
+    if os.path.isfile(PIDFILE):
+        try:
+            os.kill(int(open(PIDFILE).read().strip()), signal.SIGTERM)
+            cleanup_pidfile()
+            sys.exit(0)
+        except (ProcessLookupError, ValueError, FileNotFoundError):
+            cleanup_pidfile()
+
+    with open(PIDFILE, "w") as f:
+        f.write(str(os.getpid()))
+    atexit.register(cleanup_pidfile)
+
+    GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, signal.SIGTERM,
+                         lambda: (cleanup_pidfile(), Gtk.main_quit()) or False)
+
+    win = FloatOverlay()
+    win.show_all()
+    Gtk.main()
+
+
+if __name__ == "__main__":
+    main()

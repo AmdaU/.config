@@ -24,7 +24,8 @@ while IFS= read -r line; do
     if [[ "$line" == openwindow* ]]; then
         addr="${line#openwindow>>}"
         addr="${addr%%,*}"
-        hyprctl --batch "dispatch togglefloating address:0x${addr};dispatch centerwindow"
+        w="\"address:0x${addr}\""
+        hyprctl eval "hl.dispatch(hl.dsp.window.float({ action = \"toggle\", window = $w })); hl.dispatch(hl.dsp.window.center({ window = $w }))"
         exit 0
     fi
 done < <(socat -u "UNIX-CONNECT:$SOCKET" -)

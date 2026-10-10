@@ -113,11 +113,13 @@ class FloatOverlay(Gtk.Window):
                     decoded = line.decode("utf-8", errors="replace")
                     if decoded.startswith("openwindow>>"):
                         addr = decoded[len("openwindow>>"):].split(",")[0]
+                        # Hyprland 0.56+ is Lua-only: legacy dispatch strings no longer parse
+                        w = f'"address:0x{addr}"'
                         subprocess.run([
-                            "hyprctl", "--batch",
-                            f"dispatch togglefloating address:0x{addr};"
-                            f"dispatch resizewindowpixel exact {self.float_w} {self.float_h},address:0x{addr};"
-                            f"dispatch centerwindow"
+                            "hyprctl", "eval",
+                            f"hl.dispatch(hl.dsp.window.float({{ action = \"toggle\", window = {w} }})); "
+                            f"hl.dispatch(hl.dsp.window.resize({{ x = {self.float_w}, y = {self.float_h}, window = {w} }})); "
+                            f"hl.dispatch(hl.dsp.window.center({{ window = {w} }}))"
                         ])
                         GLib.idle_add(Gtk.main_quit)
                         return

@@ -33,7 +33,8 @@ local browser     = "zen-browser"
 hl.on("hyprland.start", function()
     hl.exec_cmd("GSK_RENDERER=gl ironbar & blueman-applet")
     -- hl.exec_cmd("copyq")
-    -- hl.exec_cmd("openrgb --startminimized")
+    -- wait for ironbar's tray, or openrgb has nowhere to minimize to and opens its full window
+    hl.exec_cmd("sh -c 'for i in $(seq 60); do busctl --user status org.kde.StatusNotifierWatcher >/dev/null 2>&1 && break; sleep 0.5; done; exec openrgb --startminimized'")
     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
     hl.exec_cmd("pactl load-module module-switch-on-connect")
     hl.exec_cmd("hyprsunset")
@@ -51,9 +52,27 @@ hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
-hl.env("NVD_BACKEND", "direct")
+-- GPU driver hints, picked at config-parse time.
+-- The dGPU is removable on this box; when it is out, forcing the nvidia backends
+-- does not stop the session from starting, it just breaks GLX apps and VA-API
+-- decode in confusing ways. The probe is fully guarded: any failure falls through
+-- to the iGPU branch, which is the safe configuration.
+local function have_nvidia()
+    if type(io) ~= "table" or type(io.open) ~= "function" then return false end
+    local ok, f = pcall(io.open, "/proc/driver/nvidia/version", "r")
+    if not ok or not f then return false end
+    f:close()
+    return true
+end
+
+if have_nvidia() then
+    hl.env("LIBVA_DRIVER_NAME", "nvidia")
+    hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+    hl.env("NVD_BACKEND", "direct")
+else
+    -- Raphael iGPU: let libglvnd pick the GLX vendor on its own.
+    hl.env("LIBVA_DRIVER_NAME", "radeonsi")
+end
 
 ----------------------------
 ---- RENDER / MISC ----

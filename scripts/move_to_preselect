@@ -23,9 +23,12 @@ FOCUSED_WS=$(echo "$FOCUSED_JSON" | jq -r '.workspace.id')
 [ "$FOCUSED_ADDR" = "$TARGET_ADDR" ] && exit 0
 
 # Remove from tree and focus the preselect target
-hyprctl --batch "dispatch movetoworkspacesilent special:__preselect,address:$FOCUSED_ADDR ; dispatch focuswindow address:$TARGET_ADDR"
+# (Hyprland 0.56+ parses dispatch args as Lua, so these are hl.dsp.* calls)
+hyprctl dispatch "hl.dsp.window.move({ workspace = \"special:__preselect\", follow = false, window = \"address:$FOCUSED_ADDR\" })"
+hyprctl dispatch "hl.dsp.focus({ window = \"address:$TARGET_ADDR\" })"
 sleep 0.05
 # Re-insert at the preselected slot, then refocus the moved window
-hyprctl --batch "dispatch movetoworkspacesilent $FOCUSED_WS,address:$FOCUSED_ADDR ; dispatch focuswindow address:$FOCUSED_ADDR"
+hyprctl dispatch "hl.dsp.window.move({ workspace = \"$FOCUSED_WS\", follow = false, window = \"address:$FOCUSED_ADDR\" })"
+hyprctl dispatch "hl.dsp.focus({ window = \"address:$FOCUSED_ADDR\" })"
 
 rm -f "$PRESELECT_FILE"

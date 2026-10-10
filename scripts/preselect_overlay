@@ -118,7 +118,7 @@ def save_preselect_target():
         pass
 
 def dispatch_preselect(direction):
-    subprocess.call(["hyprctl", "dispatch", "layoutmsg", f"preselect {direction}"])
+    subprocess.call(["hyprctl", "dispatch", f'hl.dsp.layout("preselect {direction}")'])
     save_preselect_target()
 
 class Overlay(Gtk.Window):
