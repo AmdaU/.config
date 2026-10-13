@@ -1,34 +1,100 @@
 #!/bin/bash
-# Move the focused window to the preselected dwindle slot (bspwm-style super+o).
+# Move the focused window into the preselected dwindle slot (bspwm-style super+o).
 #
-# Requires: preselect_overlay has been called first (super+ctrl+h/j/k/l),
-# which saves the preselect target window address to a temp file.
+# Requires: preselect_overlay has been called first (super+ctrl+h/j/k/l), which
+# records "<target address> <direction> <ratio>" in a temp file.
 #
-# How it works: dwindle only places *new* windows at a preselected slot.
-# So we temporarily move the focused window to a special workspace (removing
-# it from the dwindle tree entirely), focus the preselect target, then move
-# the window back — dwindle treats it as a fresh insertion and respects
-# the preselection.
+# How it works: dwindle only places *new* windows at a preselected slot. So we
+# temporarily move the focused window to a special workspace (removing it from
+# the dwindle tree entirely), focus the preselect target, re-arm the preselect,
+# then move the window onto the *target's* workspace — dwindle treats that as a
+# fresh insertion and respects the preselection.
 
 PRESELECT_FILE="/tmp/hypr_preselect_target"
 
+notify() { hyprctl notify -1 2000 "rgb(55aaff)" "preselect: $1" >/dev/null; }
+
 [ -f "$PRESELECT_FILE" ] || exit 1
 
-TARGET_ADDR=$(cat "$PRESELECT_FILE")
+# File format: "<address> <direction> <ratio>", "-" for an unset field.
+read -r TARGET_ADDR TARGET_DIR TARGET_RATIO < "$PRESELECT_FILE"
+[ -n "$TARGET_ADDR" ] || { rm -f "$PRESELECT_FILE"; exit 1; }
+
+# A ratio parked by preselect_ratio before any direction: nothing to move to.
+if [ "$TARGET_ADDR" = "-" ]; then
+    notify "no direction preselected"
+    exit 1
+fi
+
+CLIENTS=$(hyprctl clients -j)
+TARGET_WS=$(echo "$CLIENTS" | jq -r --arg a "$TARGET_ADDR" \
+    '.[] | select(.address == $a) | .workspace.id')
+
+# Target closed since the preselect, or it moved somewhere we cannot insert into.
+if [ -z "$TARGET_WS" ] || [ "$TARGET_WS" = "null" ]; then
+    notify "target window is gone"
+    rm -f "$PRESELECT_FILE"
+    exit 1
+fi
+if [ "$TARGET_WS" -lt 1 ]; then
+    notify "target is on a special workspace"
+    rm -f "$PRESELECT_FILE"
+    exit 1
+fi
+
 FOCUSED_JSON=$(hyprctl activewindow -j)
 FOCUSED_ADDR=$(echo "$FOCUSED_JSON" | jq -r '.address')
-FOCUSED_WS=$(echo "$FOCUSED_JSON" | jq -r '.workspace.id')
+FOCUSED_FLOAT=$(echo "$FOCUSED_JSON" | jq -r '.floating')
 
-[ -z "$FOCUSED_ADDR" ] || [ "$FOCUSED_ADDR" = "null" ] && exit 1
-[ "$FOCUSED_ADDR" = "$TARGET_ADDR" ] && exit 0
+if [ -z "$FOCUSED_ADDR" ] || [ "$FOCUSED_ADDR" = "null" ]; then
+    exit 1
+fi
+# Focus never left the target: keep the preselect so the user can just switch
+# windows and press super+o again.
+if [ "$FOCUSED_ADDR" = "$TARGET_ADDR" ]; then
+    notify "focus a different window first"
+    exit 0
+fi
 
-# Remove from tree and focus the preselect target
-# (Hyprland 0.56+ parses dispatch args as Lua, so these are hl.dsp.* calls)
-hyprctl dispatch "hl.dsp.window.move({ workspace = \"special:__preselect\", follow = false, window = \"address:$FOCUSED_ADDR\" })"
-hyprctl dispatch "hl.dsp.focus({ window = \"address:$TARGET_ADDR\" })"
+# Remove from the tree, then focus the target so dwindle inserts next to it.
+hyprctl dispatch "hl.dsp.window.move({ workspace = \"special:__preselect\", follow = false, window = \"address:$FOCUSED_ADDR\" })" >/dev/null
+hyprctl dispatch "hl.dsp.focus({ window = \"address:$TARGET_ADDR\" })" >/dev/null
 sleep 0.05
-# Re-insert at the preselected slot, then refocus the moved window
-hyprctl dispatch "hl.dsp.window.move({ workspace = \"$FOCUSED_WS\", follow = false, window = \"address:$FOCUSED_ADDR\" })"
-hyprctl dispatch "hl.dsp.focus({ window = \"address:$FOCUSED_ADDR\" })"
+
+# A floating window would ignore the slot entirely, so tile it (reversible with
+# the float toggle). Re-arm the preselect: switching workspaces or opening a
+# window between the two keypresses consumes the original one.
+if [ "$FOCUSED_FLOAT" = "true" ]; then
+    hyprctl dispatch "hl.dsp.window.float({ action = \"disable\", window = \"address:$FOCUSED_ADDR\" })" >/dev/null
+fi
+case "$TARGET_DIR" in
+    l|r|u|d) hyprctl dispatch "hl.dsp.layout(\"preselect $TARGET_DIR\")" >/dev/null ;;
+esac
+
+# Re-insert at the preselected slot on the *target's* workspace, then refocus
+# the moved window (which brings the view along).
+hyprctl dispatch "hl.dsp.window.move({ workspace = $TARGET_WS, follow = false, window = \"address:$FOCUSED_ADDR\" })" >/dev/null
+hyprctl dispatch "hl.dsp.focus({ window = \"address:$FOCUSED_ADDR\" })" >/dev/null
+
+# Apply the preselected ratio to the split that was just created. dwindle's
+# splitratio layoutmsg only takes a delta and acts on the focused window's
+# parent, so work out the delta from the ratio a fresh split starts at.
+# splitRatio is centred on 1.0 and the first child's share is splitRatio/2.
+# The ratio is the left/top side's share in every direction (bspwm's
+# convention), which is exactly the first child, so no per-direction case.
+apply_ratio() {
+    local ratio="$1" base delta
+    base=$(hyprctl repl 'hl.get_config("dwindle:default_split_ratio")' 2>/dev/null | head -1)
+    delta=$(awk -v r="$ratio" -v b="$base" 'BEGIN {
+        r += 0; b += 0
+        if (r < 0.05 || r > 0.95 || b <= 0) exit 1
+        want = 2 * r
+        if (want < 0.1) want = 0.1
+        if (want > 1.9) want = 1.9
+        printf "%.4f", want - b
+    }') || return 0
+    hyprctl dispatch "hl.dsp.layout(\"splitratio $delta\")" >/dev/null
+}
+apply_ratio "$TARGET_RATIO"
 
 rm -f "$PRESELECT_FILE"

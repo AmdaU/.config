@@ -1,0 +1,63 @@
+#!/bin/bash
+# Preselect the split ratio (bspwm-style `bspc node -o 0.N`).
+#
+# Usage: preselect_ratio <0.05..0.95>
+#
+# Following bspwm's `bspc node -o`, the ratio is the share of the LEFT/TOP side
+# of the split in every direction, so a rightward preselection gives the
+# incoming window 1 - ratio. The ghost shows which side actually gets what.
+#
+# With a preselection already armed, this updates it and redraws the ghost at
+# the new size. With none armed, the ratio is remembered and picked up by the
+# next preselect_overlay, so super+ctrl+3 / super+ctrl+l works in either order.
+
+STATE_FILE="/tmp/hypr_preselect_target"
+PID_FILE="/tmp/hypr_preselect_overlay.pid"
+OVERLAY="/home/amda/.config/scripts/preselect_overlay"
+
+notify() { hyprctl notify -1 2000 "rgb(55aaff)" "preselect: $1" >/dev/null; }
+
+RATIO=$(awk -v r="$1" 'BEGIN { r += 0; if (r < 0.05 || r > 0.95) exit 1; printf "%.4f", r }')
+[ -n "$RATIO" ] || { echo "usage: ${0##*/} <0.05..0.95>" >&2; exit 2; }
+
+ADDR="-"; DIR="-"
+[ -f "$STATE_FILE" ] && read -r ADDR DIR _ < "$STATE_FILE"
+[ -n "$ADDR" ] || ADDR="-"
+[ -n "$DIR" ] || DIR="-"
+
+# No direction armed yet: just park the ratio for the next preselection.
+case "$DIR" in
+    l|r|u|d) ;;
+    *)
+        printf '%s %s %s' "-" "-" "$RATIO" > "$STATE_FILE"
+        notify "ratio $RATIO (pick a direction)"
+        exit 0
+        ;;
+esac
+
+# Target gone since the direction was preselected.
+if ! hyprctl clients -j | jq -e --arg a "$ADDR" '.[] | select(.address == $a)' >/dev/null; then
+    printf '%s %s %s' "-" "-" "$RATIO" > "$STATE_FILE"
+    notify "ratio $RATIO (target gone, pick a direction)"
+    exit 0
+fi
+
+# Store the ratio, then let the overlay re-arm the direction and redraw at the
+# new size. Passing the address keeps the original target even if focus moved.
+printf '%s %s %s' "$ADDR" "$DIR" "$RATIO" > "$STATE_FILE"
+# Drop the ghost still on screen from the direction keypress, or the two
+# overlays stack and show the old and new sizes at once. By pid, checked
+# against its own cmdline -- a pattern match over all processes would also
+# hit anything that merely mentions the script path.
+if [ -r "$PID_FILE" ]; then
+    read -r OLD_PID < "$PID_FILE"
+    case "$OLD_PID" in
+        ''|*[!0-9]*) ;;
+        *)
+            if tr '\0' '\n' < "/proc/$OLD_PID/cmdline" 2>/dev/null | grep -qxF "$OVERLAY"; then
+                kill "$OLD_PID" 2>/dev/null
+            fi
+            ;;
+    esac
+fi
+exec "$OVERLAY" "$DIR" "$ADDR"

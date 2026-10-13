@@ -267,6 +267,63 @@ hl.bind(mainMod .. " + CTRL + k", hl.dsp.exec_cmd("/home/amda/.config/scripts/pr
 hl.bind(mainMod .. " + CTRL + j", hl.dsp.exec_cmd("/home/amda/.config/scripts/preselect_overlay d"))
 hl.bind(mainMod .. " + O",        hl.dsp.exec_cmd("/home/amda/.config/scripts/move_to_preselect"))
 
+-- Preselect the split ratio, like bspwm's `bspc node -o 0.N`: the digit is the
+-- share of the LEFT/TOP side of the split, in every direction. So with a
+-- rightward preselection the incoming window gets 1 - ratio; that is bspwm's
+-- convention and its ghost shows the same thing.
+for i = 1, 9 do
+    hl.bind(mainMod .. " + CTRL + " .. i,
+        hl.dsp.exec_cmd("/home/amda/.config/scripts/preselect_ratio 0." .. i))
+end
+-- bspwm's `bspc node -p cancel`. The dwindle preselection is a single global,
+-- so there is no per-desktop variant to bind alongside it.
+hl.bind(mainMod .. " + CTRL + Space", hl.dsp.exec_cmd("/home/amda/.config/scripts/preselect_cancel"))
+
+-- A new window filling a preselected slot takes the preselected ratio, then
+-- the preselection is spent -- same lifetime as dwindle's own one-shot
+-- direction override, and as bspwm's preselection. move_to_preselect does the
+-- equivalent for super+o.
+-- `hyprctl reload` rebuilds the Lua VM, so this global starts out nil and the
+-- old subscription dies with the VM. The guard is belt-and-braces for a reload
+-- that ever reuses it: splitratio is a delta, so two live hooks would
+-- double-apply it.
+if _PRESELECT_RATIO_SUB then _PRESELECT_RATIO_SUB:remove() end
+_PRESELECT_RATIO_SUB = hl.on("window.open", function(win)
+    pcall(function()
+        -- Floating windows never enter the tree, so they spend nothing.
+        if win.floating then return end
+
+        local path = "/tmp/hypr_preselect_target"
+        local f = io.open(path, "r")
+        if not f then return end
+        local line = f:read("l") or ""
+        f:close()
+
+        -- "<address> <direction> <ratio>"; only an armed direction is ours.
+        local addr, dir, ratio = line:match("^(%S+)%s+(%S+)%s+(%S+)")
+        if not addr or addr == "-" or not dir or not dir:match("^[lrud]$") then return end
+
+        -- dwindle's preselect override is per-workspace: a window opening on
+        -- another workspace leaves it armed, so it is none of our business.
+        local target = hl.get_window("address:" .. addr)
+        if not target or not target.workspace or not win.workspace then return end
+        if target.workspace.id ~= win.workspace.id then return end
+
+        local r = tonumber(ratio)
+        local base = hl.get_config("dwindle:default_split_ratio")
+        if r and r >= 0.05 and r <= 0.95 and type(base) == "number" and base > 0 then
+            -- splitratio takes a delta and acts on the focused window's parent
+            -- (this window, which is active by the time window.open fires).
+            -- splitRatio is centred on 1.0 and the first child's share is
+            -- splitRatio/2; the ratio is that first child's share already.
+            local want = math.max(0.1, math.min(1.9, 2 * r))
+            hl.dispatch(hl.dsp.layout(("splitratio %.4f"):format(want - base)))
+        end
+
+        os.remove(path)
+    end)
+end)
+
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do

@@ -2,14 +2,24 @@
 """
 Preselect a dwindle split direction and show a ghost overlay (bspwm-style).
 
-Usage: preselect_overlay [l|r|u|d]
+Usage: preselect_overlay <l|r|u|d> [target-address]
 
 Sets the dwindle preselection via hyprctl and displays a translucent
 rectangle showing where the new window will be placed. Also saves the
-target window address to /tmp/hypr_preselect_target so that
-move_to_preselect can later send an existing window there.
+preselect state to /tmp/hypr_preselect_target so that move_to_preselect
+can later send an existing window there.
+
+The ghost is sized by the preselected ratio (preselect_ratio). Following
+bspwm's `bspc node -o`, the ratio is the share of the LEFT/TOP side of the
+split in every direction -- so with a rightward preselection the incoming
+window gets 1 - ratio, not ratio.
+
+An explicit target address draws relative to that window instead of the
+focused one; preselect_ratio passes it when it redraws, so changing the
+ratio never retargets the preselection.
 """
 import json
+import os
 import subprocess
 import sys
 
@@ -26,7 +36,7 @@ VEIL = (0.0, 0.0, 0.0, 0.08)           # subtle dim; set alpha 0.0 to disable
 
 # Behavior
 DURATION_MS = 1000
-SPLIT_RATIO = 0.5  # 50/50; change to your default split ratio (0.5..0.9)
+DEFAULT_RATIO = 0.5  # even split when no ratio was preselected
 BAR_OFFSET = 50
 GAPS_OUT = 10
 GAPS_IN = 2
@@ -35,12 +45,58 @@ GAPS_IN = 2
 # into the side toward which you preselect (bspwm-like).
 NEW_ON_PRESELECT_SIDE = True
 
+# Preselect state: one line, "<address> <direction> <ratio>", "-" for unset.
+# Shared with move_to_preselect, preselect_ratio and the window.open hook in
+# hyprland.lua, so keep the format trivial enough for sh and Lua to parse.
+STATE_FILE = "/tmp/hypr_preselect_target"
+# Our own pid, so preselect_ratio can replace a ghost that is still on screen
+# without resorting to a pattern match over every process' command line.
+PID_FILE = "/tmp/hypr_preselect_overlay.pid"
+
+
+def read_state():
+    """Return (address, direction, ratio); each is None when unset."""
+    try:
+        with open(STATE_FILE) as f:
+            parts = f.read().split()
+    except OSError:
+        return (None, None, None)
+    parts += ["-"] * (3 - len(parts))
+    addr, direction, ratio = parts[:3]
+    if addr in ("-", ""):
+        addr = None
+    if direction not in ("l", "r", "u", "d"):
+        direction = None
+    try:
+        ratio = float(ratio)
+    except ValueError:
+        ratio = None
+    return (addr, direction, ratio)
+
+
+def write_state(addr, direction, ratio):
+    with open(STATE_FILE, "w") as f:
+        f.write("{} {} {}".format(
+            addr or "-",
+            direction or "-",
+            "-" if ratio is None else "{:.4f}".format(ratio),
+        ))
+
+
 def hypr_json(cmd):
     out = subprocess.check_output(["hyprctl", "-j"] + cmd.split(), text=True)
     return json.loads(out)
 
-def get_active_window_and_monitor():
-    data = hypr_json("activewindow")
+def get_target_window_and_monitor(addr=None):
+    """Geometry of the preselect target: a given address, else the focused window."""
+    if addr:
+        data = None
+        for c in hypr_json("clients"):
+            if c.get("address") == addr:
+                data = c
+                break
+    else:
+        data = hypr_json("activewindow")
     if not data or "at" not in data or "size" not in data:
         return None
     x, y = data["at"]
@@ -81,7 +137,17 @@ def rounded_rect(cr, x, y, w, h, r):
 
     cr.close_path()
 
-def compute_ghost_rect(focus_rect, dir_char, ratio=SPLIT_RATIO):
+def new_window_share(dir_char, ratio):
+    """Share of the slot the incoming window gets.
+
+    `ratio` is the left/top side's share (bspwm's convention, see module
+    docstring), so a rightward or downward preselection inverts it.
+    """
+    return ratio if dir_char in ("l", "u") else 1.0 - ratio
+
+
+def compute_ghost_rect(focus_rect, dir_char, ratio):
+    """`ratio` here is the incoming window's own share, not the split ratio."""
     x, y, w, h = focus_rect
     # Determine which side will show the "new" window
     # If NEW_ON_PRESELECT_SIDE is False, invert the chosen half.
@@ -107,32 +173,38 @@ def compute_ghost_rect(focus_rect, dir_char, ratio=SPLIT_RATIO):
         else:
             return (x, y, w, h - int(h * ratio))
 
-def save_preselect_target():
+def save_preselect_target(direction, ratio, addr=None):
+    """Record target, direction and ratio for move_to_preselect.
+
+    The direction is needed because the preselect can be consumed before
+    super+o is pressed (a new window opening, a workspace switch), so
+    move_to_preselect re-arms it just before it inserts.
+    """
     try:
-        data = hypr_json("activewindow")
-        addr = data.get("address", "")
+        if not addr:
+            addr = hypr_json("activewindow").get("address", "")
         if addr:
-            with open("/tmp/hypr_preselect_target", "w") as f:
-                f.write(addr)
+            write_state(addr, direction, ratio)
     except Exception:
         pass
 
-def dispatch_preselect(direction):
+def dispatch_preselect(direction, ratio, addr=None):
     subprocess.call(["hyprctl", "dispatch", f'hl.dsp.layout("preselect {direction}")'])
-    save_preselect_target()
+    save_preselect_target(direction, ratio, addr)
 
 class Overlay(Gtk.Window):
-    def __init__(self, direction):
+    def __init__(self, direction, ratio, addr=None):
 
         Gtk.Window.__init__(self, type=Gtk.WindowType.TOPLEVEL)
         self.direction = direction
+        self.ratio = ratio
 
         GtkLayerShell.init_for_window(self)
         GtkLayerShell.set_layer(self, GtkLayerShell.Layer.OVERLAY)
         GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.NONE)
         GtkLayerShell.auto_exclusive_zone_enable(self)
 
-        rects = get_active_window_and_monitor()
+        rects = get_target_window_and_monitor(addr)
         self.rects = rects
 
         if rects and rects["mon"]:
@@ -177,7 +249,8 @@ class Overlay(Gtk.Window):
         lx = win_x - mon_x
         ly = win_y - mon_y
 
-        gx, gy, gw, gh = compute_ghost_rect((lx, ly, win_w, win_h), self.direction)
+        gx, gy, gw, gh = compute_ghost_rect(
+            (lx, ly, win_w, win_h), self.direction, new_window_share(self.direction, self.ratio))
 
         gy -= BAR_OFFSET + GAPS_OUT + BORDER_WIDTH
 
@@ -200,15 +273,27 @@ class Overlay(Gtk.Window):
         return False
 
 def main():
-    if len(sys.argv) != 2 or sys.argv[1] not in ("l", "r", "u", "d"):
-        print("Usage: preselect_ghost_gtk3.py [l|r|u|d]", file=sys.stderr)
+    if len(sys.argv) not in (2, 3) or sys.argv[1] not in ("l", "r", "u", "d"):
+        print("Usage: preselect_overlay <l|r|u|d> [target-address]", file=sys.stderr)
         sys.exit(2)
     direction = sys.argv[1]
+    addr = sys.argv[2] if len(sys.argv) == 3 else None
+
+    # A ratio preselected before a direction carries over to this preselection.
+    ratio = read_state()[2]
+    if ratio is None:
+        ratio = DEFAULT_RATIO
 
     # Set preselect immediately (so your layout is primed)
-    dispatch_preselect(direction)
+    dispatch_preselect(direction, ratio, addr)
 
-    win = Overlay(direction)
+    try:
+        with open(PID_FILE, "w") as f:
+            f.write(str(os.getpid()))
+    except OSError:
+        pass
+
+    win = Overlay(direction, ratio, addr)
     win.show_all()
     Gtk.main()
 

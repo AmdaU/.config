@@ -1,0 +1,9 @@
+#!/bin/bash
+# Cancel the current preselection (bspwm-style `bspc node -p cancel`).
+#
+# Drops dwindle's armed direction and the stored target/ratio, so the next
+# window opens wherever dwindle would normally put it.
+
+hyprctl dispatch 'hl.dsp.layout("preselect none")' >/dev/null
+rm -f /tmp/hypr_preselect_target
+hyprctl notify -1 1200 "rgb(55aaff)" "preselect: cancelled" >/dev/null
